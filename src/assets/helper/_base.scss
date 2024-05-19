@@ -1,0 +1,17 @@
+// 盒模型
+*,*::before,*::after{
+  box-sizing: border-box;
+}
+
+/* 圖片樣式調整 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+	// vertical-align: middle;
+}
+
+a {
+  // display: block;
+  text-decoration: none;
+}

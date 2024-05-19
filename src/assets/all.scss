@@ -1,0 +1,59 @@
+// Bootstrap SCSS 配置 :
+// 參考文件 : https://getbootstrap.com/docs/5.3/customize/sass/
+
+// 1. 匯入函式 (才能操作顏色、SVG、計算等等)★☆
+@import "bootstrap/scss/functions";
+
+// 2. 需要覆蓋的預設變數檔案
+@import "../assets/helper/variables"; // 設定【變數】。
+
+// 3. 原始變數樣式表
+// @import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+// 6. 自行選擇的部分功能 (未使用的可以不啟用)
+@import "../assets/helper/utilities"; // 設定【通用類別】。
+// @import "bootstrap/scss/reboot";
+// @import "bootstrap/scss/type";
+// @import "bootstrap/scss/images";
+// @import "bootstrap/scss/containers";
+// @import "bootstrap/scss/grid";
+// @import "bootstrap/scss/helpers";
+$custom-colors: (
+  "custom-color": #900
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+// 7. 生成 _utilities.scss API 應用程式
+@import "bootstrap/scss/utilities/api";
+
+// 8. Add additional custom code here
+@import "bootstrap/scss/bootstrap";
+
+
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans+TC:wght@100..900&display=swap');
+
+@import "../assets/helper/base";
+@import "../assets/helper/mixin";
+
+// .black-ops-one-regular {
+//   font-family: "Black Ops One", system-ui;
+//   font-weight: 400;
+//   font-style: normal;
+// }
+
+body {
+  font-family: "Noto Sans TC", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.ff-black-ops {
+  font-family: "Black Ops One", system-ui;
+}
