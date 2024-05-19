@@ -26,10 +26,22 @@
 // @import "bootstrap/scss/containers";
 // @import "bootstrap/scss/grid";
 // @import "bootstrap/scss/helpers";
-$custom-colors: (
-  "custom-color": #900
-);
-$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
+// 多行文字 utilities Start
+@mixin text-truncate-line-clamp($lines-to-clamp) {
+  @each $line in $lines-to-clamp {
+    .text-truncate-#{$line} {
+      display: -webkit-box;
+      -webkit-line-clamp: $line;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+@include text-truncate-line-clamp((1, 2, 3, 4, 5));
+// 多行文字 utilities End
+
 // 7. 生成 _utilities.scss API 應用程式
 @import "bootstrap/scss/utilities/api";
 

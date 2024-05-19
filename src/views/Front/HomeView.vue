@@ -33,11 +33,6 @@
           data-bs-toggle="list" href="#list-darkRoast">深烘焙</a>
       </div>
 
-      <!-- 輪播列表卡片 -->
-      <!-- <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-        :price="example.price" :origin_price="example.origin_price" :card_details="true">
-      </ProductCard> -->
-
       <!-- Tab panes & Swiper 輪播  -->
       <div class="tab-content">
         <!-- 淺烘焙 lightRoast -->
@@ -195,8 +190,6 @@
       <div class="d-flex justify-content-center">
         <RouterLink to="/products" class="btn btn-outline-primary border-2">更多商品</RouterLink>
       </div>
-      <!--  -->
-      <!--  -->
 
     </div>
   </section>
@@ -294,6 +287,101 @@
       </div>
     </div>
   </section>
+
+  <!-- Comment -->
+  <section class="py-8">
+    <div class="container">
+      <div class="text-center mb-5 mb-md-6">
+        <p class="fs-8 fs-md-4 fw-bold text-primary mb-1 mb-md-2">顧客評價</p>
+        <h2 class="fs-6 fs-md-2 fw-bold text-primary mb-0">來自咖啡愛好者的真實反饋</h2>
+      </div>
+      <swiper-container
+        :pagination="{ enabled: true, clickable: true, }"
+        :autoplay="{ delay: 2500, disableOnInteraction: false, }"
+        :breakpoints="{
+          0: { slidesPerView: 1, spaceBetween: 12, },
+          768: { slidesPerView: 2, spaceBetween: 18, },
+          992: { slidesPerView: 3, spaceBetween: 24, },
+        }">
+        <swiper-slide class="h-auto">
+          <div class="d-flex h-100">
+            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
+             mx-auto" style="max-width: 375px;">
+              <div class="me-3">
+                <img src="/public/images/person-1.png" alt="" style="min-width: 60px;">
+              </div>
+              <div>
+                <h5 class="fs-6 fw-bold text-gray-800 mb-2">Leo</h5>
+                <p class="text-gray-800 mb-0 text-truncate-3">
+                  從未想過在網上購買咖啡豆會這麼方便！他們的客戶服務非常周到，
+                  讓我感到很受尊重。強烈推薦大家他們家的咖啡豆！</p>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+        <swiper-slide class="h-auto">
+          <div class="d-flex h-100">
+            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
+             mx-auto" style="max-width: 375px;">
+              <div class="me-3">
+                <img src="/public/images/person-2.png" alt="" style="min-width: 60px;">
+              </div>
+              <div>
+                <h5 class="fs-6 fw-bold text-gray-800 mb-2">Amber Shire</h5>
+                <p class="text-gray-800 mb-0 text-truncate-3">
+                  我是一個對咖啡非常挑剔的人，而且快速發貨服務讓我驚艷不已。下次我一定會再次光顧！</p>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+        <swiper-slide class="h-auto">
+          <div class="d-flex h-100">
+            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
+             mx-auto" style="max-width: 375px;">
+              <div class="me-3">
+                <img src="/public/images/person-3.png" alt="" style="min-width: 60px;">
+              </div>
+              <div>
+                <h5 class="fs-6 fw-bold text-gray-800 mb-2">Hank Jons</h5>
+                <p class="text-gray-800 mb-0 text-truncate-3">
+                  這家網站給了我完美的選擇！他們的咖啡豆質量非常優秀。</p>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+        <swiper-slide class="h-auto">
+          <div class="d-flex h-100">
+            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
+             mx-auto" style="max-width: 375px;">
+              <div class="me-3">
+                <img src="/public/images/person-4.png" alt="" style="min-width: 60px;">
+              </div>
+              <div>
+                <h5 class="fs-6 fw-bold text-gray-800 mb-2">Lucy</h5>
+                <p class="text-gray-800 mb-0 text-truncate-3">
+                  我很喜歡他們的咖啡豆跟一些售後服務，我會繼續支持!</p>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+        <swiper-slide class="h-auto">
+          <div class="d-flex h-100">
+            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
+             mx-auto" style="max-width: 375px;">
+              <div class="me-3">
+                <img src="/public/images/person-5.png" alt="" style="min-width: 60px;">
+              </div>
+              <div>
+                <h5 class="fs-6 fw-bold text-gray-800 mb-2">Frank Wang</h5>
+                <p class="text-gray-800 mb-0 text-truncate-3">
+                  斯里蘭卡海鹽的香氣很棒，推薦給剛入門不知道如何選擇的人，也不會太酸。</p>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -352,5 +440,10 @@ watchEffect(() => {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+// Comment
+.comment-card {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 </style>
