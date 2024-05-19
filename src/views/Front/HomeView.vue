@@ -310,9 +310,9 @@ const example = ref({ // 假資料 : 串接後刪除
   acdity: 3,
   price: 399,
   origin_price: 599,
-  img_url: '/public/images/Honduran-coffee-bean-2.jpg',
-  img_url_2: '/public/images/Ethiopian-coffee-beans-3.jpg',
-  img_url_3: '/public/images/Panama-Coffee-Beans-2.jpg',
+  img_url: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Ethiopian-coffee-beans-1.jpg?raw=true',
+  img_url_2: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Panama-Coffee-Beans-4.jpg?raw=true',
+  img_url_3: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/high/Colombian-coffee-bean-3.jpg?raw=true',
   card_details: true,
 });
 
@@ -323,7 +323,6 @@ function changerCard() {
     example.value.card_details = true;
   }
 }
-console.log(typeof example.value.img_url);
 watchEffect(() => {
   changerCard();
 });
