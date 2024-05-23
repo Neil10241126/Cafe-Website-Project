@@ -1,26 +1,5 @@
 <template>
-  <!-- 跑馬燈 Swiper -->
-  <div class="container">
-    <swiper-container class="py-3 py-md-4"
-      :allowTouchMove="true"
-      :slidesPerView="auto" :speed="20000" :loop="true"
-      :autoplay="{ delay: 0, disableOnInteraction: false }"
-      >
-      <swiper-slide class="fs-6 fs-md-4 fw-bold text-gray-800 w-auto">單筆達
-        <span class="text-danger">NT$999免運費</span>，另輸入折扣優惠碼再打<span class="text-danger">88折 !</span>
-      </swiper-slide>
-      <swiper-slide class="fs-6 fs-md-4 fw-bold text-gray-800 w-auto">單筆達
-        <span class="text-danger">NT$999免運費</span>，另輸入折扣優惠碼再打<span class="text-danger">88折 !</span>
-      </swiper-slide>
-    </swiper-container>
-  </div>
-
-  <!-- 廣告 Banner -->
-  <section class="container">
-    <img src="/public/images/advertise-banner.webp" class="img-fluid object-fit-cover" alt=""
-      style="min-height: 220px;">
-  </section>
-
+  <AdView></AdView>
   <!-- 路由 Router -->
   <div class="container py-6">
     <ul class="nav justify-content-center align-items-center fs-8 mb-3">
@@ -46,23 +25,156 @@
   </div>
 
   <!-- 商品列表 Products List -->
-  <div class="container">
+  <div class="container pb-8">
     <div class="row">
       <!-- 導覽 -->
-      <div class="col-3">
+      <div class="col-lg-3 d-none d-lg-block">
+        <BadgeUi content="商品細節 :" class="mb-5"></BadgeUi>
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action fs-6 fw-semibold
+          d-flex justify-content-between
+            active" data-bs-toggle="list" href="#allProducts"
+            ><p class="trasition-x mb-0">全部商品</p><i class="bi bi-chevron-right"></i></a>
+          <a class="list-group-item list-group-item-action fs-6 fw-semibold
+          d-flex justify-content-between"
+             data-bs-toggle="list" href="#lightRoast"
+            ><p class="trasition-x mb-0">淺烘焙</p><i class="bi bi-chevron-right"></i></a>
+          <a class="list-group-item list-group-item-action fs-6 fw-semibold
+          d-flex justify-content-between"
+             data-bs-toggle="list" href="#mediumRoast"
+            ><p class="trasition-x mb-0">中烘焙</p><i class="bi bi-chevron-right"></i></a>
+          <a class="list-group-item list-group-item-action fs-6 fw-semibold
+          d-flex justify-content-between"
+             data-bs-toggle="list" href="#darkRoast"
+            ><p class="trasition-x mb-0">身烘焙</p><i class="bi bi-chevron-right"></i></a>
+        </div>
       </div>
       <!-- 品項 -->
-      <div class="col-9"></div>
+      <div class="col-12 col-lg-9">
+        <div class="tab-content mb-6">
+          <div class="tab-pane fade show active" id="allProducts">
+            <div class="row row-cols-2 row-cols-md-3 gx-3  gy-4">
+              <div class="col">
+                <ProductCard :title="example.title" :origin="example.origin"
+                  :acdity="example.acdity" :price="example.price"
+                  :origin_price="example.origin_price" :img_url="example.img_url"
+                  :card_details="example.card_details">
+              </ProductCard>
+              </div>
+              <div class="col">
+                <ProductCard :title="example.title" :origin="example.origin"
+                  :acdity="example.acdity" :price="example.price"
+                  :origin_price="example.origin_price" :img_url="example.img_url"
+                  :card_details="example.card_details">
+              </ProductCard>
+              </div>
+              <div class="col">
+                <ProductCard :title="example.title" :origin="example.origin"
+                  :acdity="example.acdity" :price="example.price"
+                  :origin_price="example.origin_price" :img_url="example.img_url"
+                  :card_details="example.card_details">
+              </ProductCard>
+              </div>
+              <div class="col">
+                <ProductCard :title="example.title" :origin="example.origin"
+                  :acdity="example.acdity" :price="example.price"
+                  :origin_price="example.origin_price" :img_url="example.img_url"
+                  :card_details="example.card_details">
+              </ProductCard>
+              </div>
+              <div class="col">
+                <ProductCard :title="example.title" :origin="example.origin"
+                  :acdity="example.acdity" :price="example.price"
+                  :origin_price="example.origin_price" :img_url="example.img_url"
+                  :card_details="example.card_details">
+              </ProductCard>
+              </div>
+              <div class="col">
+                <ProductCard :title="example.title" :origin="example.origin"
+                  :acdity="example.acdity" :price="example.price"
+                  :origin_price="example.origin_price" :img_url="example.img_url"
+                  :card_details="example.card_details">
+              </ProductCard>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="lightRoast">2</div>
+          <div class="tab-pane fade" id="mediumRoast">3</div>
+          <div class="tab-pane fade" id="darkRoast">4</div>
+        </div>
+        <!-- 分頁元件 -->
+        <div class="d-flex justify-content-center justify-content-lg-end">
+          <PaginationUi></PaginationUi>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, watchEffect } from 'vue';
+import { useWindowSize } from '@vueuse/core';
+import AdView from '@/components/AdView.vue';
+import BadgeUi from '@/components/badgeUi.vue';
+import ProductCard from '@/components/ProductCard.vue';
+import PaginationUi from '@/components/PaginationUi.vue';
+
+const { width } = useWindowSize();
+
+const example = ref({ // 假資料 : 串接後刪除
+  title: '斯里蘭卡海鹽卡海鹽',
+  origin: '斯里蘭卡',
+  acdity: 3,
+  price: 399,
+  origin_price: 599,
+  img_url: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Ethiopian-coffee-beans-1.jpg?raw=true',
+  img_url_2: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Panama-Coffee-Beans-4.jpg?raw=true',
+  img_url_3: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/high/Colombian-coffee-bean-3.jpg?raw=true',
+  card_details: true,
+});
+
+function changerCard() {
+  if (width.value <= 992) {
+    example.value.card_details = false;
+  } else {
+    example.value.card_details = true;
+  }
+}
+watchEffect(() => {
+  changerCard();
+});
+
 </script>
 
 <style lang="scss" scoped>
-// Swiper Element 修改 CSS 樣式 : https://swiperjs.com/element#parts
-swiper-container::part(wrapper) {
-  transition-timing-function: linear;  // 關閉減速效果，維持速率一致\
+@import "/src/assets/helper/colors";
+
+.list-group-item {
+  background-color: $secondary-tint;
+  color: $primary;
+  transition: all 0.5s;
+  &.active {
+    background-color: $primary;
+    color: $secondary-tint;
+  }
+  &:first-child {
+    border: 1px solid $primary;
+  }
+  & + .list-group-item {  // 相鄰選擇器
+    border-right: 1px solid $primary;
+    border-bottom: 1px solid $primary;
+    border-left: 1px solid $primary;
+  }
+  .trasition-x {
+    transition: transform 0.3s;
+    transform: translateX(0); // 初始 transform 属性
+  }
+  &:hover {
+    .trasition-x {
+      transform: translateX(16px);
+    }
+  }
 }
+
 </style>

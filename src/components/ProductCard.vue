@@ -38,7 +38,8 @@
 
       <!-- 功能操作 -->
       <div v-if="card_details" class="d-flex">
-        <RouterLink to="/products" class="btn btn-outline-primary border-2 w-100">查看更多</RouterLink>
+        <RouterLink to="/products/:id" class="btn btn-outline-primary border-2 w-100"
+          >查看更多</RouterLink>
         <button type="button" class="btn btn-primary ms-2"><i class="bi bi-cart3"></i></button>
       </div>
       <button v-else type="button" class="btn btn-primary w-100 fs-8 fs-xxs-7">加入購物車
@@ -59,10 +60,12 @@ defineProps({
   // 功能啟用 :
   card_details: Boolean, // 詳細 / 簡要 卡片樣式切換
 });
+
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/all.scss';
+@import '/src/assets/helper/colors';
+
 .favorite-btn {
   position: absolute;
   top: 10px;

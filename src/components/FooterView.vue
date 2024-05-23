@@ -93,7 +93,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/all.scss';
+@import '/src/assets/helper/colors';
 
 .icon-group :not(:first-child) {
   margin-left: 16px;
@@ -105,7 +105,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #fff;
+  border: 2px solid $light;
   border-radius: 50%;
   transition: all 0.3s;
   &:hover {

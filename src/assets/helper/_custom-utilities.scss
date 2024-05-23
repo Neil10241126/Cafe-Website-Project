@@ -24,5 +24,57 @@ $utilities: map-merge(
       class: bg-repeat,
       values: ( none: no-repeat, )
     ),
+    "border-top": (
+      responsive: true,  //  【 setting 】
+      property: border-top,
+      class: border-top,
+      values: (
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        0: 0,
+        2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+      )
+    ),
+    "border-end": (
+      responsive: true,  //  【 setting 】
+      property: border-right,
+      class: border-end,
+      values: (
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        0: 0,
+        2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+      )
+    ),
+    "border-bottom": (
+      responsive: true,  //  【 setting 】
+      property: border-bottom,
+      class: border-bottom,
+      values: (
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        0: 0,
+        2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+      )
+    ),
+    "border-start": (
+      responsive: true,  //  【 setting 】
+      property: border-left,
+      class: border-start,
+      values: (
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        0: 0,
+        2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+      )
+    ),
   )
 );
