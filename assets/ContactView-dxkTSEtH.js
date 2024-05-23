@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{c,o}from"./index-0gYenLNP.js";const t={};function r(n,a){return o(),c("div",null," 聯絡我們 ")}const f=e(t,[["render",r]]);export{f as default};
