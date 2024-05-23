@@ -51,6 +51,29 @@
       </div>
       <!-- 品項 -->
       <div class="col-12 col-lg-9">
+        <!--  -->
+        <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="d-flex align-items-center mb-4 mb-md-0">
+            <button type="button" class="btn btn-outline-primary p-2 rounded-1 active">
+              <i class="bi bi-grid-3x3-gap-fill fs-5 d-flex"></i></button>
+            <button type="button" class="btn btn-outline-primary p-2 rounded-1 ms-3" disabled>
+              <i class="bi bi-list-ul fs-5 d-flex"></i></button>
+            <p class="text-gray-800 mb-0 ms-auto ms-md-3">總共  {{ 12 }}  各品項</p>
+          </div>
+          <div class="dropdown">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle d-flex w-100
+              justify-content-between align-items-center" data-bs-toggle="dropdown"
+              style="min-width: 220px;">{{ select }}</button>
+            <ul class="dropdown-menu bg-secondary-tint border-primary w-100">
+              <li><button type="button" class="dropdown-item disabled">排序項目</button></li>
+              <li><button type="button" class="dropdown-item" @click="select='價格由高至低'"
+                >價格由高至低</button></li>
+              <li><button type="button" class="dropdown-item" @click="select='價格由低至高'"
+                >價格由低至高</button></li>
+            </ul>
+          </div>
+        </div>
+        <!--  -->
         <div class="tab-content mb-6">
           <div class="tab-pane fade show active" id="allProducts">
             <div class="row row-cols-2 row-cols-md-3 gx-3  gy-4">
@@ -121,6 +144,7 @@ import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 
 const { width } = useWindowSize();
+const select = ref('排序項目');
 
 const example = ref({ // 假資料 : 串接後刪除
   title: '斯里蘭卡海鹽卡海鹽',
@@ -177,4 +201,8 @@ watchEffect(() => {
   }
 }
 
+.dropdown-item:hover {
+  background: $primary;
+  color: $light;
+}
 </style>
