@@ -1,0 +1,41 @@
+.btn {  // 結構
+  padding: 8px 16px;
+  &-lg {
+    padding: 8px 24px;
+    font-size: 20px;
+  }
+  &-sm {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+  &.disabled {
+    background: map-get($theme-colors, gray-600);
+    border: 2px solid map-get($theme-colors, gray-600);
+  }
+}
+
+.btn {  // 配色樣式
+  &-primary {
+    background: map-get($theme-colors, primary);
+    border: 2px solid map-get($theme-colors, primary);
+    color: #fff;
+    border-radius: 5px;
+    &:hover {
+      background: map-get($theme-colors, primary-dark);
+      border-color: map-get($theme-colors, primary-dark);
+    }
+  }
+}
+
+.btn {  // 配色樣式
+  &-outline-primary {
+    border: 2px solid map-get($theme-colors, primary);
+    color: 2px solid map-get($theme-colors, primary);
+    border-radius: 5px;
+    &:hover {
+      background: map-get($theme-colors, primary-dark);
+      color: #fff;
+      border-color: map-get($theme-colors, primary-dark);
+    }
+  }
+}

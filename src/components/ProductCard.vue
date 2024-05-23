@@ -62,15 +62,15 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/colors.scss';
+@import '/src/assets/all.scss';
 .favorite-btn {
   position: absolute;
   top: 10px;
   right: 10px;
   &:hover {
-    border-color: $primary !important;
+    border-color: $warning !important;
     i {
-      color: $primary !important;
+      color: $warning !important;
     }
   }
 }

@@ -297,28 +297,28 @@ $cyans: (
 // fusv-enable
 
 // scss-docs-start theme-color-variables
-$primary:       $blue !default;
-$secondary:     $gray-600 !default;
+$primary:       #5F3D2D;    //$blue !default;      //【 setting 】
+$secondary:     #F9CF93;    //$gray-600 !default;  //【 setting 】
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
-$light:         $gray-100 !default;
+$light:         #fff;       //$gray-100 !default;  //【 setting 】
 $dark:          $gray-900 !default;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
 $theme-colors: (
-  "primary":    #5F3D2D,       //$primary,   //【 setting 】
+  "primary":    $primary,
   "primary-dark":    #482F23,                //【 setting 】
-  "secondary":  #F9CF93,       //$secondary, //【 setting 】
+  "secondary":  $secondary,
   "secondary-light":  #FAF5EF,               //【 setting 】
   "secondary-tint":  #FAEEE0,                //【 setting 】
   "success":    $success,
   "info":       $info,
   "warning":    $warning,
   "danger":     $danger,
-  "light":      #fff,   //$light,  //  【 setting 】
+  "light":      $light,
   "dark":       $dark,
   "gray-900":  #1A1A1A,  //  【 setting 】
   "gray-800":  #333333,  //  【 setting 】

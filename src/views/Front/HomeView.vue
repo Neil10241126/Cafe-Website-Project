@@ -1,13 +1,16 @@
 <template>
   <!-- Banner -->
-  <section class="banner d-flex align-items-center position-relative">
+  <section class="banner d-flex align-items-center position-relative
+    bg-size-cover bg-position-center bg-repeat-none">
     <!-- 遮色片 25% -->
     <div class="position-absolute top-0 start-0 end-0 bottom-0 bg-dark opacity-25"></div>
     <div class="container position-relative">
       <div class=" text-center">
         <p class="fs-8 fs-md-5 fs-lg-2 fw-bold text-gray-300 mb-1 mb-lg-3">品嘗獨特風味，發掘咖啡世界的美味</p>
         <h2 class="fs-6 fs-md-4 fs-lg-1 fw-bold text-light mb-4 mb-lg-6">尋找你的完美咖啡口味，享受限時折扣！</h2>
-        <RouterLink to="/products" class="btn btn-warning fs-md-6 px-md-4 py-md-2">立刻選購</RouterLink>
+        <!-- <button type="button" class="btn btn-warning fs-md-6 px-md-4 py-md-2"
+        >立刻選購</button> -->
+        <RouterLink to="/products" class="btn btn-warning fs-md-6 px-md-4">立刻選購</RouterLink>
       </div>
     </div>
   </section>
@@ -195,7 +198,8 @@
   </section>
 
   <!-- Service -->
-  <section class="Service position-relative">
+  <section class="bg-size-cover bg-position-center bg-repeat-none position-relative"
+    style="background-image: url(/public/images/Service-img.webp)">
     <!-- 遮色片 25% -->
     <div class="position-absolute top-0 start-0 end-0 bottom-0 bg-dark opacity-25"></div>
 
@@ -422,9 +426,6 @@ watchEffect(() => {
 .banner {
   height: 800px;
   background-image: url("/public/images/Header-banner-lg.webp");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 @media (max-width: 768px) {
@@ -432,14 +433,6 @@ watchEffect(() => {
     background-image: url("/public/images/Header-banner-sm.webp");
     height: 330px;
   }
-}
-
-// Service
-.Service {
-  background-image: url("/public/images/Service-img.webp");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 // Comment

@@ -93,7 +93,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/colors.scss';
+@import '/src/assets/all.scss';
 
 .icon-group :not(:first-child) {
   margin-left: 16px;
@@ -109,7 +109,7 @@
   border-radius: 50%;
   transition: all 0.3s;
   &:hover {
-    background: $primary;
+    background: $warning;
   }
 }
 </style>

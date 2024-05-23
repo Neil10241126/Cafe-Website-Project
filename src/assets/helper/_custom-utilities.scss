@@ -1,0 +1,28 @@
+// 自訂 BS 通用類別 :
+// 參考文件 : https://getbootstrap.com/docs/5.3/utilities/api/#rename-utilities
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "pointer-events": ( // 取消事件
+      property: pointer-events,
+      class: bs-pointer,
+      values: none,
+    ),
+    "background-size": ( // 背景圖大小
+      property: background-size,
+      class: bg-size,
+      values: auto contain cover,
+    ),
+    "background-position": ( // 背景圖定位
+      property: background-position,
+      class: bg-position,
+      values: center,
+    ),
+    "background-repeat": ( // 背景圖定位
+      property: background-repeat,
+      class: bg-repeat,
+      values: ( none: no-repeat, )
+    ),
+  )
+);
