@@ -13,7 +13,7 @@
     <button class="btn btn-primary fs-6 p-0" type="button"
       @click="btnNumber--" :class="{'pointer-events-none': btnNumber === 0}">-</button>
     <input type="text" class="add-input form-control fs-7 bg-transparent border-2
-     border-primary text-center p-0" :value="btnNumber" readonly>
+      border-primary text-center p-0" :value="btnNumber" readonly>
     <button class="btn btn-primary fs-6 p-0" type="button"
       @click="btnNumber++" :class="{'pointer-events-none': btnNumber === 10}">+</button>
   </div>

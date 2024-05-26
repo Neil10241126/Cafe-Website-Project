@@ -198,8 +198,7 @@
   </section>
 
   <!-- Service -->
-  <section class="bg-size-cover bg-position-center bg-repeat-none position-relative"
-    style="background-image: url(/public/images/Service-img.webp)">
+  <section class="Service bg-size-cover bg-position-center bg-repeat-none position-relative">
     <!-- 遮色片 25% -->
     <div class="position-absolute top-0 start-0 end-0 bottom-0 bg-dark opacity-25"></div>
 
@@ -433,6 +432,11 @@ watchEffect(() => {
     background-image: url("/public/images/Header-banner-sm.webp");
     height: 330px;
   }
+}
+
+// Service
+.Service {
+  background-image: url("/public/images/Service-img.webp");
 }
 
 // Comment
