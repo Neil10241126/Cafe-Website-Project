@@ -6,7 +6,7 @@ $utilities: map-merge(
   (
     "pointer-events": ( // 取消事件
       property: pointer-events,
-      class: bs-pointer,
+      class: pointer-events,
       values: none,
     ),
     "background-size": ( // 背景圖大小

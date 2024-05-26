@@ -26,32 +26,59 @@
 
   <!-- 商品列表 Products List -->
   <div class="container pb-8">
-    <div class="row">
+    <div class="row justify-content-center">
       <!-- 導覽 -->
-      <div class="col-lg-3 d-none d-lg-block">
-        <BadgeUi content="商品細節 :" class="mb-5"></BadgeUi>
-        <div class="list-group">
+      <div class="col-12 col-lg-3">
+        <BadgeUi content="商品細節 :" class="mb-5 d-none d-lg-inline-block"></BadgeUi>
+
+        <!-- Desktop 導覽 -->
+        <div class="list-group d-none d-lg-block">
           <a class="list-group-item list-group-item-action fs-6 fw-semibold
-          d-flex justify-content-between
-            active" data-bs-toggle="list" href="#allProducts"
+            d-flex justify-content-between" data-bs-toggle="list" href="#allProducts"
+            :class="{'active': listOption === 'allProducts'}"
+            @click="listOption = 'allProducts'"
             ><p class="trasition-x mb-0">全部商品</p><i class="bi bi-chevron-right"></i></a>
           <a class="list-group-item list-group-item-action fs-6 fw-semibold
-          d-flex justify-content-between"
-             data-bs-toggle="list" href="#lightRoast"
+            d-flex justify-content-between" data-bs-toggle="list" href="#lightRoast"
+            :class="{'active': listOption === 'lightRoast'}"
+            @click="listOption = 'lightRoast'"
             ><p class="trasition-x mb-0">淺烘焙</p><i class="bi bi-chevron-right"></i></a>
           <a class="list-group-item list-group-item-action fs-6 fw-semibold
-          d-flex justify-content-between"
-             data-bs-toggle="list" href="#mediumRoast"
+            d-flex justify-content-between" data-bs-toggle="list" href="#mediumRoast"
+            :class="{'active': listOption === 'mediumRoast'}"
+            @click="listOption = 'mediumRoast'"
             ><p class="trasition-x mb-0">中烘焙</p><i class="bi bi-chevron-right"></i></a>
           <a class="list-group-item list-group-item-action fs-6 fw-semibold
-          d-flex justify-content-between"
-             data-bs-toggle="list" href="#darkRoast"
-            ><p class="trasition-x mb-0">身烘焙</p><i class="bi bi-chevron-right"></i></a>
+            d-flex justify-content-between" data-bs-toggle="list" href="#darkRoast"
+            :class="{'active': listOption === 'darkRoast'}"
+            @click="listOption = 'darkRoast'"
+            ><p class="trasition-x mb-0">深烘焙</p><i class="bi bi-chevron-right"></i></a>
         </div>
+
+        <!-- Mobile 導覽 -->
+        <div class="list-group flex-row flex-wrap justify-content-center d-lg-none mb-5 mb-md-6">
+          <a class="btn btn-outline-primary rounded-pill border-3 fw-bold py-1 px-3"
+            data-bs-toggle="list" href="#allProducts"
+            :class="{'active': listOption === 'allProducts'}"
+            @click="listOption = 'allProducts'">全品項</a>
+          <a class="btn btn-outline-primary rounded-pill border-3 fw-bold py-1 px-3"
+            data-bs-toggle="list" href="#lightRoast"
+            :class="{'active': listOption === 'lightRoast'}"
+            @click="listOption = 'lightRoast'">淺烘焙</a>
+          <a class="btn btn-outline-primary rounded-pill border-3 fw-bold py-1 px-3"
+            data-bs-toggle="list" href="#mediumRoast"
+            :class="{'active': listOption === 'mediumRoast'}"
+            @click="listOption = 'mediumRoast'">中烘焙</a>
+          <a class="btn btn-outline-primary rounded-pill border-3 fw-bold py-1 px-3"
+            data-bs-toggle="list" href="#darkRoast"
+            :class="{'active': listOption === 'darkRoast'}"
+            @click="listOption = 'darkRoast'">深烘焙</a>
+        </div>
+        <!--  -->
       </div>
       <!-- 品項 -->
       <div class="col-12 col-lg-9">
-        <!--  -->
+        <!-- 篩選器 -->
         <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="d-flex align-items-center mb-4 mb-md-0">
             <button type="button" class="btn btn-outline-primary p-2 rounded-1 active">
@@ -65,7 +92,8 @@
               justify-content-between align-items-center" data-bs-toggle="dropdown"
               style="min-width: 220px;">{{ select }}</button>
             <ul class="dropdown-menu bg-secondary-tint border-primary w-100">
-              <li><button type="button" class="dropdown-item disabled">排序項目</button></li>
+              <li><button type="button" class="dropdown-item text-gray-600
+              disabled">排序項目</button></li>
               <li><button type="button" class="dropdown-item" @click="select='價格由高至低'"
                 >價格由高至低</button></li>
               <li><button type="button" class="dropdown-item" @click="select='價格由低至高'"
@@ -73,7 +101,7 @@
             </ul>
           </div>
         </div>
-        <!--  -->
+        <!-- 品項內容切換 -->
         <div class="tab-content mb-6">
           <div class="tab-pane fade show active" id="allProducts">
             <div class="row row-cols-2 row-cols-md-3 gx-3  gy-4">
@@ -122,9 +150,9 @@
             </div>
           </div>
 
-          <div class="tab-pane fade" id="lightRoast">2</div>
-          <div class="tab-pane fade" id="mediumRoast">3</div>
-          <div class="tab-pane fade" id="darkRoast">4</div>
+          <div class="tab-pane fade" id="lightRoast">淺</div>
+          <div class="tab-pane fade" id="mediumRoast">中</div>
+          <div class="tab-pane fade" id="darkRoast">深</div>
         </div>
         <!-- 分頁元件 -->
         <div class="d-flex justify-content-center justify-content-lg-end">
@@ -144,7 +172,8 @@ import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 
 const { width } = useWindowSize();
-const select = ref('排序項目');
+const select = ref('排序項目'); // 篩選器變數
+const listOption = ref('allProducts'); // 導覽切換變數
 
 const example = ref({ // 假資料 : 串接後刪除
   title: '斯里蘭卡海鹽卡海鹽',
@@ -174,7 +203,7 @@ watchEffect(() => {
 <style lang="scss" scoped>
 @import "/src/assets/helper/colors";
 
-.list-group-item {
+.list-group-item {  // 導覽選單樣式
   background-color: $secondary-tint;
   color: $primary;
   transition: all 0.5s;
@@ -201,8 +230,14 @@ watchEffect(() => {
   }
 }
 
-.dropdown-item:hover {
-  background: $primary;
-  color: $light;
+.dropdown-item{  // 下拉選單樣式
+  color: $primary ;
+  &:hover {
+    background: $primary;
+    color: $light;
+  }
+  &:active {
+    color: $light;
+  }
 }
 </style>
