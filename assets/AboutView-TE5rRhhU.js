@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{c as o,o as c}from"./index-yy6bhTEr.js";const r={};function t(n,s){return c(),o("div",null," 關於我們 ")}const f=e(r,[["render",t]]);export{f as default};
