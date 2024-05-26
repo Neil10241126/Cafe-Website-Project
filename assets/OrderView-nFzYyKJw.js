@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{c as r,o as c}from"./index-XElTSqlR.js";const o={};function t(n,s){return c(),r("div",null," 訂單填寫 ")}const f=e(o,[["render",t]]);export{f as default};

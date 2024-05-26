@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{c as r,o as c}from"./index-XElTSqlR.js";const o={};function t(n,a){return c(),r("div",null," 購物車確認 ")}const f=e(o,[["render",t]]);export{f as default};
