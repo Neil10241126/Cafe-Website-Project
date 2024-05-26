@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{c,o as n}from"./index-bvmfbSpC.js";const o={};function r(t,s){return n(),c("div",null," 登入 ")}const i=e(o,[["render",r]]);export{i as default};
