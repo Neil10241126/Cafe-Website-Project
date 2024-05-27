@@ -180,7 +180,7 @@
 
 <script setup>
 import AdView from '@/components/AdView.vue';
-import BadgeUi from '@/components/badgeUi.vue';
+import BadgeUi from '@/components/BadgeUi.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
 </script>
 
