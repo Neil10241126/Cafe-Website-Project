@@ -167,7 +167,7 @@
 import { ref, watchEffect } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 import AdView from '@/components/AdView.vue';
-import BadgeUi from '@/components/badgeUi.vue';
+import BadgeUi from '@/components/BadgeUi.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 

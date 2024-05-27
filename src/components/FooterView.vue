@@ -15,7 +15,8 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="input-group">
-            <input type="email" class="form-control fs-8 p-3 rounded-0" placeholder="請輸入你的 Email">
+            <input type="email" class="form-control bg-gray-100 fs-8 p-3 rounded-0"
+              placeholder="請輸入你的 Email">
             <button class="btn btn-warning fs-8 fw-bold rounded-0" type="button">立即訂閱</button>
           </div>
         </div>
