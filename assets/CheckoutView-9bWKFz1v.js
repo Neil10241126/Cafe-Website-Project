@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{c,o}from"./index-QNe-_T_i.js";const r={};function t(n,s){return o(),c("div",null," 訂購完成 ")}const f=e(r,[["render",t]]);export{f as default};
