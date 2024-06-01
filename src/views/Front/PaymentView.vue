@@ -167,6 +167,10 @@ import CanvasCard from '@/components/CanvasCard.vue';
 <style lang="scss" scope>
 @import "/src/assets/helper/colors";
 
+.table {
+  --bs-table-bg: $secondary-tint;
+}
+
 .input-wrap {
   padding: 16px 24px;
   background-color: $secondary-light;
