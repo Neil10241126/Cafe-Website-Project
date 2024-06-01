@@ -73,8 +73,6 @@
               </div>
             </div>
           </div>
-          <!--  -->
-          <!--  -->
         </div>
 
         <div class="input-wrap">
@@ -183,5 +181,4 @@ import AdView from '@/components/AdView.vue';
   border: 1px solid $gray-800;
   background-color: transparent;
 }
-
 </style>
