@@ -183,4 +183,5 @@ import AdView from '@/components/AdView.vue';
   border: 1px solid $gray-800;
   background-color: transparent;
 }
+
 </style>
