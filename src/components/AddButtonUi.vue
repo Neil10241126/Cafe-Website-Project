@@ -38,7 +38,7 @@ const size = ref('small');
 
 function changeSize() {
   if (width.value <= 576) {
-    size.value = 'normal';
+    size.value = 'small'; // 原本 normal
   } else if (width.value <= 992) {
     size.value = 'normal';
   } else {
@@ -74,14 +74,14 @@ watchEffect(() => {
 
 .add-input {
   height: 38px;
-  width: 60px;
+  max-width: 60px;
   &-sm {
     height: 28px;
-    width: 40px;
+    max-width: 40px;
   }
   &-lg {
     height: 48px;
-    width: 70px;
+    max-width: 70px;
   }
 }
 
