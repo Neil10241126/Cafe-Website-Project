@@ -59,7 +59,7 @@
                 <td><img src="/public/images/Honduran-coffee-bean-2.jpg" class="mx-auto"
                    alt="Header-banner-lg" width="100"></td>
                 <td>斯里蘭卡海鹽</td>
-                <td>2</td>
+                <td><AddButtonUi class="d-flex justify-content-center"></AddButtonUi></td>
                 <td class="fw-semibold">NT$ 399</td>
                 <td><button type="button" class="btn p-0"><i class="bi bi-x-lg"></i></button></td>
               </tr>
@@ -113,7 +113,7 @@
 
 <script setup>
 import AdView from '@/components/AdView.vue';
-// import AddButtonUi from '@/components/AddButtonUi.vue';
+import AddButtonUi from '@/components/AddButtonUi.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
 </script>
 

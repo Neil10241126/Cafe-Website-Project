@@ -29,26 +29,19 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { useWindowSize } from '@vueuse/core';
+import { ref } from 'vue';
 
-const { width } = useWindowSize();
 const btnNumber = ref(0);
-const size = ref('small');
 
-function changeSize() {
-  if (width.value <= 576) {
-    size.value = 'small'; // 原本 normal
-  } else if (width.value <= 992) {
-    size.value = 'normal';
-  } else {
-    size.value = 'large';
-  }
-}
-
-watchEffect(() => {
-  changeSize();
+defineProps({
+  size: {
+    type: String,
+    default() {
+      return 'small';
+    },
+  },
 });
+
 </script>
 
 <style lang="scss" scoped>
@@ -63,8 +56,8 @@ watchEffect(() => {
     opacity: 1;
   }
   &-sm {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
   &-lg {
     width: 48px;
@@ -76,8 +69,8 @@ watchEffect(() => {
   height: 38px;
   max-width: 60px;
   &-sm {
-    height: 28px;
-    max-width: 40px;
+    height: 24px;
+    max-width: 30px;
   }
   &-lg {
     height: 48px;
