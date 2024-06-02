@@ -42,25 +42,25 @@
               border-gray-800 border-2 pb-3 mb-0">斯里蘭卡海鹽</h3>
             <ul class="list-unstyled d-flex flex-wrap">
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
-                <BadgeUi content="類別 :"></BadgeUi>
+                <BadgeUi content="類別 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
                   <p class="fs-lg-6 text-gray-800 mb-0">淺烘焙</p>
                 </div>
               </li>
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
-                <BadgeUi content="酸度 :"></BadgeUi>
+                <BadgeUi content="酸度 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
                   <p class="fs-lg-6 text-gray-800 mb-0">3 分</p>
                 </div>
               </li>
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
-                <BadgeUi content="規格 :"></BadgeUi>
+                <BadgeUi content="規格 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
                   <p class="fs-lg-6 text-gray-800 mb-0">0.5 磅 / 包</p>
                 </div>
               </li>
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
-                <BadgeUi content="產地 :"></BadgeUi>
+                <BadgeUi content="產地 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
                   <p class="fs-lg-6 text-gray-800 mb-0">斯里蘭卡</p>
                 </div>
@@ -180,9 +180,13 @@
 </template>
 
 <script setup>
+import { useWindowSize } from '@vueuse/core';
+
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
+
+const { width } = useWindowSize();
 </script>
 
 <style lang="scss" scoped>

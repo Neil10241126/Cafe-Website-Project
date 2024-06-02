@@ -15,7 +15,7 @@
             <div class="text-center mb-6">
               <img src="/public/images/Beans-cafe-logo-dark.svg" class="mx-auto mb-2"
                 alt="logo-dark">
-              <BadgeUi content="一般用戶"></BadgeUi>
+              <BadgeUi content="一般用戶" size="normal"></BadgeUi>
             </div>
             <div class="d-flex align-items-center mb-4">
               <label for="email" class="form-label me-3">

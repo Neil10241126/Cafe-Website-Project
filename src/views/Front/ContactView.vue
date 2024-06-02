@@ -50,19 +50,19 @@
         <h3 class="fs-5 fw-semibold text-gray-800 lh-base mb-4 px-lg-3">彼恩斯咖啡</h3>
         <ul class="list-unstyled px-lg-3 mb-6">
           <li class="d-flex align-items-center mb-4">
-            <BadgeUi content="地址 :"></BadgeUi>
+            <BadgeUi content="地址 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
             <p class="text-gray-800 mb-0 ms-2">台北市萬里區長山路2130號</p>
           </li>
           <li class="d-flex align-items-center mb-4">
-            <BadgeUi content="電話 :"></BadgeUi>
+            <BadgeUi content="電話 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
             <p class="text-gray-800 mb-0 ms-2">+(886) 0912-345-678</p>
           </li>
           <li class="d-flex align-items-center mb-4">
-            <BadgeUi content="信箱 :"></BadgeUi>
+            <BadgeUi content="信箱 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
             <p class="text-gray-800 mb-0 ms-2">BeansCoffee@gmail.com.tw</p>
           </li>
           <li class="d-flex align-items-center">
-            <BadgeUi content="營業時間 :"></BadgeUi>
+            <BadgeUi content="營業時間 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
             <p class="text-gray-800 mb-0 ms-2">10:00 — 19:00  (週六店休)</p>
           </li>
         </ul>
@@ -75,8 +75,12 @@
 </template>
 
 <script setup>
+import { useWindowSize } from '@vueuse/core';
+
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
+
+const { width } = useWindowSize();
 </script>
 
 <style lang="scss" scoped>
