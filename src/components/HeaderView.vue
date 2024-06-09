@@ -80,31 +80,49 @@
     id="Cart" style="width: 350px">
     <div class="offcanvas-header border-2 border-bottom border-dark">
       <h5 class="offcanvas-title d-flex align-items-center">
-        您的購物車<span class="badge rounded-pill text-bg-primary fs-8 ms-2">3</span></h5>
+        您的購物車<span class="badge rounded-pill text-bg-primary fs-8 ms-2"
+        >{{ cartList.carts?.length }}</span></h5>
       <button type="button" class="btn p-0" data-bs-dismiss="offcanvas">
         <i class="bi bi-x-lg fs-5"></i>
       </button>
     </div>
     <div class="offcanvas-body d-flex flex-column justify-content-between">
       <div class="mb-5" style=" overflow-y: scroll;">
-        <CanvasCard class="mb-2"></CanvasCard>
-        <CanvasCard class="mb-2"></CanvasCard>
-        <CanvasCard class="mb-2"></CanvasCard>
-        <CanvasCard class="mb-2"></CanvasCard>
+        <CanvasCard class="mb-2" v-for="cart in cartList.carts" :key="cart.id"
+          :title="cart.product.title" :content="cart.product.content"
+          :price="cart.product.price" :img_url="cart.product.imageUrl"
+          :qty="cart.qty" :cart_id="cart.id" :product_id="cart.product_id">
+        </CanvasCard>
       </div>
       <div>
         <div class="fs-5 fw-semibold d-flex justify-content-between mb-3">
           <span>總金額 :</span>
-          <span class="text-danger">NT$ 399</span>
+          <span class="text-danger">{{ `NT$ ${cartList.final_total}` }}</span>
         </div>
-        <RouterLink to="/cart" class="btn btn-primary w-100">查看購物車</RouterLink>
+        <RouterLink to="/cart" class="btn btn-primary w-100" data-bs-dismiss="offcanvas"
+          @click="getPath()">查看購物車</RouterLink>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+// Pinia
+import { storeToRefs } from 'pinia';
+import useCartStore from '@/stores/cartStore';
+// UI
 import CanvasCard from '@/components/CanvasCard.vue';
+
+const router = useRouter();
+
+const cartStore = useCartStore();
+const { cartList } = storeToRefs(cartStore);
+
+function getPath() {
+  router.push('/cart');
+}
+
 </script>
 
 <style lang="scss" scoped>

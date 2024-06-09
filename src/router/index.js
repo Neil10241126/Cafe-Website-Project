@@ -1,9 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+// Pinia
+import useProductStore from '@/stores/productStore';
+import useCartStore from '@/stores/cartStore';
 
 const routes = [
   {
     path: '/',
-    component: () => import('../views/FrontView.vue'),
+    component: () => import('../views/FrontLayout.vue'),
+    async beforeEnter() { // 轉跳前，取得非同步資料
+      const productStore = useProductStore();
+      const cartStore = useCartStore();
+      await productStore.getProducts();
+      await cartStore.getCart();
+    },
     children: [
       {
         path: '',
@@ -54,6 +63,16 @@ const routes = [
         path: 'checkout',
         name: 'Checkout',
         component: () => import('../views/Front/CheckoutView.vue'),
+      },
+    ],
+  },
+  {
+    path: '/admin',
+    component: () => import('../views/DashboardLayout.vue'),
+    children: [
+      {
+        path: 'products',
+        component: () => import('../views/Dashboard/AdminProducts.vue'),
       },
     ],
   },

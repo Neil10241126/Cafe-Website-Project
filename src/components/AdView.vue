@@ -3,7 +3,9 @@
   <div class="container">
     <swiper-container class="py-3 py-md-4"
       :allowTouchMove="true"
-      :slidesPerView="auto" :speed="20000" :loop="true"
+      :slidesPerView="1"
+      :speed="20000"
+      :loop="true"
       :autoplay="{ delay: 0, disableOnInteraction: false }"
       >
       <swiper-slide class="fs-6 fs-md-4 fw-bold text-gray-800 w-auto">單筆達
@@ -22,7 +24,8 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+</script>
 
 <style lang="scss" scoped>
 // Swiper Element 修改 CSS 樣式 : https://swiperjs.com/element#parts

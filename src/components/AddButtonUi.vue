@@ -4,10 +4,11 @@
     <button class="btn-sm btn-primary p-0" type="button"
       @click="btnNumber--" :class="{'pointer-events-none': btnNumber === 0}">-</button>
     <input type="text" class="add-input-sm form-control fs-8 bg-transparent border-2
-     border-primary text-center p-0" :value="btnNumber" readonly>
+     border-primary text-center p-0" :value="num" readonly>
     <button class="btn-sm btn-primary p-0" type="button"
       @click="btnNumber++" :class="{'pointer-events-none': btnNumber === 10}">+</button>
   </div>
+
   <!-- normal -->
   <div v-else-if="size === 'normal'"  class="input-group flex-nowrap">
     <button class="btn btn-primary fs-6 p-0" type="button"
@@ -17,6 +18,7 @@
     <button class="btn btn-primary fs-6 p-0" type="button"
       @click="btnNumber++" :class="{'pointer-events-none': btnNumber === 10}">+</button>
   </div>
+
   <!-- large -->
   <div v-else-if="size === 'large'" class="input-group flex-nowrap">
     <button class="btn-lg btn-primary fs-6 p-0" type="button"
@@ -31,8 +33,6 @@
 <script setup>
 import { ref } from 'vue';
 
-const btnNumber = ref(0);
-
 defineProps({
   size: {
     type: String,
@@ -40,7 +40,15 @@ defineProps({
       return 'small';
     },
   },
+  num: {
+    type: Number,
+    default() {
+      return 0;
+    },
+  },
 });
+
+const btnNumber = ref(0);
 
 </script>
 

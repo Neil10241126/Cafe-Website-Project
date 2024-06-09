@@ -17,24 +17,30 @@
                 alt="logo-dark">
               <BadgeUi content="一般用戶" size="normal"></BadgeUi>
             </div>
-            <div class="d-flex align-items-center mb-4">
-              <label for="email" class="form-label me-3">
-                <i class="bi bi-person-circle fs-3 text-gray-800"></i>
-              </label>
-              <input type="email" class="form-control" id="email" placeholder="請輸入您的帳號">
-            </div>
-            <div class="d-flex align-items-center mb-4">
-              <label for="password" class="form-label me-3">
-                <i class="bi bi-shield-lock fs-3 text-gray-800"></i>
-              </label>
-              <input type="password" class="form-control" id="password" placeholder="請輸入您的密碼">
-            </div>
+            <form action="#">
+              <div class="d-flex align-items-center mb-4">
+                <label for="email" class="form-label me-3">
+                  <i class="bi bi-person-circle fs-3 text-gray-800"></i>
+                </label>
+                <input type="email" class="form-control" id="email" placeholder="請輸入您的帳號"
+                  v-model="user.username">
+              </div>
+              <div class="d-flex align-items-center mb-4">
+                <label for="password" class="form-label me-3">
+                  <i class="bi bi-shield-lock fs-3 text-gray-800"></i>
+                </label>
+                <input type="password" class="form-control" id="password" placeholder="請輸入您的密碼"
+                  v-model="user.password" autocomplete="true"
+                  @keyup.enter="signin()">
+              </div>
+            </form>
             <div class="d-flex align-items-center justify-content-between">
               <RouterLink to="/" class="link-gray-600 text-decoration-underline
                 link-offset-1">返回首頁</RouterLink>
               <div>
                 <button type="button" class="btn btn-outline-primary">註冊</button>
-                <button type="button" class="btn btn-primary ms-4">登入</button>
+                <button type="button" class="btn btn-primary ms-4"
+                  @click="signin()">登入</button>
               </div>
             </div>
           </div>
@@ -45,7 +51,32 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+// UI 元件
 import BadgeUi from '@/components/BadgeUi.vue';
+
+const { VITE_API_URL } = import.meta.env;
+const router = useRouter();
+
+const user = ref({
+  username: '',
+  password: '',
+});
+
+// 登入後台
+function signin() {
+  axios.post(`${VITE_API_URL}/v2/admin/signin`, user.value)
+    .then((res) => {
+      const { token, expired: expires } = res.data;
+
+      // 將 token expires 存入 cookie
+      document.cookie = `token=${token}; expires=${expires}; path=/`;
+      router.push('/admin');
+    })
+    .catch((err) => alert(err.response.data.message));
+}
 </script>
 
 <style lang="scss" scope>

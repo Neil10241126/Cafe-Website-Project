@@ -38,17 +38,23 @@
 
       <!-- 功能操作 -->
       <div v-if="card_details" class="d-flex">
-        <RouterLink to="/products/:id" class="btn btn-outline-primary border-2 w-100"
-          >查看更多</RouterLink>
-        <button type="button" class="btn btn-primary ms-2"><i class="bi bi-cart3"></i></button>
+        <RouterLink :to="`/products/${product_id}`" class="btn btn-outline-primary border-2 w-100"
+          @click="getProductItem(product_id)">查看更多</RouterLink>
+        <button type="button" class="btn btn-primary ms-2"
+          @click="addToCart(product_id, 1)"><i class="bi bi-cart3"></i></button>
       </div>
-      <button v-else type="button" class="btn btn-primary w-100 fs-8 fs-xxs-7">加入購物車
+      <button v-else type="button" class="btn btn-primary w-100 fs-8 fs-xxs-7"
+        @click="addToCart(product_id, 1)">加入購物車
         <i class="bi bi-cart3 ms-2 d-none d-xxs-inline"></i></button>
     </div>
   </div>
 </template>
 
 <script setup>
+// Pinia
+import useProductStore from '@/stores/productStore';
+import useCartStore from '@/stores/cartStore';
+
 defineProps({
   // 資料參數 value :
   title: String,
@@ -57,9 +63,15 @@ defineProps({
   price: Number,
   origin_price: Number,
   img_url: String,
+  product_id: String,
   // 功能啟用 :
   card_details: Boolean, // 詳細 / 簡要 卡片樣式切換
 });
+
+const productStore = useProductStore();
+const { getProductItem } = productStore;
+const cartStore = useCartStore();
+const { addToCart } = cartStore;
 
 </script>
 

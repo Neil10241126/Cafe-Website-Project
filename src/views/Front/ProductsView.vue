@@ -85,7 +85,7 @@
               <i class="bi bi-grid-3x3-gap-fill fs-5 d-flex"></i></button>
             <button type="button" class="btn btn-outline-primary p-2 rounded-1 ms-3" disabled>
               <i class="bi bi-list-ul fs-5 d-flex"></i></button>
-            <p class="text-gray-800 mb-0 ms-auto ms-md-3">總共  {{ 12 }}  各品項</p>
+            <p class="text-gray-800 mb-0 ms-auto ms-md-3">總共  {{products.length }}  各品項</p>
           </div>
           <div class="dropdown">
             <button type="button" class="btn btn-outline-primary dropdown-toggle d-flex w-100
@@ -94,9 +94,11 @@
             <ul class="dropdown-menu bg-secondary-tint border-primary w-100">
               <li><button type="button" class="dropdown-item text-gray-600
               disabled">排序項目</button></li>
-              <li><button type="button" class="dropdown-item" @click="select='價格由高至低'"
+              <li><button type="button" class="dropdown-item" @click="select='價格由高至低',
+                sort('sortByDescending')"
                 >價格由高至低</button></li>
-              <li><button type="button" class="dropdown-item" @click="select='價格由低至高'"
+              <li><button type="button" class="dropdown-item" @click="select='價格由低至高',
+                sort('sortByAscending')"
                 >價格由低至高</button></li>
             </ul>
           </div>
@@ -104,55 +106,56 @@
         <!-- 品項內容切換 -->
         <div class="tab-content mb-6">
           <div class="tab-pane fade show active" id="allProducts">
-            <div class="row row-cols-2 row-cols-md-3 gx-3  gy-4">
-              <div class="col">
-                <ProductCard :title="example.title" :origin="example.origin"
-                  :acdity="example.acdity" :price="example.price"
-                  :origin_price="example.origin_price" :img_url="example.img_url"
-                  :card_details="example.card_details">
-              </ProductCard>
-              </div>
-              <div class="col">
-                <ProductCard :title="example.title" :origin="example.origin"
-                  :acdity="example.acdity" :price="example.price"
-                  :origin_price="example.origin_price" :img_url="example.img_url"
-                  :card_details="example.card_details">
-              </ProductCard>
-              </div>
-              <div class="col">
-                <ProductCard :title="example.title" :origin="example.origin"
-                  :acdity="example.acdity" :price="example.price"
-                  :origin_price="example.origin_price" :img_url="example.img_url"
-                  :card_details="example.card_details">
-              </ProductCard>
-              </div>
-              <div class="col">
-                <ProductCard :title="example.title" :origin="example.origin"
-                  :acdity="example.acdity" :price="example.price"
-                  :origin_price="example.origin_price" :img_url="example.img_url"
-                  :card_details="example.card_details">
-              </ProductCard>
-              </div>
-              <div class="col">
-                <ProductCard :title="example.title" :origin="example.origin"
-                  :acdity="example.acdity" :price="example.price"
-                  :origin_price="example.origin_price" :img_url="example.img_url"
-                  :card_details="example.card_details">
-              </ProductCard>
-              </div>
-              <div class="col">
-                <ProductCard :title="example.title" :origin="example.origin"
-                  :acdity="example.acdity" :price="example.price"
-                  :origin_price="example.origin_price" :img_url="example.img_url"
-                  :card_details="example.card_details">
-              </ProductCard>
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
+              <div class="col" v-for="product in products" :key="product.id">
+                <ProductCard :title="product.title" :origin="product.origin"
+                  :acdity="product.acidity" :price="product.price"
+                  :origin_price="product.origin_price" :img_url="product.imageUrl"
+                  :product_id="product.id"
+                  :card_details="width <= 992 ? false : true">
+                </ProductCard>
               </div>
             </div>
           </div>
-
-          <div class="tab-pane fade" id="lightRoast">淺</div>
-          <div class="tab-pane fade" id="mediumRoast">中</div>
-          <div class="tab-pane fade" id="darkRoast">深</div>
+          <!-- 淺烘焙 -->
+          <div class="tab-pane fade" id="lightRoast">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
+              <div class="col" v-for="product in filter('淺烘焙')" :key="product.id">
+                <ProductCard :title="product.title" :origin="product.origin"
+                  :acdity="product.acidity" :price="product.price"
+                  :origin_price="product.origin_price" :img_url="product.imageUrl"
+                  :product_id="product.id"
+                  :card_details="width <= 992 ? false : true">
+                </ProductCard>
+              </div>
+            </div>
+          </div>
+          <!-- 中烘焙 -->
+          <div class="tab-pane fade" id="mediumRoast">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
+              <div class="col" v-for="product in filter('中烘焙')" :key="product.id">
+                <ProductCard :title="product.title" :origin="product.origin"
+                  :acdity="product.acidity" :price="product.price"
+                  :origin_price="product.origin_price" :img_url="product.imageUrl"
+                  :product_id="product.id"
+                  :card_details="width <= 992 ? false : true">
+                </ProductCard>
+              </div>
+            </div>
+          </div>
+          <!-- 深烘焙 -->
+          <div class="tab-pane fade" id="darkRoast">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
+              <div class="col" v-for="product in filter('深烘焙')" :key="product.id">
+                <ProductCard :title="product.title" :origin="product.origin"
+                  :acdity="product.acidity" :price="product.price"
+                  :origin_price="product.origin_price" :img_url="product.imageUrl"
+                  :product_id="product.id"
+                  :card_details="width <= 992 ? false : true">
+                </ProductCard>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- 分頁元件 -->
         <div class="d-flex justify-content-center justify-content-lg-end">
@@ -164,39 +167,48 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useWindowSize } from '@vueuse/core';
+// Pinia
+import { storeToRefs } from 'pinia';
+import useProductStore from '@/stores/productStore';
+// UI 元件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 
+const productStore = useProductStore();
+const { products } = storeToRefs(productStore);
+const { getProducts, filter, sort } = productStore;
+onMounted(() => getProducts());
+
 const { width } = useWindowSize();
 const select = ref('排序項目'); // 篩選器變數
 const listOption = ref('allProducts'); // 導覽切換變數
 
-const example = ref({ // 假資料 : 串接後刪除
-  title: '斯里蘭卡海鹽卡海鹽',
-  origin: '斯里蘭卡',
-  acdity: 3,
-  price: 399,
-  origin_price: 599,
-  img_url: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Ethiopian-coffee-beans-1.jpg?raw=true',
-  img_url_2: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Panama-Coffee-Beans-4.jpg?raw=true',
-  img_url_3: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/high/Colombian-coffee-bean-3.jpg?raw=true',
-  card_details: true,
-});
+// const example = ref({ // 假資料 : 串接後刪除
+//   title: '斯里蘭卡海鹽卡海鹽',
+//   origin: '斯里蘭卡',
+//   acdity: 3,
+//   price: 399,
+//   origin_price: 599,
+//   img_url: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Ethiopian-coffee-beans-1.jpg?raw=true',
+//   img_url_2: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Panama-Coffee-Beans-4.jpg?raw=true',
+//   img_url_3: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/high/Colombian-coffee-bean-3.jpg?raw=true',
+//   card_details: true,
+// });
 
-function changerCard() {
-  if (width.value <= 992) {
-    example.value.card_details = false;
-  } else {
-    example.value.card_details = true;
-  }
-}
-watchEffect(() => {
-  changerCard();
-});
+// function changerCard() {
+//   if (width.value <= 992) {
+//     example.value.card_details = false;
+//   } else {
+//     example.value.card_details = true;
+//   }
+// }
+// watchEffect(() => {
+//   changerCard();
+// });
 
 </script>
 

@@ -33,55 +33,59 @@
     <div class="card bg-transparent border-0">
       <div class="row g-4">
         <div class="col-12 col-md-6">
-          <img src="/public/images/Honduran-coffee-bean-2.jpg"
+          <img :src="tempProduct.imageUrl"
             class="img-fluid" alt="...">
         </div>
         <div class="col-12 col-md-6">
           <div class="card-body p-0">
             <h3 class="card-title fs-6 fs-lg-3 lh-lg-sm fw-bold text-gray-800 lh-base border-bottom
-              border-gray-800 border-2 pb-3 mb-0">斯里蘭卡海鹽</h3>
+              border-gray-800 border-2 pb-3 mb-0">{{ tempProduct.title }}</h3>
             <ul class="list-unstyled d-flex flex-wrap">
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
                 <BadgeUi content="類別 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
-                  <p class="fs-lg-6 text-gray-800 mb-0">淺烘焙</p>
+                  <p class="fs-lg-6 text-gray-800 mb-0">{{ tempProduct.category }}</p>
                 </div>
               </li>
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
                 <BadgeUi content="酸度 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
-                  <p class="fs-lg-6 text-gray-800 mb-0">3 分</p>
+                  <p class="fs-lg-6 text-gray-800 mb-0">{{ tempProduct.acidity }} 分</p>
                 </div>
               </li>
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
                 <BadgeUi content="規格 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
-                  <p class="fs-lg-6 text-gray-800 mb-0">0.5 磅 / 包</p>
+                  <p class="fs-lg-6 text-gray-800 mb-0">0.5 {{ tempProduct.unit }} / 包</p>
                 </div>
               </li>
               <li class="d-flex align-items-center justify-content-between py-3 w-50">
                 <BadgeUi content="產地 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
                 <div class="w-50">
-                  <p class="fs-lg-6 text-gray-800 mb-0">斯里蘭卡</p>
+                  <p class="fs-lg-6 text-gray-800 mb-0">{{ tempProduct.origin }}</p>
                 </div>
               </li>
             </ul>
             <h5 class="fs-7 fs-lg-6 fw-bold text-danger lh-base mb-3">風味描述 :</h5>
             <p class="card-text mb-4"><small class="fs-lg-7 text-gray-800"
-              >青澀微酸口感，較為順口，適合初次嘗試咖啡飲品者選購。</small></p>
+              >{{ tempProduct.description }}</small></p>
             <h5 class="fs-7 fs-lg-6 fw-bold text-danger lh-base mb-3">整體風味 :</h5>
             <p class="card-text mb-6"><small class="fs-lg-7 text-gray-800"
-              >焦糖、巧克力、榛果。</small></p>
+              >{{ tempProduct.content }}</small></p>
             <div class="d-flex align-items-center">
-              <h4 class="fs-3 fs-lg-1 lh-sm fw-bold text-danger lh-sm mb-4">NT$ 299</h4>
-              <del class="fs-5 fs-lg-3 lh-sm fw-bold text-gray-800 lh-sm mb-4 ms-4">NT$ 599</del>
+              <h4 class="fs-3 fs-lg-1 lh-sm fw-bold text-danger lh-sm mb-4">
+                {{ `NT$ ${tempProduct.price}` }}</h4>
+              <del class="fs-5 fs-lg-3 lh-sm fw-bold text-gray-800 lh-sm mb-4 ms-4">
+                {{ `NT$ ${tempProduct.origin_price}` }}
+              </del>
             </div>
             <div class="d-flex flex-column align-items-start">
               <AddButtonUi class="me-5 w-auto mb-4 d-none d-lg-flex" size="large"></AddButtonUi>
               <AddButtonUi class="me-5 w-auto mb-4 d-lg-none" size="normal"></AddButtonUi>
               <div class="d-flex w-100">
                 <button type="button" class="btn btn-primary border-0 fs-lg-6 d-flex
-                  justify-content-center align-items-center w-100">加入購物車
+                  justify-content-center align-items-center w-100"
+                  @click="addToCart(tempProduct.id, 1)">加入購物車
                   <i class="bi bi-cart3 fs-7 d-flex ms-2"></i>
                 </button>
                 <button type="button" class="btn text-primary p-0 ms-4">
@@ -181,12 +185,20 @@
 
 <script setup>
 import { useWindowSize } from '@vueuse/core';
-
+// Pinia
+import { storeToRefs } from 'pinia';
+import useProductStore from '@/stores/productStore';
+import useCartStore from '@/stores/cartStore';
+// UI
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
 
 const { width } = useWindowSize();
+const productStore = useProductStore();
+const { tempProduct } = storeToRefs(productStore);
+const cartStore = useCartStore();
+const { addToCart } = cartStore;
 </script>
 
 <style lang="scss" scoped>

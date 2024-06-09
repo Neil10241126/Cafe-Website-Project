@@ -50,41 +50,13 @@
               768: { slidesPerView: 3, spaceBetween: 16, },
               992: { slidesPerView: 4, spaceBetween: 20, }
             }">
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url" :card_details="example.card_details">
-              </ProductCard>
+            <swiper-slide v-for="product in filter('淺烘焙')" :key="product.id">
+              <ProductCard :title="product.title" :origin="product.origin"
+                  :acdity="product.acidity" :price="product.price"
+                  :origin_price="product.origin_price" :img_url="product.imageUrl"
+                  :product_id="product.id"
+                  :card_details="width <= 992 ? false : true">
+                </ProductCard>
             </swiper-slide>
           </swiper-container>
         </div>
@@ -100,40 +72,12 @@
               768: { slidesPerView: 3, spaceBetween: 16, },
               992: { slidesPerView: 4, spaceBetween: 20, }
             }">
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_2" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_2" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_2" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_2" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_2" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_2" :card_details="example.card_details">
+            <swiper-slide v-for="product in filter('中烘焙')" :key="product.id">
+              <ProductCard :title="product.title" :origin="product.origin"
+                :acdity="product.acidity" :price="product.price"
+                :origin_price="product.origin_price" :img_url="product.imageUrl"
+                :product_id="product.id"
+                :card_details="width <= 992 ? false : true">
               </ProductCard>
             </swiper-slide>
           </swiper-container>
@@ -150,40 +94,12 @@
               768: { slidesPerView: 3, spaceBetween: 16, },
               992: { slidesPerView: 4, spaceBetween: 20, }
             }">
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_3" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_3" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_3" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_3" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_3" :card_details="example.card_details">
-              </ProductCard>
-            </swiper-slide>
-            <swiper-slide>
-              <ProductCard :title="example.title" :origin="example.origin" :acdity="example.acdity"
-                :price="example.price" :origin_price="example.origin_price"
-                :img_url="example.img_url_3" :card_details="example.card_details">
+            <swiper-slide v-for="product in filter('深烘焙')" :key="product.id">
+              <ProductCard :title="product.title" :origin="product.origin"
+                :acdity="product.acidity" :price="product.price"
+                :origin_price="product.origin_price" :img_url="product.imageUrl"
+                :product_id="product.id"
+                :card_details="width <= 992 ? false : true">
               </ProductCard>
             </swiper-slide>
           </swiper-container>
@@ -390,10 +306,17 @@
 <script setup>
 import { ref, watchEffect } from 'vue';
 import { useWindowSize } from '@vueuse/core';
+// Pinia
+// import { storeToRefs } from 'pinia';
+import useProductStore from '@/stores/productStore';
+// UI
 import CounterUp from '@/components/CounterUp.vue';
 import ProductCard from '@/components/ProductCard.vue';
 
 const { width } = useWindowSize();
+const productStore = useProductStore();
+const { filter } = productStore;
+// const { products } = storeToRefs(productStore);
 
 const example = ref({ // 假資料 : 串接後刪除
   title: '斯里蘭卡海鹽卡海鹽',
