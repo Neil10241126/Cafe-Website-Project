@@ -81,7 +81,7 @@
             </div>
             <div class="d-flex flex-column align-items-start">
               <AddButtonUi class="me-5 w-auto mb-4 d-none d-lg-flex" size="large"></AddButtonUi>
-              <AddButtonUi class="me-5 w-auto mb-4 d-lg-none" size="normal"></AddButtonUi>
+              <AddButtonUi class="me-5 w-auto mb-4 d-lg-none"></AddButtonUi>
               <div class="d-flex w-100">
                 <button type="button" class="btn btn-primary border-0 fs-lg-6 d-flex
                   justify-content-center align-items-center w-100"

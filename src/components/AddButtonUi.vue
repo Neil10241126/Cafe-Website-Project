@@ -1,60 +1,84 @@
+### Vue 組件使用說明
+
+這個 Vue 組件是一個數量調整器，包括兩個按鈕（用於增減數量）和一個顯示當前數量的輸入框。
+你可以通過設置 size 和 count 兩個屬性來調整按鈕和輸入框的大小以及初始數量。
+
+### 參數設定
+
+-  size  (String)：設置按鈕和輸入框的大小。有三個可選值：
+  -  'small' ：小尺寸按鈕和輸入框。
+  -  'large' ：大尺寸按鈕和輸入框。
+  -  'default' ：默認尺寸按鈕和輸入框（若未指定  size ，則使用此尺寸）。
+-  count  (Number)：設置初始數量。默認為 0。
+
 <template>
-  <!-- small -->
-  <div v-if="size === 'small'" class="input-group flex-nowrap">
-    <button class="btn-sm btn-primary p-0" type="button"
-      @click="btnNumber--" :class="{'pointer-events-none': btnNumber === 0}">-</button>
-    <input type="text" class="add-input-sm form-control fs-8 bg-transparent border-2
-     border-primary text-center p-0" :value="num" readonly>
-    <button class="btn-sm btn-primary p-0" type="button"
-      @click="btnNumber++" :class="{'pointer-events-none': btnNumber === 10}">+</button>
-  </div>
+  <div class="input-group flex-nowrap">
+    <!-- 減少數量按鈕 -->
+    <button
+      type="button"
+      class="btn-primary p-0"
+      :class="[btnClass, {'pointer-events-none': countRef === 0}]"
+      @click="countRef--"
+    >-</button>
 
-  <!-- normal -->
-  <div v-else-if="size === 'normal'"  class="input-group flex-nowrap">
-    <button class="btn btn-primary fs-6 p-0" type="button"
-      @click="btnNumber--" :class="{'pointer-events-none': btnNumber === 0}">-</button>
-    <input type="text" class="add-input form-control fs-7 bg-transparent border-2
-      border-primary text-center p-0" :value="btnNumber" readonly>
-    <button class="btn btn-primary fs-6 p-0" type="button"
-      @click="btnNumber++" :class="{'pointer-events-none': btnNumber === 10}">+</button>
-  </div>
+    <!-- 顯示數量的輸入框 -->
+    <input
+      type="text"
+      class="form-control fs-7 bg-transparent border-2 border-primary text-center p-0"
+      :value="countRef"
+      readonly
+      :class="inputClass"
+    >
 
-  <!-- large -->
-  <div v-else-if="size === 'large'" class="input-group flex-nowrap">
-    <button class="btn-lg btn-primary fs-6 p-0" type="button"
-      @click="btnNumber--" :class="{'pointer-events-none': btnNumber === 0}">-</button>
-    <input type="text" class="add-input-lg form-control fs-7 bg-transparent border-2
-     border-primary text-center p-0" :value="btnNumber" readonly>
-    <button class="btn-lg btn-primary fs-6 p-0" type="button"
-      @click="btnNumber++" :class="{'pointer-events-none': btnNumber === 10}">+</button>
+     <!-- 增加數量按鈕 -->
+    <button
+      type="button"
+      class="btn-primary p-0"
+      :class="[btnClass, {'pointer-events-none': countRef === 10}]"
+      @click="countRef++"
+    >+</button>
+
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
-defineProps({
+// 定義組件的屬性
+const props = defineProps({
   size: {
     type: String,
-    default() {
-      return 'small';
-    },
+    default: 'default',
   },
-  num: {
+  count: {
     type: Number,
-    default() {
-      return 0;
-    },
+    default: 0,
   },
 });
 
-const btnNumber = ref(0);
+// 使用 ref 來保存數量的狀態
+const countRef = ref(props.count);
+
+// 計算按鈕的 class
+const btnClass = computed(() => {
+  if (props.size === 'small') { return { 'btn-sm': true }; }
+  if (props.size === 'large') { return { 'btn-lg': true }; }
+  return { btn: true };
+});
+
+// 計算輸入框的 class
+const inputClass = computed(() => {
+  if (props.size === 'small') { return { 'add-input-sm': true }; }
+  if (props.size === 'large') { return { 'add-input-lg': true }; }
+  return { 'add-input': true };
+});
 
 </script>
 
 <style lang="scss" scoped>
 @import "/src/assets/helper/colors";
 
+// 按鈕樣式
 .btn {
   width: 38px;
   height: 38px;
@@ -73,6 +97,7 @@ const btnNumber = ref(0);
   }
 }
 
+// 輸入框樣式
 .add-input {
   height: 38px;
   max-width: 60px;
