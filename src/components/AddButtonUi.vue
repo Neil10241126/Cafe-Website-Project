@@ -9,7 +9,7 @@
   -  'small' ：小尺寸按鈕和輸入框。
   -  'large' ：大尺寸按鈕和輸入框。
   -  'default' ：默認尺寸按鈕和輸入框（若未指定  size ，則使用此尺寸）。
--  count  (Number)：設置初始數量。默認為 0。
+-  count  (Number)：設置初始數量。默認為 1。
 
 <template>
   <div class="input-group flex-nowrap">
@@ -17,32 +17,32 @@
     <button
       type="button"
       class="btn-primary p-0"
-      :class="[btnClass, {'pointer-events-none': countRef === 0}]"
-      @click="countRef--"
+      :class="[btnClass, {'pointer-events-none': count === 0}]"
+      @click="count--"
     >-</button>
 
     <!-- 顯示數量的輸入框 -->
     <input
       type="text"
       class="form-control fs-7 bg-transparent border-2 border-primary text-center p-0"
-      :value="countRef"
       readonly
       :class="inputClass"
+      v-model.number="count"
     >
 
      <!-- 增加數量按鈕 -->
     <button
       type="button"
       class="btn-primary p-0"
-      :class="[btnClass, {'pointer-events-none': countRef === 10}]"
-      @click="countRef++"
+      :class="[btnClass, {'pointer-events-none': count === 10}]"
+      @click="count++"
     >+</button>
 
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 // 定義組件的屬性
 const props = defineProps({
@@ -50,14 +50,13 @@ const props = defineProps({
     type: String,
     default: 'default',
   },
-  count: {
-    type: Number,
-    default: 0,
-  },
 });
 
-// 使用 ref 來保存數量的狀態
-const countRef = ref(props.count);
+// 雙向綁定 count 數量
+const count = defineModel('qtyModel', {
+  type: Number,
+  default: 1,
+});
 
 // 計算按鈕的 class
 const btnClass = computed(() => {

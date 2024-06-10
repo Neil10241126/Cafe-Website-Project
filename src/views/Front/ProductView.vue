@@ -33,8 +33,7 @@
     <div class="card bg-transparent border-0">
       <div class="row g-4">
         <div class="col-12 col-md-6">
-          <img :src="tempProduct.imageUrl"
-            class="img-fluid" alt="...">
+          <img :src="tempProduct.imageUrl" class="img-fluid" alt="...">
         </div>
         <div class="col-12 col-md-6">
           <div class="card-body p-0">
@@ -80,12 +79,14 @@
               </del>
             </div>
             <div class="d-flex flex-column align-items-start">
-              <AddButtonUi class="me-5 w-auto mb-4 d-none d-lg-flex" size="large"></AddButtonUi>
-              <AddButtonUi class="me-5 w-auto mb-4 d-lg-none"></AddButtonUi>
+              <AddButtonUi class="me-5 w-auto mb-4 d-none d-lg-flex"
+               size="large" v-model:qtyModel.number="quantity"></AddButtonUi>
+              <AddButtonUi class="me-5 w-auto mb-4 d-lg-none"
+                v-model:qtyModel.number="quantity"></AddButtonUi>
               <div class="d-flex w-100">
                 <button type="button" class="btn btn-primary border-0 fs-lg-6 d-flex
                   justify-content-center align-items-center w-100"
-                  @click="addToCart(tempProduct.id, 1)">加入購物車
+                  @click="addToCart(tempProduct.id, quantity)">加入購物車
                   <i class="bi bi-cart3 fs-7 d-flex ms-2"></i>
                 </button>
                 <button type="button" class="btn text-primary p-0 ms-4">
@@ -184,6 +185,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 // Pinia
 import { storeToRefs } from 'pinia';
@@ -199,6 +201,8 @@ const productStore = useProductStore();
 const { tempProduct } = storeToRefs(productStore);
 const cartStore = useCartStore();
 const { addToCart } = cartStore;
+
+const quantity = ref(1); // 定義數量變數
 </script>
 
 <style lang="scss" scoped>

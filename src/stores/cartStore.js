@@ -12,7 +12,7 @@ export default defineStore('cart', () => {
     axios.get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart`)
       .then((res) => {
         cartList.value = res.data.data;
-        console.log('您的購物車: ', cartList.value);
+        // console.log('您的購物車: ', cartList.value);
       })
       .catch((err) => alert(err.response.data.message));
   }
@@ -42,25 +42,24 @@ export default defineStore('cart', () => {
   }
 
   // 修改數量 put
-  // function changeNum(id, qty) {
-  //   const data = {
-  //     product_id: id,
-  //     qty,
-  //   };
-  //   axios.put(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${id}`, { data })
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  function changeNum(id, qty) {
+    const data = {
+      product_id: id,
+      qty,
+    };
+    axios.put(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${id}`, { data })
+      .then((res) => {
+        alert(res.data.message);
+        getCart();
+      })
+      .catch((err) => alert(err.response.data.message));
+  }
 
   return {
     cartList,
     getCart,
     addToCart,
     delCartItem,
-    // changeNum,
+    changeNum,
   };
 });
