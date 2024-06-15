@@ -81,27 +81,32 @@
             <div class="col-12">
               <label for="name" class="form-label fw-semibold">姓名
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
-              <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名">
+              <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
+                v-model="data.user.name">
             </div>
             <div class="col-12">
               <label for="email" class="form-label fw-semibold">電子郵件
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
-              <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件">
+              <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件"
+                v-model="data.user.email">
             </div>
             <div class="col-12">
               <label for="tel" class="form-label fw-semibold">連絡電話
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
-              <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話">
+              <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
+                v-model="data.user.tel">
             </div>
             <div class="col-12">
               <label for="address" class="form-label fw-semibold">收件地址
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <div class="row g-2">
                   <div class="col-4">
-                    <input type="number" class="form-control" id="address" placeholder="郵遞區號">
+                    <input type="number" class="form-control" id="address" placeholder="郵遞區號"
+                      v-model="data.user.addressNum">
                   </div>
                   <div class="col-8">
-                    <input type="text" class="form-control" id="address" placeholder="請輸入您的收件地址">
+                    <input type="text" class="form-control" id="address" placeholder="請輸入您的收件地址"
+                      v-model="data.user.address">
                   </div>
                 </div>
             </div>
@@ -109,7 +114,8 @@
               <label for="textarea" class="form-label fw-semibold">備註
                 <span class="fw-normal text-gray-600">(選填)</span>
               </label>
-              <textarea class="form-control" id="textarea" rows="5"></textarea>
+              <textarea class="form-control" id="textarea" rows="5"
+              v-model="data.message"></textarea>
             </div>
           </div>
         </div>
@@ -119,23 +125,12 @@
           <h3 class="fs-6 lh-base fw-bold text-gray-800 border-bottom border-2
             border-gray-800 pb-4 mb-0">商品明細</h3>
           <ul class="list-unstyled">
-            <li class="fw-semibold text-gray-800 border-bottom border-dark py-3">
+            <li class="fw-semibold text-gray-800 border-bottom border-dark py-3"
+              v-for="item in cartList.carts" :key="item.id">
               <div class="d-flex justify-content-between mb-1">
-                <p class="mb-0">斯里蘭卡海鹽</p><p class="mb-0">X1</p>
+                <p class="mb-0">{{ item.product.title }}</p><p class="mb-0">{{ `X${item.qty}` }}</p>
               </div>
-              <p class="mb-0">NT$ 399 / 磅</p>
-            </li>
-            <li class="fw-semibold text-gray-800 border-bottom border-dark py-3">
-              <div class="d-flex justify-content-between mb-1">
-                <p class="mb-0">古巴經典烘焙</p><p class="mb-0">X2</p>
-              </div>
-              <p class="mb-0">NT$ 399 / 磅</p>
-            </li>
-            <li class="fw-semibold text-gray-800 border-bottom border-dark py-3">
-              <div class="d-flex justify-content-between mb-1">
-                <p class="mb-0">肯亞曼特寧</p><p class="mb-0">X1</p>
-              </div>
-              <p class="mb-0">NT$ 599 / 磅</p>
+              <p class="mb-0">{{ `NT$ ${item.product.price} / ${item.product.unit}` }}</p>
             </li>
           </ul>
         </div>
@@ -143,19 +138,20 @@
         <div class="input-wrap">
           <ul class="list-unstyled mb-0">
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between py-2">
-              <sapn>品項</sapn><sapn>3 項</sapn></li>
+              <span>品項</span><span>{{ `${cartList.carts?.length} 項` }}</span></li>
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between py-2">
-              <sapn>小計</sapn><sapn>NT$ 999</sapn></li>
+              <span>小計</span><span>{{ `NT$ ${cartList.final_total }` }}</span></li>
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between py-2">
-              <sapn>折扣</sapn><sapn>NT$ 199</sapn></li>
+              <span>折扣</span><span>{{ `NT$ ${cartList.final_total - cartList.total }` }}</span></li>
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between pt-2 pb-3">
-              <sapn>運費</sapn><sapn>NT$ 60</sapn></li>
+              <span>運費</span><span>NT$ 60</span></li>
             <li class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark
               d-flex justify-content-between pt-3 pb-4">
-              <span>總金額</span><span class="text-danger">NTD $ 860</span></li>
+              <span>總金額</span>
+              <span class="text-danger">{{ `NT$ ${cartList.final_total }` }}</span></li>
           </ul>
-          <button type="button" class="btn btn-primary w-100">
-            下一步<i class="bi bi-chevron-right ms-1"></i></button>
+          <button type="button" class="btn btn-primary w-100"
+            @click="submitOrder(data)">下一步<i class="bi bi-chevron-right ms-1"></i></button>
         </div>
       </div>
     </div>
@@ -163,7 +159,29 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+// Pinia
+import { storeToRefs } from 'pinia';
+import useCartStore from '@/stores/cartStore';
+import useOrderStore from '@/stores/order';
+// UI
 import AdView from '@/components/AdView.vue';
+
+const cartStore = useCartStore();
+const { cartList } = storeToRefs(cartStore);
+const orderStore = useOrderStore();
+const { submitOrder } = orderStore;
+
+const data = ref({
+  user: {
+    name: '',
+    email: '',
+    tel: '',
+    addressNum: '',
+    address: '',
+  },
+  message: '',
+});
 
 </script>
 

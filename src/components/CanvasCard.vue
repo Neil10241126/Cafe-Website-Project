@@ -14,7 +14,9 @@
       <div class="mt-auto d-flex justify-content-between align-items-center">
         <p class="fs-7 fw-bold text-danger mb-0">NT$ {{ price }}</p>
         <template v-if="editor">
-          <AddButtonUi class="w-auto" size="small" v-model:qtyModel.number="qtyValue"></AddButtonUi>
+          <AddButtonUi class="w-auto" size="small"
+           v-model:qtyModel.number="qtyValue"
+           ></AddButtonUi>
         </template>
         <template v-else>
           <p class="fs-6 mb-0">{{ `X${qty}` }}</p>

@@ -180,36 +180,15 @@ import PaginationUi from '@/components/PaginationUi.vue';
 
 const productStore = useProductStore();
 const { products } = storeToRefs(productStore);
-const { getProducts, filter, sort } = productStore;
-onMounted(() => getProducts());
+const { filter, sort } = productStore;
 
 const { width } = useWindowSize();
 const select = ref('排序項目'); // 篩選器變數
 const listOption = ref('allProducts'); // 導覽切換變數
 
-// const example = ref({ // 假資料 : 串接後刪除
-//   title: '斯里蘭卡海鹽卡海鹽',
-//   origin: '斯里蘭卡',
-//   acdity: 3,
-//   price: 399,
-//   origin_price: 599,
-//   img_url: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Ethiopian-coffee-beans-1.jpg?raw=true',
-//   img_url_2: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Panama-Coffee-Beans-4.jpg?raw=true',
-//   img_url_3: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/high/Colombian-coffee-bean-3.jpg?raw=true',
-//   card_details: true,
-// });
-
-// function changerCard() {
-//   if (width.value <= 992) {
-//     example.value.card_details = false;
-//   } else {
-//     example.value.card_details = true;
-//   }
-// }
-// watchEffect(() => {
-//   changerCard();
-// });
-
+onMounted(() => {
+  console.log('products.view 子元件');
+});
 </script>
 
 <style lang="scss" scoped>

@@ -87,7 +87,11 @@
       </button>
     </div>
     <div class="offcanvas-body d-flex flex-column justify-content-between">
-      <div class="mb-5" style=" overflow-y: scroll;">
+      <div v-if="!cartList.carts?.length" class="d-flex flex-column align-items-center">
+        <i class="bi bi-emoji-frown text-primary" style="font-size: 80px;"></i>
+        <p class="fs-4 fw-semibold text-primary">您的購物車沒任何商品</p>
+      </div>
+      <div v-else class="mb-5" style=" overflow-y: scroll;">
         <CanvasCard class="mb-2" v-for="cart in cartList.carts" :key="cart.id"
           :title="cart.product.title" :content="cart.product.content"
           :price="cart.product.price" :img_url="cart.product.imageUrl"
@@ -100,7 +104,12 @@
           <span class="text-danger">{{ `NT$ ${cartList.final_total}` }}</span>
         </div>
         <RouterLink to="/cart" class="btn btn-primary w-100" data-bs-dismiss="offcanvas"
-          @click="getPath()">查看購物車</RouterLink>
+          v-if="cartList.carts?.length"
+          @click="router.push('/cart')">查看購物車
+        </RouterLink>
+        <button v-else type="button" class="btn btn-primary w-100" data-bs-dismiss="offcanvas"
+          @click="router.push('/products')">來去選購
+        </button>
       </div>
     </div>
   </div>
@@ -118,10 +127,6 @@ const router = useRouter();
 
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
-
-function getPath() {
-  router.push('/cart');
-}
 
 </script>
 

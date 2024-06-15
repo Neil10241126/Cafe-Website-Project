@@ -7,7 +7,7 @@
         商品已訂購完成<i class="bi bi-check-circle ms-3"></i></h2>
       <div class="border border-2 border-light rounded py-2 px-4 mb-3">
         <p class="fw-semibold text-light mb-0 text-nowrap">
-          訂單編號 :<span class="ms-2">-Nxm_J_CRk-9abrg6r8w</span></p>
+          訂單編號 :<span class="ms-2">{{ route.params.orderId }}</span></p>
       </div>
       <p class="fs-6 fw-semibold text-light">感謝您的購買 !</p>
       <RouterLink to="/" class="btn btn-warning px-5">繼續購物</RouterLink>
@@ -16,6 +16,9 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 </script>
 
 <style lang="scss" scope>

@@ -55,14 +55,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><img src="/public/images/Honduran-coffee-bean-2.jpg" class="mx-auto"
+              <tr v-for="cart in cartList.carts" :key="cart.id">
+                <td><img :src="cart.product.imageUrl" class="mx-auto"
                    alt="Header-banner-lg" width="100"></td>
-                <td>斯里蘭卡海鹽</td>
-                <td><AddButtonUi class="d-flex justify-content-center"
-                   size="small"></AddButtonUi></td>
-                <td class="fw-semibold">NT$ 399</td>
-                <td><button type="button" class="btn p-0"><i class="bi bi-x-lg"></i></button></td>
+                <td>{{ cart.product.title }}</td>
+                <td><AddButtonUi class="d-flex justify-content-center" size="small"
+                  v-model:qtyModel.number="cart.qty"
+                  @update:qtyModel="(newQty) => changeNum(cart.id, newQty)"></AddButtonUi></td>
+                <td class="fw-semibold">{{ `NT$ ${cart.product.price}` }}</td>
+                <td>
+                  <button type="button" class="btn p-0"
+                   @click="delCartItem(cart.id)"><i class="bi bi-x-lg"></i></button></td>
               </tr>
             </tbody>
           </table>
@@ -79,14 +82,16 @@
       <div class="col-12 col-md-6 col-lg-4">
         <div class="input-group mb-3">
           <input type="text" class="form-control border border-2
-            border-gray-800" placeholder="輸入折扣代碼">
-          <button class="btn btn-gray-800 px-4" type="button">啟用</button>
+            border-gray-800" placeholder="輸入折扣代碼"
+            v-model="couponCode">
+          <button class="btn btn-gray-800 px-4" type="button"
+            @click="coupon(couponCode)">啟用</button>
         </div>
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
-            <span>小計</span><span>NT$ 999</span></li>
+            <span>小計</span><span>{{ `NT$ ${cartList.total}` }}</span></li>
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
-            <span>折扣</span><span>NTD $ 199</span></li>
+            <span>折扣</span><span>{{ `NT$ ${cartList.final_total - cartList.total}` }}</span></li>
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
             <span>運費</span><span>NTD$ 60</span></li>
           <li class="list-group-item bg-transparent border-0 px-0 pt-0">
@@ -94,7 +99,7 @@
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0
             border-top border-dark px-0 py-3">
             <span class="fs-6 fw-semibold">總金額</span>
-            <span class="fs-6 fw-semibold text-danger">NTD $ 860</span>
+            <span class="fs-6 fw-semibold text-danger">{{ `NT$ ${cartList.final_total}` }}</span>
           </li>
         </ul>
       </div>
@@ -104,8 +109,8 @@
         <div class="d-flex justify-content-between">
           <button type="button" class="btn">
             <i class="bi bi-chevron-left me-1"></i>上一部</button>
-          <button type="button" class="btn btn-primary">
-            下一步<i class="bi bi-chevron-right ms-1"></i></button>
+          <RouterLink to="/order" class="btn btn-primary">
+            下一步<i class="bi bi-chevron-right ms-1"></i></RouterLink>
         </div>
       </div>
     </div>
@@ -113,9 +118,38 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+// Pinia
+import { storeToRefs } from 'pinia';
+import useCartStore from '@/stores/cartStore';
+// UI
 import AdView from '@/components/AdView.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
+
+const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+
+const cartStore = useCartStore();
+// 取得購物車資料
+const { cartList } = storeToRefs(cartStore);
+const { getCart, changeNum, delCartItem } = cartStore;
+const couponCode = ref('');
+
+// 啟用優惠券 POST
+function coupon(code) {
+  const data = {
+    code,
+  };
+  axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/coupon`, { data })
+    .then((res) => {
+      console.log(res);
+      getCart();
+    })
+    .catch((err) => {
+      alert(err.response.data.message);
+    });
+}
 </script>
 
 <style lang="scss" scope>

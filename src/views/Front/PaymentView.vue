@@ -5,7 +5,8 @@
     <ul class="nav justify-content-center align-items-center fs-8 mb-3">
       <li class="nav-item">
         <RouterLink to="/" class="nav-link link-gray-800 text-decoration-underline
-        link-offset-1 px-2 py-0">首頁</RouterLink>
+          link-offset-1 px-2 py-0">首頁
+        </RouterLink>
       </li>
       <li>/</li>
       <li class="nav-item">
@@ -22,14 +23,17 @@
   <div class="container d-flex justify-content-center">
     <ul class="list-unstyled d-flex border border-2 border-primary px-3 px-md-4 py-4 mb-0"
       style="border-style: dashed !important;">
+       <!-- 步驟 1：確認商品 -->
       <li class="text-center border border-2 border-primary py-2 px-2 px-md-4">
         <p class="fs-md-6 fw-seimbold text-primary mb-2">Step 1</p>
         <p class="fs-md-6 fw-seimbold text-primary mb-0 text-nowrap">確認商品</p>
       </li>
+      <!-- 步驟 2：填寫訂單 -->
       <li class="text-center border border-2 border-primary py-2 px-2 px-md-4 mx-3 mx-md-4">
         <p class="fs-md-6 fw-seimbold text-primary mb-2">Step 2</p>
         <p class="fs-md-6 fw-seimbold text-primary mb-0 text-nowrap">填寫訂單</p>
       </li>
+      <!-- 步驟 3：結帳付款 -->
       <li class="text-center bg-primary py-2 px-2 px-md-4">
         <p class="fs-md-6 fw-seimbold text-light mb-2">Step 3</p>
         <p class="fs-md-6 fw-seimbold text-light mb-0 text-nowrap">結帳付款</p>
@@ -54,23 +58,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><img src="/public/images/Honduran-coffee-bean-2.jpg" class="mx-auto my-2"
-                   alt="Header-banner-lg" width="100"></td>
+              <!-- 循環顯示訂單中的產品 -->
+              <tr v-for="item in order.products" :key="item.id">
                 <td>
-                  <p class="text-gray-800 mb-1">斯里蘭卡海鹽</p>
-                  <span class="fs-8 text-gray-600">焦糖、巧克力、榛果。</span></td>
-                <td>X2</td>
-                <td class="fw-semibold">NT$ 399</td>
-              </tr>
-              <tr>
-                <td><img src="/public/images/Panama-Coffee-Beans-2.jpg" class="mx-auto my-2"
-                   alt="Header-banner-lg" width="100"></td>
+                  <img :src="item.product.imageUrl" class="mx-auto my-2" alt="" width="100">
+                </td>
                 <td>
-                  <p class="text-gray-800 mb-1">古巴經典烘焙</p>
-                  <span class="fs-8 text-gray-600">古巴經典烘焙</span></td>
-                <td>X2</td>
-                <td class="fw-semibold">NT$ 798</td>
+                  <p class="text-gray-800 mb-1">{{ item.product.title }}</p>
+                  <span class="fs-8 text-gray-600">{{ item.product.content }}</span>
+                </td>
+                <td>
+                  {{ `X${item.qty}` }}
+                </td>
+                <td class="fw-semibold">
+                  {{ `NT$ ${item.total}` }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -79,28 +81,40 @@
     </div>
     <!-- Toggle Mobile 列表 -->
     <div class="d-md-none mb-5">
-      <CanvasCard class="mb-3" :editor="false"></CanvasCard>
-      <CanvasCard class="mb-3" :editor="false"></CanvasCard>
-      <CanvasCard class="mb-3" :editor="false"></CanvasCard>
+      <CanvasCard
+        class="mb-3"
+        :editor="false"
+        v-for="item in order.products"
+        :key="item.id"
+        :title="item.product.title"
+        :price="item.total"
+        :qty="item.qty"
+        :img_url="item.product.imageUrl"
+        :content="item.product.content"
+      ></CanvasCard>
     </div>
+
     <!-- 客戶訊息 -->
     <div class="row justify-content-center gy-5">
       <div class="col-12 col-lg-4">
         <div class="input-wrap">
           <h3 class="fs-6 lh-base fw-bold text-gray-800 pb-4 mb-0">付款方式</h3>
           <div class="list-group flex-row">
+            <!-- 信用卡付款選項 -->
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="payment"
-               id="creditCard" value="option1" data-bs-toggle="list" href="#credit-list">
+                id="creditCard" value="option1" data-bs-toggle="list" href="#credit-list">
               <label class="form-check-label fw-semibold" for="creditCard">信用卡</label>
             </div>
+            <!-- 貨到付款選項 -->
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="payment"
-               id="cost" value="option2" data-bs-toggle="list" href="#cost-list">
+                id="cost" value="option2" data-bs-toggle="list" href="#cost-list">
               <label class="form-check-label fw-semibold" for="cost">貨到付款</label>
             </div>
           </div>
           <div class="tab-content">
+            <!-- 信用卡付款表單 -->
             <div class="tab-pane mt-4" id="credit-list">
               <div class="mb-4">
                 <label for="credit-name" class="form-label fw-semibold">持卡人姓名
@@ -135,23 +149,33 @@
       </div>
       <div class="col-12 col-lg-4">
         <div class="input-wrap">
+          <!-- 顯示用戶信息 -->
           <ul class="list-unstyled mb-0">
             <li class="fs-6 text-gray-800 d-flex justify-content-between py-2">
-              <sapn class="fw-semibold text-nowrap me-4">姓名</sapn><sapn>王大明</sapn></li>
+              <span class="fw-semibold text-nowrap me-4">姓名</span>
+              <span>{{ order.user?.name }}</span>
+            </li>
             <li class="fs-6 text-gray-800 d-flex justify-content-between py-2">
-              <sapn class="fw-semibold text-nowrap me-4">電話</sapn><sapn>0912345678</sapn></li>
+              <span class="fw-semibold text-nowrap me-4">電話</span>
+              <span>{{ order.user?.tel }}</span>
+            </li>
             <li class="fs-6 text-gray-800 d-flex justify-content-between py-2">
-              <sapn class="fw-semibold text-nowrap me-4">電子郵件</sapn>
-              <p class="text-break text-end">test@gmail.com</p></li>
+              <span class="fw-semibold text-nowrap me-4">電子郵件</span>
+              <span class="text-break text-end">{{ order.user?.email }}</span>
+            </li>
             <li class="fs-6 text-gray-800 d-flex justify-content-between pt-2 pb-3">
-              <sapn class="fw-semibold text-nowrap me-4">收件地址</sapn>
-              <sapn class="text-end text-wrap">台北市萬華區中山路1220號</sapn></li>
+              <span class="fw-semibold text-nowrap me-4">收件地址</span>
+              <span class="text-end text-wrap">{{ order.user?.address }}</span>
+            </li>
             <li class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark
               d-flex justify-content-between pt-3 pb-4">
-              <span>總金額</span><span class="text-danger">NTD $ 860</span></li>
+              <span>總金額</span><span class="text-danger">{{ `NT$ ${order.total}` }}</span>
+            </li>
           </ul>
-          <button type="button" class="btn btn-primary w-100">
-            確認付款<i class="bi bi-chevron-right ms-1"></i></button>
+          <!-- 確認付款按鈕 -->
+          <button type="button" class="btn btn-primary w-100"
+            @click="checkout()">確認付款<i class="bi bi-chevron-right ms-1"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -159,18 +183,51 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+// Pinia
+import useAlertStore from '@/stores/alert';
+// UI
 import AdView from '@/components/AdView.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
 
+const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+const route = useRoute();
+const router = useRouter();
+const alertStore = useAlertStore();
+const { apiResAlert, apiErrAlert } = alertStore;
+const order = ref({});
+
+// 取得訂單資訊 GET
+function getOrders() {
+  axios.get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order/${route.params.orderId}`)
+    .then((res) => { order.value = res.data.order; }) // 將訂單數據賦值給 order
+    .catch((err) => apiErrAlert(err.response.data.message));
+}
+
+// 完成付款 POST
+function checkout() {
+  axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/pay/${route.params.orderId}`)
+    .then((res) => {
+      apiResAlert(res.data.message); // 顯示成功消息
+      router.push(`/checkout/${route.params.orderId}`); // 跳轉到結帳完成頁面
+    })
+    .catch((err) => apiErrAlert(err.response.data.message));
+}
+
+onMounted(() => getOrders());
 </script>
 
-<style lang="scss" scope>
-@import "/src/assets/helper/colors";
+<style lang="scss" scoped>
+@import '/src/assets/helper/colors';
 
+// 表格樣式
 .table {
   --bs-table-bg: $secondary-tint;
 }
 
+// 輸入框樣式
 .input-wrap {
   padding: 16px 24px;
   background-color: $secondary-light;
@@ -178,6 +235,7 @@ import CanvasCard from '@/components/CanvasCard.vue';
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+// 表單選項樣式
 .form-check-input {
   border: 1px solid $gray-800;
   background-color: transparent;
