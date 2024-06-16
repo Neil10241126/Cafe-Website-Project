@@ -17,7 +17,7 @@
     <button
       type="button"
       class="btn-primary p-0"
-      :class="[btnClass, {'pointer-events-none': count === 0}]"
+      :class="[btnClass, {'pointer-events-none': count === 1}]"
       @click="count--"
     >-</button>
 

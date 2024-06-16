@@ -23,7 +23,7 @@
 
 <script setup></script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "/src/assets/helper/colors";
 
 .pagination :not(:first-child) { // 按鈕間距自適應
@@ -34,8 +34,8 @@
   background-color: $secondary-tint;
   border: 2px solid $primary;
   &:hover {
-    background-color: $primary;
-    border-color: $primary;
+    background-color: $primary-dark;
+    border-color: $primary-dark;
     color: $secondary-tint;
   }
   &:active {
@@ -45,6 +45,7 @@
     background-color: $secondary-tint;
   }
   &.active {
+    background-color: $primary;
     color: $secondary-tint;
   }
 }

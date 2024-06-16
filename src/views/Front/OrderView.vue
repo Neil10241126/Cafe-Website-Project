@@ -102,7 +102,7 @@
                 <div class="row g-2">
                   <div class="col-4">
                     <input type="number" class="form-control" id="address" placeholder="郵遞區號"
-                      v-model="data.user.addressNum">
+                      v-model="data.user.address">
                   </div>
                   <div class="col-8">
                     <input type="text" class="form-control" id="address" placeholder="請輸入您的收件地址"
@@ -160,18 +160,22 @@
 
 <script setup>
 import { ref } from 'vue';
-// Pinia
+// 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
-import useCartStore from '@/stores/cartStore';
+import useCartStore from '@/stores/cart';
 import useOrderStore from '@/stores/order';
-// UI
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 
+// 取得購物車資料
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
+
+// 取得訂單資料
 const orderStore = useOrderStore();
 const { submitOrder } = orderStore;
 
+// 綁定訂單資訊
 const data = ref({
   user: {
     name: '',
@@ -185,7 +189,7 @@ const data = ref({
 
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 @import "/src/assets/helper/colors";
 
 .input-wrap {
@@ -197,6 +201,5 @@ const data = ref({
 
 .form-check-input {
   border: 1px solid $gray-800;
-  background-color: transparent;
 }
 </style>

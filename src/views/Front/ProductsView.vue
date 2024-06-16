@@ -167,28 +167,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useWindowSize } from '@vueuse/core';
-// Pinia
+// 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
-import useProductStore from '@/stores/productStore';
-// UI 元件
+import useProductStore from '@/stores/product';
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 
+const { width } = useWindowSize();
+
+// 取得產品資料
 const productStore = useProductStore();
 const { products } = storeToRefs(productStore);
 const { filter, sort } = productStore;
 
-const { width } = useWindowSize();
 const select = ref('排序項目'); // 篩選器變數
 const listOption = ref('allProducts'); // 導覽切換變數
 
-onMounted(() => {
-  console.log('products.view 子元件');
-});
 </script>
 
 <style lang="scss" scoped>

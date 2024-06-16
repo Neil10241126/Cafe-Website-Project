@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import axios from 'axios';
-// 其他 Pinia
+// 引入 Pinia 狀態管理
 import alertStore from '@/stores/alert';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 
 export default defineStore('cart', () => {
+  // 取得 alert 方法
   const alert = alertStore();
   const { apiResAlert, apiErrAlert } = alert;
 
+  // 定義購物車列表的狀態
   const cartList = ref([]);
 
   // 取得購物車 GET

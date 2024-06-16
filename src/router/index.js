@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-// Pinia
-import useProductStore from '@/stores/productStore';
-import useCartStore from '@/stores/cartStore';
+// 引入 Pinia 狀態管理
+import useProductStore from '@/stores/product';
+import useCartStore from '@/stores/cart';
 
 const routes = [
   {
@@ -66,22 +66,16 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/admin',
-    component: () => import('../views/DashboardLayout.vue'),
-    children: [
-      {
-        path: 'products',
-        component: () => import('../views/Dashboard/AdminProducts.vue'),
-      },
-    ],
-  },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: 'active',
   routes,
+  scrollBehavior() {
+    // 始終滾動至頂部
+    return { top: 0 };
+  },
 });
 
 export default router;

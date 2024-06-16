@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import axios from 'axios';
-// 其他 Pinia
+// 引入 Pinia 狀態管理
 import alertStore from '@/stores/alert';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 
 export default defineStore('product', () => {
+  // 取得 alert 方法
   const alert = alertStore();
   const { apiErrAlert } = alert;
 
+  // 定義產品資料
   const products = ref([]);
   const tempProduct = ref({});
   // const productsObj = ref({});

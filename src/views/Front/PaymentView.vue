@@ -186,17 +186,23 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-// Pinia
+// 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
-// UI
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+
+// 初始化路由
 const route = useRoute();
 const router = useRouter();
+
+// 取得 alert 方法
 const alertStore = useAlertStore();
 const { apiResAlert, apiErrAlert } = alertStore;
+
+// 寫入訂單資料
 const order = ref({});
 
 // 取得訂單資訊 GET
@@ -216,11 +222,12 @@ function checkout() {
     .catch((err) => apiErrAlert(err.response.data.message));
 }
 
+// 初始化取得訂單資料
 onMounted(() => getOrders());
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/helper/colors';
+@import "/src/assets/helper/colors";
 
 // 表格樣式
 .table {
@@ -238,6 +245,5 @@ onMounted(() => getOrders());
 // 表單選項樣式
 .form-check-input {
   border: 1px solid $gray-800;
-  background-color: transparent;
 }
 </style>

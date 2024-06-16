@@ -187,18 +187,22 @@
 <script setup>
 import { ref } from 'vue';
 import { useWindowSize } from '@vueuse/core';
-// Pinia
+// 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
-import useProductStore from '@/stores/productStore';
-import useCartStore from '@/stores/cartStore';
-// UI
+import useProductStore from '@/stores/product';
+import useCartStore from '@/stores/cart';
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
 
 const { width } = useWindowSize();
+
+// 取得產品資料
 const productStore = useProductStore();
 const { tempProduct } = storeToRefs(productStore);
+
+// 取得購物車資料
 const cartStore = useCartStore();
 const { addToCart } = cartStore;
 

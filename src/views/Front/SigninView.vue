@@ -54,18 +54,26 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-// UI 元件
+// 引入 Pinia 狀態管理
+import useAlertStore from '@/stores/alert';
+// 引入 UI 組件
 import BadgeUi from '@/components/BadgeUi.vue';
 
 const { VITE_API_URL } = import.meta.env;
+
+// 初始化路由
 const router = useRouter();
 
-const user = ref({
+// 取得 alert 方法
+const alertStore = useAlertStore();
+const { apiErrAlert } = alertStore;
+
+const user = ref({ // 綁定用戶輸入資料
   username: '',
   password: '',
 });
 
-// 登入後台
+// 登入後台 POST
 function signin() {
   axios.post(`${VITE_API_URL}/v2/admin/signin`, user.value)
     .then((res) => {
@@ -75,9 +83,9 @@ function signin() {
       document.cookie = `token=${token}; expires=${expires}; path=/`;
       router.push('/admin');
     })
-    .catch((err) => alert(err.response.data.message));
+    .catch((err) => apiErrAlert(err.response.data.message));
 }
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 </style>

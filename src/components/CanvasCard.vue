@@ -14,9 +14,7 @@
       <div class="mt-auto d-flex justify-content-between align-items-center">
         <p class="fs-7 fw-bold text-danger mb-0">NT$ {{ price }}</p>
         <template v-if="editor">
-          <AddButtonUi class="w-auto" size="small"
-           v-model:qtyModel.number="qtyValue"
-           ></AddButtonUi>
+          <AddButtonUi class="w-auto" size="small" v-model:qtyModel.number="qtyValue"></AddButtonUi>
         </template>
         <template v-else>
           <p class="fs-6 mb-0">{{ `X${qty}` }}</p>
@@ -28,10 +26,10 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-// UI
+// 引入 Pinia 狀態管理
+import useCartStore from '@/stores/cart';
+// 引入 UI 組件
 import AddButtonUi from '@/components/AddButtonUi.vue';
-// Pinia
-import useCartStore from '@/stores/cartStore';
 
 // 定義傳入的屬性
 const props = defineProps({
@@ -47,18 +45,17 @@ const props = defineProps({
   qty: Number,
 });
 
-// 初始化數量值
-const qtyValue = ref(props.qty);
-
-// 使用 Pinia 的購物車 store
+// 取得購物車資料
 const cartStore = useCartStore();
 const { delCartItem, changeNum } = cartStore;
+
+// 初始化數量值
+const qtyValue = ref(props.qty);
 
 // 監聽 qtyValue 的變化並同步更新購物車數量
 watch(qtyValue, (newValue) => {
   changeNum(props.cart_id, newValue);
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -74,5 +71,9 @@ watch(qtyValue, (newValue) => {
     width: 90px;
     height: 110px;
   }
+}
+
+.bi-x-lg:hover {
+  color: $danger;
 }
 </style>

@@ -18,8 +18,9 @@
 <script setup>
 import { useRoute } from 'vue-router';
 
+// 初始化路由參數
 const route = useRoute();
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 </style>

@@ -76,7 +76,7 @@
 
 <script setup>
 import { useWindowSize } from '@vueuse/core';
-
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 

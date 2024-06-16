@@ -74,7 +74,15 @@
     </div>
     <!-- Toggle Mobile 列表 -->
     <div class="d-md-none mb-5">
-      <CanvasCard class="mb-3"></CanvasCard>
+      <CanvasCard class="mb-3"
+        v-for="cart in cartList.carts" :key="cart.id"
+        :title="cart.product.title"
+        :content="cart.product.content"
+        :price="cart.product.price"
+        :img_url="cart.product.imageUrl"
+        :qty="cart.qty"
+        :cart_id="cart.id"
+        :product_id="cart.product_id"></CanvasCard>
     </div>
     <!-- 計算金額 -->
     <div class="row justify-content-end justify-content-lg-center mb-3">
@@ -85,7 +93,7 @@
             border-gray-800" placeholder="輸入折扣代碼"
             v-model="couponCode">
           <button class="btn btn-gray-800 px-4" type="button"
-            @click="coupon(couponCode)">啟用</button>
+            @click="useCoupon(couponCode)">啟用</button>
         </div>
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
@@ -107,10 +115,13 @@
     <div class="row justify-content-center">
       <div class="col-12 col-lg-8">
         <div class="d-flex justify-content-between">
-          <button type="button" class="btn">
-            <i class="bi bi-chevron-left me-1"></i>上一部</button>
+          <button type="button" class="btn"
+            @click="router.go(-1)">
+            <i class="bi bi-chevron-left me-1"></i>上一部
+          </button>
           <RouterLink to="/order" class="btn btn-primary">
-            下一步<i class="bi bi-chevron-right ms-1"></i></RouterLink>
+            下一步<i class="bi bi-chevron-right ms-1"></i>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -119,46 +130,42 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
-// Pinia
+import { useRouter } from 'vue-router';
+// 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
-import useCartStore from '@/stores/cartStore';
-// UI
+import useCartStore from '@/stores/cart';
+import useOrderStore from '@/stores/order';
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
 
-const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+// 初始化路由
+const router = useRouter();
 
-const cartStore = useCartStore();
 // 取得購物車資料
+const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
-const { getCart, changeNum, delCartItem } = cartStore;
+const { changeNum, delCartItem } = cartStore;
+
+// 取得優惠券
+const orderStore = useOrderStore();
+const { useCoupon } = orderStore;
+
+// 寫入優惠券資料
 const couponCode = ref('');
 
-// 啟用優惠券 POST
-function coupon(code) {
-  const data = {
-    code,
-  };
-  axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/coupon`, { data })
-    .then((res) => {
-      console.log(res);
-      getCart();
-    })
-    .catch((err) => {
-      alert(err.response.data.message);
-    });
-}
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 @import "/src/assets/helper/colors";
 
+// 設置表格背景色
 .table {
   --bs-table-bg: $secondary-tint;
 }
 
+// 設置刪除按鈕懸停效果
 .bi-x-lg:hover {
   color: $danger;
 }

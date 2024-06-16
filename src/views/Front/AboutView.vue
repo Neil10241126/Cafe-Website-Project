@@ -63,6 +63,7 @@
 </template>
 
 <script setup>
+// 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 </script>
 

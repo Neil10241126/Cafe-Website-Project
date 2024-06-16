@@ -117,17 +117,18 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-// Pinia
+// 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
-import useCartStore from '@/stores/cartStore';
-// UI
+import useCartStore from '@/stores/cart';
+// 引入 UI 組件
 import CanvasCard from '@/components/CanvasCard.vue';
 
+// 初始化路由
 const router = useRouter();
 
+// 取得購物車資料
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
-
 </script>
 
 <style lang="scss" scoped>

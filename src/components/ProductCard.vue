@@ -15,8 +15,9 @@
       <div class="d-flex justify-content-between mb-lg-2">
         <h5 class="fs-8 fs-xxs-6 fw-semibold mb-0 me-2" :class="{'mb-4': !card_details}"
           >{{ title }}</h5>
-        <RouterLink v-if="!card_details" to="#" class="fs-6 text-gray-800 lh-21px lh-sm-30px">
-          <i class="bi bi-box-arrow-in-up-right"></i>
+        <RouterLink class="fs-6 text-gray-800 lh-21px lh-sm-30px"
+          v-if="!card_details" :to="`/products/${product_id}`"
+          @click="getProductItem(product_id)"><i class="bi bi-box-arrow-in-up-right"></i>
         </RouterLink>
       </div>
 
@@ -51,9 +52,9 @@
 </template>
 
 <script setup>
-// Pinia
-import useProductStore from '@/stores/productStore';
-import useCartStore from '@/stores/cartStore';
+// 引入 Pinia 狀態管理
+import useProductStore from '@/stores/product';
+import useCartStore from '@/stores/cart';
 
 defineProps({
   // 資料參數 value :
@@ -68,8 +69,11 @@ defineProps({
   card_details: Boolean, // 詳細 / 簡要 卡片樣式切換
 });
 
+// 取得產品資料
 const productStore = useProductStore();
 const { getProductItem } = productStore;
+
+// 取得購物車資料
 const cartStore = useCartStore();
 const { addToCart } = cartStore;
 

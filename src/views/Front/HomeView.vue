@@ -304,42 +304,18 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
 import { useWindowSize } from '@vueuse/core';
-// Pinia
-// import { storeToRefs } from 'pinia';
-import useProductStore from '@/stores/productStore';
-// UI
+// 引入 Pinia 狀態管理
+import useProductStore from '@/stores/product';
+// 引入 UI 組件
 import CounterUp from '@/components/CounterUp.vue';
 import ProductCard from '@/components/ProductCard.vue';
 
 const { width } = useWindowSize();
+
+// 取得產品資料
 const productStore = useProductStore();
 const { filter } = productStore;
-// const { products } = storeToRefs(productStore);
-
-const example = ref({ // 假資料 : 串接後刪除
-  title: '斯里蘭卡海鹽卡海鹽',
-  origin: '斯里蘭卡',
-  acdity: 3,
-  price: 399,
-  origin_price: 599,
-  img_url: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Ethiopian-coffee-beans-1.jpg?raw=true',
-  img_url_2: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/light/Panama-Coffee-Beans-4.jpg?raw=true',
-  img_url_3: 'https://github.com/Neil10241126/Cafe-Website-Project-img/blob/main/img/products/high/Colombian-coffee-bean-3.jpg?raw=true',
-  card_details: true,
-});
-
-function changerCard() {
-  if (width.value <= 992) {
-    example.value.card_details = false;
-  } else {
-    example.value.card_details = true;
-  }
-}
-watchEffect(() => {
-  changerCard();
-});
 
 </script>
 
