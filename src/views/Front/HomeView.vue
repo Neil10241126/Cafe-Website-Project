@@ -312,6 +312,7 @@ import CounterUp from '@/components/CounterUp.vue';
 import ProductCard from '@/components/ProductCard.vue';
 
 const { width } = useWindowSize();
+//
 
 // 取得產品資料
 const productStore = useProductStore();
@@ -342,4 +343,5 @@ const { filter } = productStore;
 .comment-card {
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
 </style>

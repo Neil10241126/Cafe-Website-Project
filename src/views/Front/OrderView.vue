@@ -82,31 +82,30 @@
               <label for="name" class="form-label fw-semibold">姓名
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
               <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
-                v-model="data.user.name">
+              v-model="data.user.name">
             </div>
             <div class="col-12">
               <label for="email" class="form-label fw-semibold">電子郵件
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
               <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件"
-                v-model="data.user.email">
+              v-model="data.user.email">
             </div>
             <div class="col-12">
               <label for="tel" class="form-label fw-semibold">連絡電話
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
               <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
-                v-model="data.user.tel">
+              v-model="data.user.tel">
             </div>
             <div class="col-12">
               <label for="address" class="form-label fw-semibold">收件地址
                 <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <div class="row g-2">
                   <div class="col-4">
-                    <input type="number" class="form-control" id="address" placeholder="郵遞區號"
-                      v-model="data.user.address">
+                    <input type="number" class="form-control" id="address" placeholder="郵遞區號">
                   </div>
                   <div class="col-8">
                     <input type="text" class="form-control" id="address" placeholder="請輸入您的收件地址"
-                      v-model="data.user.address">
+                    v-model="data.user.address">
                   </div>
                 </div>
             </div>
