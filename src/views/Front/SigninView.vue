@@ -17,32 +17,41 @@
                 alt="logo-dark">
               <BadgeUi content="一般用戶" size="normal"></BadgeUi>
             </div>
-            <form action="#">
-              <div class="d-flex align-items-center mb-4">
-                <label for="email" class="form-label me-3">
-                  <i class="bi bi-person-circle fs-3 text-gray-800"></i>
+            <VForm :validation-schema="schema" v-slot="{ errors, meta }" @submit="signin">
+              <div class="d-flex mb-4">
+                <label for="email" class="form-label me-3 mb-0">
+                  <i class="bi bi-person-circle fs-3 lh-40px text-gray-800"></i>
                 </label>
-                <input type="email" class="form-control" id="email" placeholder="請輸入您的帳號"
-                  v-model="user.username">
+                <div class="w-100">
+                  <VField type="email" class="form-control" id="email" placeholder="請輸入您的帳號"
+                    :class="{'is-invalid': errors['username']}"
+                    name="username"/>
+                  <ErrorMessage name="username" class="text-danger"/>
+                </div>
               </div>
-              <div class="d-flex align-items-center mb-4">
-                <label for="password" class="form-label me-3">
-                  <i class="bi bi-shield-lock fs-3 text-gray-800"></i>
+              <div class="d-flex mb-4">
+                <label for="password" class="form-label me-3 mb-0">
+                  <i class="bi bi-shield-lock fs-3 lh-40px text-gray-800"></i>
                 </label>
-                <input type="password" class="form-control" id="password" placeholder="請輸入您的密碼"
-                  v-model="user.password" autocomplete="true"
-                  @keyup.enter="signin()">
+                <div class="w-100">
+                  <VField type="password" class="form-control" id="password" placeholder="請輸入您的密碼"
+                    autocomplete="true"
+                    :class="{'is-invalid': errors['password']}"
+                    name="password"
+                    @keyup.enter="signin()"/>
+                  <ErrorMessage name="password" class="text-danger"/>
+                </div>
               </div>
-            </form>
-            <div class="d-flex align-items-center justify-content-between">
-              <RouterLink to="/" class="link-gray-600 text-decoration-underline
-                link-offset-1">返回首頁</RouterLink>
-              <div>
-                <button type="button" class="btn btn-outline-primary">註冊</button>
-                <button type="button" class="btn btn-primary ms-4"
-                  @click="signin()">登入</button>
+              <div class="d-flex align-items-center justify-content-between">
+                <RouterLink to="/" class="link-gray-600 text-decoration-underline
+                  link-offset-1">返回首頁</RouterLink>
+                <div>
+                  <button type="button" class="btn btn-outline-primary">註冊</button>
+                  <button type="submit" class="btn btn-primary ms-4"
+                    :disabled="!meta.valid">登入</button>
+                </div>
               </div>
-            </div>
+            </VForm>
           </div>
         </div>
       </div>
@@ -51,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 // 引入 Pinia 狀態管理
@@ -66,25 +75,31 @@ const router = useRouter();
 
 // 取得 alert 方法
 const alertStore = useAlertStore();
-const { apiErrAlert } = alertStore;
+const { apiResAlert, apiErrAlert } = alertStore;
 
-const user = ref({ // 綁定用戶輸入資料
-  username: '',
-  password: '',
+// 引入 yup 驗證庫
+const yup = inject('$yup');
+
+// 定義驗證物件 schema
+const schema = yup.object({
+  username: yup.string().required('email 為必填').email(),
+  password: yup.string().required('password 為必填').min(8),
 });
 
 // 登入後台 POST
-function signin() {
-  axios.post(`${VITE_API_URL}/v2/admin/signin`, user.value)
+function signin(user) {
+  axios.post(`${VITE_API_URL}/v2/admin/signin`, user)
     .then((res) => {
       const { token, expired: expires } = res.data;
 
       // 將 token expires 存入 cookie
       document.cookie = `token=${token}; expires=${expires}; path=/`;
+      apiResAlert(res.data.message);
       router.push('/admin');
     })
     .catch((err) => apiErrAlert(err.response.data.message));
 }
+
 </script>
 
 <style lang="scss" scoped>

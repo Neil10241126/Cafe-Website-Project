@@ -22,38 +22,42 @@
   <div class="container pb-8">
     <div class="row row-cols-1 row-cols-lg-2 flex-column-reverse flex-lg-row g-5">
       <div class="col">
-        <Form class="px-lg-3" :validation-schema="schema" v-slot="{ meta }"
+        <VForm class="px-lg-3" :validation-schema="schema" v-slot="{ errors, meta }"
           @submit="handleSubmit">
           <div class="mb-4">
             <label for="name" class="form-label">您的姓名<span class="text-danger fs-6
               align-bottom">⁎</span></label>
-            <Field type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
+            <VField type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
+              :class="{'is-invalid': errors['姓名']}"
               name="姓名"/>
             <ErrorMessage name="姓名" class="text-danger"/>
           </div>
           <div class="mb-4">
             <label for="email" class="form-label">電子郵件<span class="text-danger fs-6
               align-bottom">⁎</span></label>
-            <Field type="email" class="form-control" id="email" placeholder="test@coffeemail"
+            <VField type="email" class="form-control" id="email" placeholder="test@coffeemail"
+              :class="{'is-invalid': errors['電子郵件']}"
               name="電子郵件"/>
             <ErrorMessage name="電子郵件" class="text-danger"/>
           </div>
           <div class="mb-4">
             <label for="tel" class="form-label">連絡電話<span class="text-danger fs-6
               align-bottom">⁎</span></label>
-            <Field type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
+            <VField type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
+              :class="{'is-invalid': errors['電話']}"
               name="電話"/>
             <ErrorMessage name="電話" class="text-danger"/>
           </div>
           <div class="mb-4">
             <label for="textarea" class="form-label">訊息</label>
-            <Field class="form-control" id="textarea" rows="5" placeholder="請輸入您想告訴我們的訊息"
+            <VField class="form-control" id="textarea" rows="5" placeholder="請輸入您想告訴我們的訊息"
+              :class="{'is-invalid': errors['訊息']}"
               name="訊息"
               as="textarea"/>
             <ErrorMessage name="訊息" class="text-danger"/>
           </div>
           <button type="submit" class="btn btn-primary" :disabled="!meta.valid">送出內容</button>
-        </Form>
+        </VForm>
       </div>
       <div class="col">
         <h3 class="fs-5 fw-semibold text-gray-800 lh-base mb-4 px-lg-3">彼恩斯咖啡</h3>
@@ -84,20 +88,13 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
-// 從 'vee-validate' 引入表單、字段和錯誤訊息組件
-import { Form, Field, ErrorMessage } from 'vee-validate';
-// 引入 yup 庫，用於表單驗證
-import * as yup from 'yup';
-// 引入 yup 的繁體中文語系
-import { zhtw } from 'yup-locales';
-// 引入 yup 的 setLocale 方法，用於設置語系
-import { setLocale } from 'yup';
 
 const { width } = useWindowSize();
 
@@ -105,8 +102,9 @@ const { width } = useWindowSize();
 const alertStore = useAlertStore();
 const { apiResAlert } = alertStore;
 
-// 設置 yup 的語系為繁體中文
-setLocale(zhtw);
+// 引入 yup 驗證庫
+const yup = inject('$yup');
+console.log(yup);
 
 // 定義 isPhone 方法
 function isPhone(value) {
@@ -132,6 +130,7 @@ const schema = yup.object({
 
 // 提交表單
 function handleSubmit(values, { resetForm }) {
+  // console.log(values);
   apiResAlert('訊息已成功送出');
 
   // 送出表單後清除內容。
