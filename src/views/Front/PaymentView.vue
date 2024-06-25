@@ -116,7 +116,7 @@
                 v-bind="typeAttrs">
               <label class="form-check-label fw-semibold" for="cost">貨到付款</label>
             </div>
-            <span class="text-danger">{{ errors['payment.type'] }}</span>
+            <span class="fs-8 text-danger">{{ errors['payment.type'] }}</span>
           </div>
           <div class="tab-content">
             <!-- 信用卡付款表單 -->
@@ -125,46 +125,53 @@
                 <label for="credit-name" class="form-label fw-semibold">持卡人姓名
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <input type="text" class="form-control" id="credit-name" placeholder="請輸入持卡本人姓名"
+                  :class="{'is-invalid': errors['payment.creditCard.name']}"
                   v-model="name"
                   v-bind="nameAttrs">
-                <span class="text-danger">{{ errors['payment.creditCard.name'] }}</span>
+                <span class="fs-8 text-danger">{{ errors['payment.creditCard.name'] }}</span>
               </div>
               <div class="mb-4">
                 <label for="credit-number" class="form-label fw-semibold">信用卡號碼
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <input type="tel" class="form-control" id="credit-number"
                   placeholder="請輸入卡片16位號碼"
+                  :class="{'is-invalid': errors['payment.creditCard.number']}"
                   v-model="number"
                   v-bind="numberAttrs"
                   @input="formatCreditCardNumber($event)">
-                <span class="text-danger">{{ errors['payment.creditCard.number'] }}</span>
+                <span class="fs-8 text-danger">{{ errors['payment.creditCard.number'] }}</span>
               </div>
               <div class="row gx-2 gx-md-4">
                 <div class="col-4">
                   <label for="credit-month" class="form-label fw-semibold">期限
                     <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <input type="number" class="form-control" id="credit-month" placeholder="MM"
+                    <input type="tel" class="form-control" id="credit-month" placeholder="MM"
+                      maxlength="2"
+                      :class="{'is-invalid': errors['payment.creditCard.month']}"
                       v-model="month"
                       v-bind="monthAttrs">
-                    <span class="text-danger">{{ errors['payment.creditCard.month'] }}</span>
+                    <span class="fs-8 text-danger">{{ errors['payment.creditCard.month'] }}</span>
                 </div>
                 <div class="col-4">
                     <label for="credit-month" class="form-label invisible">
                       <span class="text-danger fs-6 align-bottom">⁎</span>
                     </label>
-                    <input type="number" class="form-control" id="credit-month"
-                      placeholder="DD"
+                    <input type="tel" class="form-control" id="credit-month" placeholder="DD"
+                      maxlength="2"
+                      :class="{'is-invalid': errors['payment.creditCard.day']}"
                       v-model="day"
                       v-bind="dayAttrs">
-                    <span class="text-danger">{{ errors['payment.creditCard.day'] }}</span>
+                    <span class="fs-8 text-danger">{{ errors['payment.creditCard.day'] }}</span>
                 </div>
                 <div class="col-4">
                   <label for="credit-cvv" class="form-label fw-semibold">安全碼
                     <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                  <input type="number" class="form-control" id="credit-cvv" placeholder="CVV"
+                  <input type="tel" class="form-control" id="credit-cvv" placeholder="CVV"
+                    maxlength="3"
+                    :class="{'is-invalid': errors['payment.creditCard.cvv']}"
                     v-model="cvv"
                     v-bind="cvvAttrs">
-                  <span class="text-danger">{{ errors['payment.creditCard.cvv'] }}</span>
+                  <span class="fs-8 text-danger">{{ errors['payment.creditCard.cvv'] }}</span>
                 </div>
               </div>
             </div>
@@ -248,7 +255,6 @@ function checkout() {
     })
     .catch((err) => apiErrAlert(err.response.data.message));
 }
-console.log(checkout);
 
 // 初始化取得訂單資料
 onMounted(() => {
@@ -265,12 +271,11 @@ const schema = toTypedSchema(
       type: yup.string().required('必填!'),
       creditCard: yup.object({
         name: yup.string().required('必填!'),
-        // number: yup.string().required('必填!').length(19, '格式需為16組數字'),
         number: yup.string().required('必填!').transform((value) => value.replace(/\s+/g, '')) // 清除空白字元
           .test('len-is-16', '格式需為16組數字', (val) => val.length === 16),
-        month: yup.string().required('必填!').min(2, '格式不符').max(2, '格式不符'),
-        day: yup.string().required('必填!').min(2, '格式不符').max(2, '格式不符'),
-        cvv: yup.string().required('必填!').min(3, '格式不符').max(3, '格式不符'),
+        month: yup.string().required('必填!').matches(/^\d{2}$/, '格式不符'),
+        day: yup.string().required('必填!').matches(/^\d{2}$/, '格式不符'),
+        cvv: yup.string().required('必填!').matches(/^\d{3}$/, '格式不符'),
       }).when('type', {
         is: '貨到付款',
         then: () => yup.string().transform(() => undefined).notRequired(),
@@ -292,13 +297,27 @@ const [month, monthAttrs] = defineField('payment.creditCard.month');
 const [day, dayAttrs] = defineField('payment.creditCard.day');
 const [cvv, cvvAttrs] = defineField('payment.creditCard.cvv');
 
-const onSubmit = handleSubmit((value) => {
-  console.log(value);
+const onSubmit = handleSubmit(() => {
+  checkout();
 });
+
+// 格式化輸入
+// function formatNumber(e, creditType) {
+//   // 去除空白字串，並限制只能輸入數字
+//   const formatValue = e.target.value.replace(/\D/g, '');
+
+//   e.target.value = formatValue; // 更新 HTML 輸入框數值
+
+//   switch (creditType) { // 更新對應表單接受數值
+//     case 'month': { month.value = formatValue; break; }
+//     case 'day': { day.value = formatValue; break; }
+//     default: { cvv.value = formatValue; }
+//   }
+// }
 
 // 格式化信用卡片輸入
 function formatCreditCardNumber(e) {
-  // 去除空白字串
+  // 去除空白字串，並限制只能輸入數字
   let value = e.target.value.replace(/\D/g, '');
   // 避免用戶輸入超過 16 個字元
   if (value.length > 16) {

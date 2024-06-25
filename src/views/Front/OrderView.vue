@@ -61,7 +61,7 @@
                  v-bind="typeAttrs">
                 <label class="form-check-label fw-semibold" for="bill-number">公司統編</label>
               </div>
-              <span class="text-danger">{{ errors['user.billInfo.type'] }}</span>
+              <span class="fs-8 text-danger">{{ errors['user.billInfo.type'] }}</span>
             </div>
             <div class="tab-content">
               <div class="tab-pane" id="bills"></div>
@@ -71,18 +71,21 @@
                     <label for="bill-name" class="form-label fw-semibold">發票抬頭
                       <span class="text-danger fs-6 align-bottom">⁎</span></label>
                     <input type="text" class="form-control" id="bill-name" placeholder="公司名稱"
+                      :class="{'is-invalid': errors['user.billInfo.billName']}"
                       v-model="billName"
                       v-bind="billNameAttrs">
-                    <span class="text-danger">{{ errors['user.billInfo.billName'] }}</span>
+                    <span class="fs-8 text-danger">{{ errors['user.billInfo.billName'] }}</span>
                   </div>
                   <div class="col">
                     <label for="bill-number" class="form-label fw-semibold">統一編號
                       <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <input type="text" class="form-control" id="bill-number"
+                    <input type="tel" class="form-control" id="bill-number"
                       placeholder="統一編號為8位數字"
+                      maxlength="8"
+                      :class="{'is-invalid': errors['user.billInfo.billNumber']}"
                       v-model="billNumber"
                       v-bind="billNumberAttrs">
-                    <span class="text-danger">{{ errors['user.billInfo.billNumber'] }}</span>
+                    <span class="fs-8 text-danger">{{ errors['user.billInfo.billNumber'] }}</span>
                   </div>
                 </div>
               </div>
@@ -97,41 +100,47 @@
                 <label for="name" class="form-label fw-semibold">姓名
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
+                  :class="{'is-invalid': errors['user.name']}"
                   v-model="name"
                   v-bind="nameAttrs">
-                <span class="text-danger">{{ errors['user.name'] }}</span>
+                <span class="fs-8 text-danger">{{ errors['user.name'] }}</span>
               </div>
               <div class="col-12">
                 <label for="email" class="form-label fw-semibold">電子郵件
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件"
+                  :class="{'is-invalid': errors['user.email']}"
                   v-model="email"
                   v-bind="emailAttrs">
-                <span class="text-danger">{{ errors['user.email'] }}</span>
+                <span class="fs-8 text-danger">{{ errors['user.email'] }}</span>
               </div>
               <div class="col-12">
                 <label for="tel" class="form-label fw-semibold">連絡電話
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                 <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
+                  :class="{'is-invalid': errors['user.tel']}"
                   v-model="tel"
                   v-bind="telAttrs">
-                <span class="text-danger">{{ errors['user.tel'] }}</span>
+                <span class="fs-8 text-danger">{{ errors['user.tel'] }}</span>
               </div>
               <div class="col-12">
                 <label for="address" class="form-label fw-semibold">收件地址
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                   <div class="row g-2">
                     <div class="col-4">
-                      <input type="number" class="form-control" id="address" placeholder="郵遞區號"
+                      <input type="tel" class="form-control" id="address" placeholder="郵遞區號"
+                        :class="{'is-invalid': errors['user.postalCode']}"
+                        maxlength="3"
                         v-model="postalCode"
                         v-bind="postalCodeAttrs">
-                      <span class="text-danger">{{ errors['user.postalCode'] }}</span>
+                      <span class="fs-8 text-danger">{{ errors['user.postalCode'] }}</span>
                     </div>
                     <div class="col-8">
                       <input type="text" class="form-control" id="address" placeholder="請輸入您的收件地址"
+                        :class="{'is-invalid': errors['user.address']}"
                         v-model="address"
                         v-bind="addressAttrs">
-                      <span class="text-danger">{{ errors['user.address'] }}</span>
+                      <span class="fs-8 text-danger">{{ errors['user.address'] }}</span>
                     </div>
                   </div>
               </div>
@@ -239,7 +248,7 @@ const schema = toTypedSchema(
       name: yup.string().required('必填!'),
       email: yup.string().required('必填!').email('電子郵件格式不正確'),
       tel: yup.string().required('必填!').isPhone(),
-      postalCode: yup.string().required('必填!').min(3, '需三位數').max(3, '需三位數'),
+      postalCode: yup.string().required('必填!').matches(/^\d{3}/g, '格式不符!'),
       address: yup.string().required('必填!'),
     }),
     message: yup.string().default(''),
