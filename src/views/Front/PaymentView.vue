@@ -103,15 +103,20 @@
             <!-- 信用卡付款選項 -->
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="payment"
-                id="creditCard" value="option1" data-bs-toggle="list" href="#credit-list">
+                id="creditCard" value="信用卡" data-bs-toggle="list" href="#credit-list"
+                v-model="type"
+                v-bind="typeAttrs">
               <label class="form-check-label fw-semibold" for="creditCard">信用卡</label>
             </div>
             <!-- 貨到付款選項 -->
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="payment"
-                id="cost" value="option2" data-bs-toggle="list" href="#cost-list">
+                id="cost" value="貨到付款" data-bs-toggle="list" href="#cost-list"
+                v-model="type"
+                v-bind="typeAttrs">
               <label class="form-check-label fw-semibold" for="cost">貨到付款</label>
             </div>
+            <span class="text-danger">{{ errors['payment.type'] }}</span>
           </div>
           <div class="tab-content">
             <!-- 信用卡付款表單 -->
@@ -119,27 +124,45 @@
               <div class="mb-4">
                 <label for="credit-name" class="form-label fw-semibold">持卡人姓名
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <input type="text" class="form-control" id="credit-name" placeholder="請輸入持卡本人姓名">
+                <input type="text" class="form-control" id="credit-name" placeholder="請輸入持卡本人姓名"
+                  v-model="name"
+                  v-bind="nameAttrs">
+                <span class="text-danger">{{ errors['payment.creditCard.name'] }}</span>
               </div>
               <div class="mb-4">
                 <label for="credit-number" class="form-label fw-semibold">信用卡號碼
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <input type="number" class="form-control" id="credit-number" placeholder="請輸入卡片號碼">
+                <input type="number" class="form-control" id="credit-number" placeholder="請輸入卡片號碼"
+                  v-model="number"
+                  v-bind="numberAttrs">
+                <span class="text-danger">{{ errors['payment.creditCard.number'] }}</span>
               </div>
               <div class="row gx-2 gx-md-4">
                 <div class="col-4">
                   <label for="credit-month" class="form-label fw-semibold">期限
                     <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <input type="number" class="form-control" id="credit-month" placeholder="MM">
+                    <input type="number" class="form-control" id="credit-month" placeholder="MM"
+                      v-model="month"
+                      v-bind="monthAttrs">
+                    <span class="text-danger">{{ errors['payment.creditCard.month'] }}</span>
                 </div>
-                <div class="col-4 d-flex">
-                    <input type="number" class="form-control mt-auto" id="credit-month"
-                      placeholder="MM">
+                <div class="col-4">
+                    <label for="credit-month" class="form-label invisible">
+                      <span class="text-danger fs-6 align-bottom">⁎</span>
+                    </label>
+                    <input type="number" class="form-control" id="credit-month"
+                      placeholder="MM"
+                      v-model="day"
+                      v-bind="dayAttrs">
+                    <span class="text-danger">{{ errors['payment.creditCard.day'] }}</span>
                 </div>
                 <div class="col-4">
                   <label for="credit-cvv" class="form-label fw-semibold">安全碼
                     <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                  <input type="number" class="form-control" id="credit-cvv" placeholder="CVV">
+                  <input type="number" class="form-control" id="credit-cvv" placeholder="CVV"
+                    v-model="cvv"
+                    v-bind="cvvAttrs">
+                  <span class="text-danger">{{ errors['payment.creditCard.cvv'] }}</span>
                 </div>
               </div>
             </div>
@@ -174,7 +197,7 @@
           </ul>
           <!-- 確認付款按鈕 -->
           <button type="button" class="btn btn-primary w-100"
-            @click="checkout()">確認付款<i class="bi bi-chevron-right ms-1"></i>
+            @click="onSubmit()">確認付款<i class="bi bi-chevron-right ms-1"></i>
           </button>
         </div>
       </div>
@@ -183,7 +206,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
+import { useForm } from 'vee-validate'; // 引入 useForm 處理表單驗證
+import { toTypedSchema } from '@vee-validate/yup'; // 引入 toTypedSchema 定義驗證規則
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 // 引入 Pinia 狀態管理
@@ -224,6 +249,45 @@ function checkout() {
 
 // 初始化取得訂單資料
 onMounted(() => getOrders());
+
+// 引入 yup 驗證庫
+const yup = inject('$yup');
+
+// 定義表單驗證規則
+const schema = toTypedSchema(
+  yup.object({
+    payment: yup.object({
+      type: yup.string().required('必填!'),
+      creditCard: yup.object({
+        name: yup.string().required('必填!'),
+        number: yup.string().required('必填!').min(16, '格式為16組數字').max(16, '格式為16組數字'),
+        month: yup.string().required('必填!').min(2, '格式不符').max(2, '格式不符'),
+        day: yup.string().required('必填!').min(2, '格式不符').max(2, '格式不符'),
+        cvv: yup.string().required('必填!').min(3, '格式不符').max(3, '格式不符'),
+      }).when('type', {
+        is: '貨到付款',
+        then: () => yup.string().transform(() => undefined).notRequired(),
+      }),
+    }),
+  }),
+);
+
+// 使用 useForm 來處理表單驗證
+const { handleSubmit, defineField, errors } = useForm({
+  validationSchema: schema,
+});
+
+// 定義表單欄位
+const [type, typeAttrs] = defineField('payment.type');
+const [name, nameAttrs] = defineField('payment.creditCard.name');
+const [number, numberAttrs] = defineField('payment.creditCard.number');
+const [month, monthAttrs] = defineField('payment.creditCard.month');
+const [day, dayAttrs] = defineField('payment.creditCard.day');
+const [cvv, cvvAttrs] = defineField('payment.creditCard.cvv');
+
+const onSubmit = handleSubmit(() => {
+  checkout();
+});
 </script>
 
 <style lang="scss" scoped>

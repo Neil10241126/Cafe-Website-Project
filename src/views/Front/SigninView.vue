@@ -17,16 +17,16 @@
                 alt="logo-dark">
               <BadgeUi content="一般用戶" size="normal"></BadgeUi>
             </div>
-            <VForm :validation-schema="schema" v-slot="{ errors, meta }" @submit="signin">
+            <form>
               <div class="d-flex mb-4">
                 <label for="email" class="form-label me-3 mb-0">
                   <i class="bi bi-person-circle fs-3 lh-40px text-gray-800"></i>
                 </label>
                 <div class="w-100">
-                  <VField type="email" class="form-control" id="email" placeholder="請輸入您的帳號"
-                    :class="{'is-invalid': errors['username']}"
-                    name="username"/>
-                  <ErrorMessage name="username" class="text-danger"/>
+                  <input type="email" class="form-control" id="email" placeholder="請輸入您的帳號"
+                    v-model="username"
+                    v-bind="usernameAttrs">
+                  <span class="text-danger">{{ errors.username }}</span>
                 </div>
               </div>
               <div class="d-flex mb-4">
@@ -34,12 +34,12 @@
                   <i class="bi bi-shield-lock fs-3 lh-40px text-gray-800"></i>
                 </label>
                 <div class="w-100">
-                  <VField type="password" class="form-control" id="password" placeholder="請輸入您的密碼"
+                  <input type="password" class="form-control" id="password" placeholder="請輸入您的密碼"
                     autocomplete="true"
-                    :class="{'is-invalid': errors['password']}"
-                    name="password"
-                    @keyup.enter="signin()"/>
-                  <ErrorMessage name="password" class="text-danger"/>
+                    v-model="password"
+                    v-bind="passwordAttrs"
+                    @keyup.enter="signin()">
+                  <span class="text-danger">{{ errors.password }}</span>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
@@ -47,11 +47,11 @@
                   link-offset-1">返回首頁</RouterLink>
                 <div>
                   <button type="button" class="btn btn-outline-primary">註冊</button>
-                  <button type="submit" class="btn btn-primary ms-4"
-                    :disabled="!meta.valid">登入</button>
+                  <button type="button" class="btn btn-primary ms-4"
+                    :disabled="!meta.valid" @click="signin()">登入</button>
                 </div>
               </div>
-            </VForm>
+            </form>
           </div>
         </div>
       </div>
@@ -62,6 +62,9 @@
 <script setup>
 import { inject } from 'vue';
 import { useRouter } from 'vue-router';
+// 引入相關驗證函數
+import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
+import { toTypedSchema } from '@vee-validate/yup'; // 引入 toTypedSchema 定義驗證規則
 import axios from 'axios';
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
@@ -81,14 +84,27 @@ const { apiResAlert, apiErrAlert } = alertStore;
 const yup = inject('$yup');
 
 // 定義驗證物件 schema
-const schema = yup.object({
-  username: yup.string().required('email 為必填').email(),
-  password: yup.string().required('password 為必填').min(8),
+const schema = toTypedSchema(
+  yup.object({
+    username: yup.string().required('email 為必填').email(),
+    password: yup.string().required('password 為必填').min(8),
+  }),
+);
+
+// 使用 useForm 來處理表單驗證
+const {
+  defineField, errors, meta, values,
+} = useForm({
+  validationSchema: schema,
 });
 
+// 定義表單欄位
+const [username, usernameAttrs] = defineField('username');
+const [password, passwordAttrs] = defineField('password');
+
 // 登入後台 POST
-function signin(user) {
-  axios.post(`${VITE_API_URL}/v2/admin/signin`, user)
+function signin() {
+  axios.post(`${VITE_API_URL}/v2/admin/signin`, values)
     .then((res) => {
       const { token, expired: expires } = res.data;
 

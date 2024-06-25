@@ -41,23 +41,27 @@
   <div class="container py-8">
     <div class="row gy-5 justify-content-center">
       <div class="col-12 col-lg-4">
-        <VForm :validation-schema="schema" v-slot="{ errors }" @submit="text">
+        <form>
 
           <!-- 發票資訊 -->
           <div class="input-wrap mb-5">
             <h3 class="fs-6 lh-base fw-bold text-gray-800 pb-4 mb-0">發票資訊</h3>
             <div class="list-group flex-row">
               <div class="form-check form-check-inline">
-                <VField class="form-check-input" type="radio" name="billInfo.type"
-                 id="bill" value="個人發票" data-bs-toggle="list" href="#bills"/>
+                <input class="form-check-input" type="radio" name="billInfo.type"
+                 id="bill" value="個人發票" data-bs-toggle="list" href="#bills"
+                v-model="type"
+                v-bind="typeAttrs">
                 <label class="form-check-label fw-semibold" for="bill">個人發票</label>
               </div>
               <div class="form-check form-check-inline">
-                <VField class="form-check-input" type="radio" name="billInfo.type"
-                 id="bill-number" value="公司統編" data-bs-toggle="list" href="#numbers"/>
+                <input class="form-check-input" type="radio" name="billInfo.type"
+                 id="bill-number" value="公司統編" data-bs-toggle="list" href="#numbers"
+                 v-model="type"
+                 v-bind="typeAttrs">
                 <label class="form-check-label fw-semibold" for="bill-number">公司統編</label>
               </div>
-              <ErrorMessage name="billInfo.type" class="text-danger"/>
+              <span class="text-danger">{{ errors['user.billInfo.type'] }}</span>
             </div>
             <div class="tab-content">
               <div class="tab-pane" id="bills"></div>
@@ -66,19 +70,19 @@
                   <div class="col">
                     <label for="bill-name" class="form-label fw-semibold">發票抬頭
                       <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <VField type="text" class="form-control" id="bill-name" placeholder="組織名稱"
-                      :class="{'is-invalid': errors['billInfo.billName']}"
-                      name="billInfo.billName"/>
-                    <ErrorMessage name="billInfo.billName" class="text-danger"/>
+                    <input type="text" class="form-control" id="bill-name" placeholder="組織名稱"
+                      v-model="billName"
+                      v-bind="billNameAttrs">
+                    <span class="text-danger">{{ errors['user.billInfo.billName'] }}</span>
                   </div>
                   <div class="col">
                     <label for="bill-number" class="form-label fw-semibold">統一編號
                       <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <VField type="text" class="form-control" id="bill-number"
+                    <input type="text" class="form-control" id="bill-number"
                       placeholder="例 : 123456789"
-                      :class="{'is-invalid': errors['billInfo.billNumber']}"
-                      name="billInfo.billNumber"/>
-                    <ErrorMessage name="billInfo.billNumber" class="text-danger"/>
+                      v-model="billNumber"
+                      v-bind="billNumberAttrs">
+                    <span class="text-danger">{{ errors['user.billInfo.billNumber'] }}</span>
                   </div>
                 </div>
               </div>
@@ -92,44 +96,42 @@
               <div class="col-12">
                 <label for="name" class="form-label fw-semibold">姓名
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <VField type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
-                  :class="{'is-invalid': errors['name']}"
-                  name="name"/>
-                  <ErrorMessage name="name" class="text-danger"/>
+                <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
+                  v-model="name"
+                  v-bind="nameAttrs">
+                <span class="text-danger">{{ errors['user.name'] }}</span>
               </div>
               <div class="col-12">
                 <label for="email" class="form-label fw-semibold">電子郵件
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <VField type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件"
-                  :class="{'is-invalid': errors['email']}"
-                  v-model="data.user.email"
-                  name="email"/>
-                  <ErrorMessage name="email" class="text-danger"/>
+                <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件"
+                  v-model="email"
+                  v-bind="emailAttrs">
+                <span class="text-danger">{{ errors['user.email'] }}</span>
               </div>
               <div class="col-12">
                 <label for="tel" class="form-label fw-semibold">連絡電話
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <VField type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
-                  :class="{'is-invalid': errors['tel']}"
-                  name="tel"/>
-                  <ErrorMessage name="tel" class="text-danger"/>
+                <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
+                  v-model="tel"
+                  v-bind="telAttrs">
+                <span class="text-danger">{{ errors['user.tel'] }}</span>
               </div>
               <div class="col-12">
                 <label for="address" class="form-label fw-semibold">收件地址
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
                   <div class="row g-2">
                     <div class="col-4">
-                      <VField type="number" class="form-control" id="address" placeholder="郵遞區號"
-                        :class="{'is-invalid': errors['postal.code']}"
-                        name="postal.code"/>
-                        <ErrorMessage name="postal.code" class="text-danger"/>
+                      <input type="number" class="form-control" id="address" placeholder="郵遞區號"
+                        v-model="postalCode"
+                        v-bind="postalCodeAttrs">
+                      <span class="text-danger">{{ errors['user.postalCode'] }}</span>
                     </div>
                     <div class="col-8">
-                      <VField type="text" class="form-control" id="address" placeholder="請輸入您的收件地址"
-                        :class="{'is-invalid': errors['postal.address']}"
-                        v-model="data.user.address"
-                        name="postal.address"/>
-                      <ErrorMessage name="postal.address" class="text-danger"/>
+                      <input type="text" class="form-control" id="address" placeholder="請輸入您的收件地址"
+                        v-model="address"
+                        v-bind="addressAttrs">
+                      <span class="text-danger">{{ errors['user.address'] }}</span>
                     </div>
                   </div>
               </div>
@@ -138,12 +140,11 @@
                   <span class="fw-normal text-gray-600">(選填)</span>
                 </label>
                 <textarea class="form-control" id="textarea" rows="5"
-                v-model="data.message"></textarea>
+                  v-model="message"></textarea>
               </div>
             </div>
           </div>
-          <button>submit</button>
-        </VForm>
+        </form>
       </div>
       <div class="col-12 col-lg-4">
         <div class="input-wrap mb-5">
@@ -176,7 +177,8 @@
               <span class="text-danger">{{ `NT$ ${cartList.final_total }` }}</span></li>
           </ul>
           <button type="button" class="btn btn-primary w-100"
-            @click="submitOrder(data)">下一步<i class="bi bi-chevron-right ms-1"></i></button>
+            @click="onSubmit()"
+            >下一步<i class="bi bi-chevron-right ms-1"></i></button>
         </div>
       </div>
     </div>
@@ -184,7 +186,9 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { inject } from 'vue';
+import { useForm } from 'vee-validate'; // 引入 useForm 處理表單驗證
+import { toTypedSchema } from '@vee-validate/yup'; // 引入 toTypedSchema 定義驗證規則
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useCartStore from '@/stores/cart';
@@ -200,63 +204,70 @@ const { cartList } = storeToRefs(cartStore);
 const orderStore = useOrderStore();
 const { submitOrder } = orderStore;
 
-// 綁定訂單資訊
-const data = ref({
-  user: {
-    name: '',
-    email: '',
-    tel: '',
-    addressNum: '',
-    address: '',
-  },
-  message: '',
-});
-
 // 引入 yup 驗證庫
 const yup = inject('$yup');
 
-// 定義 isPhone 方法
-function isPhone(value) {
-  const phoneNumber = /^(09)[0-9]{8}$/;
-  return phoneNumber.test(value);
-}
-
-// 擴展 Yup 的驗證規則
-yup.addMethod(yup.string, 'isPhone', function (message) {
-  return this.test('isPhone', message, function (value) {
-    const { path, createError } = this;
-    return isPhone(value) || createError({ path, message: message || '電話號碼格式不正確' });
+// 電話驗證
+yup.addMethod(yup.string, 'isPhone', function isPhone() {
+  return this.matches(/^(09)[0-9]{8}$/, {
+    message: '電話號碼格式不正確',
   });
 });
 
-// 定義驗證物件 schema
-const schema = yup.object({
-  billInfo: yup.object({
-    type: yup.string().required('必填!'),
-    billName: yup.string().when('type', {
-      is: '公司統編',
-      then: () => yup.string().required('必填!'),
-      otherwise: () => yup.string().notRequired(),
+// 定義表單驗證規則
+const schema = toTypedSchema(
+  yup.object({
+    // 訂單資訊
+    user: yup.object({
+      // 發票資訊
+      billInfo: yup.object({
+        type: yup.string().required('必填!'),
+        billName: yup.string().required().when('type', {
+          is: '公司統編',
+          then: () => yup.string().required('必填!'),
+          // 當 type 不為 '公司統編' 時，billName 內容強制輸出 undefined
+          otherwise: () => yup.string().transform(() => undefined).notRequired(),
+        }),
+        billNumber: yup.string().required().when('type', {
+          is: '公司統編',
+          then: () => yup.string().required('必填!').matches(/^\d{8}$/, '統一編號需為8位數字!'),
+          // 當 type 不為 '公司統編' 時，billNumber 內容強制輸出 undefined
+          otherwise: () => yup.string().transform(() => undefined).notRequired(),
+        }),
+      }),
+      name: yup.string().required('必填!'),
+      email: yup.string().required('必填!').email(),
+      tel: yup.string().required('必填!').isPhone(),
+      postalCode: yup.string().required('必填!').min(3, '最少三位數').max(3, '最多三位數'),
+      address: yup.string().required('必填!'),
     }),
-    billNumber: yup.string().when('type', {
-      is: '公司統編',
-      then: () => yup.string().required('必填!').matches(/^\d{8}$/, '統一編號需為8位數字!'),
-      otherwise: () => yup.string().notRequired(),
-    }),
+    message: yup.string().default(''),
   }),
-  name: yup.string().required('必填!'),
-  email: yup.string().required('必填!').email(),
-  tel: yup.string().required('必填!').isPhone(),
-  postal: yup.object({
-    code: yup.string().required('必填!').min(3, '需三位數!'),
-    address: yup.string().required('必填!'),
-  }),
+);
+
+// 使用 useForm 來處理表單驗證
+const { handleSubmit, defineField, errors } = useForm({
+  validationSchema: schema,
 });
 
-function text(value) {
-  console.log(value);
-}
+// 定義表單欄位
+const [type, typeAttrs] = defineField('user.billInfo.type');
+const [billName, billNameAttrs] = defineField('user.billInfo.billName');
+const [billNumber, billNumberAttrs] = defineField('user.billInfo.billNumber');
+const [name, nameAttrs] = defineField('user.name');
+const [email, emailAttrs] = defineField('user.email');
+const [tel, telAttrs] = defineField('user.tel');
+const [postalCode, postalCodeAttrs] = defineField('user.postalCode');
+const [address, addressAttrs] = defineField('user.address');
+const [message] = defineField('message');
 
+// 表單提交處理函數
+const onSubmit = handleSubmit((values, { resetForm }) => {
+  submitOrder(values);
+
+  // 送出表單後清除內容。
+  resetForm();
+});
 </script>
 
 <style lang="scss" scoped>

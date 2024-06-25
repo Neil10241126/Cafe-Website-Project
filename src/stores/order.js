@@ -37,6 +37,7 @@ export default defineStore('order', () => {
     axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order`, { data: userData })
       .then((res) => {
         apiResAlert(res.data.message);
+        getCart();
         router.push(`/payment/${res.data.orderId}`);
       })
       .catch((err) => apiErrAlert(err.response.data.message));

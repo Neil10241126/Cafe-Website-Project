@@ -22,42 +22,45 @@
   <div class="container pb-8">
     <div class="row row-cols-1 row-cols-lg-2 flex-column-reverse flex-lg-row g-5">
       <div class="col">
-        <VForm class="px-lg-3" :validation-schema="schema" v-slot="{ errors, meta }"
-          @submit="handleSubmit">
+        <form class="px-lg-3" @submit="onSubmit">
           <div class="mb-4">
             <label for="name" class="form-label">您的姓名<span class="text-danger fs-6
               align-bottom">⁎</span></label>
-            <VField type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
-              :class="{'is-invalid': errors['姓名']}"
-              name="姓名"/>
-            <ErrorMessage name="姓名" class="text-danger"/>
+            <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
+              :class="{'is-invalid': errors.name}"
+              v-model="name"
+              v-bind="nameAttrs">
+            <span class="text-danger">{{ errors.name }}</span>
           </div>
           <div class="mb-4">
             <label for="email" class="form-label">電子郵件<span class="text-danger fs-6
               align-bottom">⁎</span></label>
-            <VField type="email" class="form-control" id="email" placeholder="test@coffeemail"
-              :class="{'is-invalid': errors['電子郵件']}"
-              name="電子郵件"/>
-            <ErrorMessage name="電子郵件" class="text-danger"/>
+            <input type="email" class="form-control" id="email" placeholder="test@coffeemail"
+              :class="{'is-invalid': errors.email}"
+              v-model="email"
+              v-bind="emailAttrs">
+            <span class="text-danger">{{ errors.email }}</span>
           </div>
           <div class="mb-4">
             <label for="tel" class="form-label">連絡電話<span class="text-danger fs-6
               align-bottom">⁎</span></label>
-            <VField type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
-              :class="{'is-invalid': errors['電話']}"
-              name="電話"/>
-            <ErrorMessage name="電話" class="text-danger"/>
+            <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
+              :class="{'is-invalid': errors.tel}"
+              v-model="tel"
+              v-bind="telAttrs">
+            <span class="text-danger">{{ errors.tel }}</span>
           </div>
           <div class="mb-4">
             <label for="textarea" class="form-label">訊息</label>
-            <VField class="form-control" id="textarea" rows="5" placeholder="請輸入您想告訴我們的訊息"
-              :class="{'is-invalid': errors['訊息']}"
-              name="訊息"
-              as="textarea"/>
-            <ErrorMessage name="訊息" class="text-danger"/>
+            <textarea class="form-control" id="textarea" rows="5" placeholder="請輸入您想告訴我們的訊息"
+              :class="{'is-invalid': errors.message}"
+              v-model="message"
+              v-bind="messageAttrs">
+            </textarea>
+            <span class="text-danger">{{ errors.message }}</span>
           </div>
           <button type="submit" class="btn btn-primary" :disabled="!meta.valid">送出內容</button>
-        </VForm>
+        </form>
       </div>
       <div class="col">
         <h3 class="fs-5 fw-semibold text-gray-800 lh-base mb-4 px-lg-3">彼恩斯咖啡</h3>
@@ -90,6 +93,9 @@
 <script setup>
 import { inject } from 'vue';
 import { useWindowSize } from '@vueuse/core';
+// 引入相關驗證函數
+import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
+import { toTypedSchema } from '@vee-validate/yup'; // 引入 toTypedSchema 定義驗證規則
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
@@ -104,39 +110,45 @@ const { apiResAlert } = alertStore;
 
 // 引入 yup 驗證庫
 const yup = inject('$yup');
-console.log(yup);
 
-// 定義 isPhone 方法
-function isPhone(value) {
-  const phoneNumber = /^(09)[0-9]{8}$/;
-  return phoneNumber.test(value);
-}
-
-// 擴展 Yup 的驗證規則
-yup.addMethod(yup.string, 'isPhone', function (message) {
-  return this.test('isPhone', message, function (value) {
-    const { path, createError } = this;
-    return isPhone(value) || createError({ path, message: message || '電話號碼格式不正確' });
+// 電話驗證
+yup.addMethod(yup.string, 'isPhone', function isPhone() {
+  return this.matches(/^(09)[0-9]{8}$/, {
+    message: '電話號碼格式不正確',
   });
 });
 
-// 定義驗證物件 schema
-const schema = yup.object({
-  姓名: yup.string().required('姓名 為必填'),
-  電子郵件: yup.string().required('電子郵件 為必填').email(),
-  電話: yup.string().required('電話 為必填').isPhone(),
-  訊息: yup.string().required('請輸入想告訴我們的訊息!'),
+// 定義表單驗證規則
+const schema = toTypedSchema(
+  yup.object({
+    name: yup.string().required('必填'),
+    email: yup.string().required('必填').email(),
+    tel: yup.string().required('必填').isPhone(),
+    message: yup.string().required('請輸入告訴我們的內容'),
+  }),
+);
+
+// 使用 useForm 來處理表單驗證
+const {
+  handleSubmit, defineField, errors, meta,
+} = useForm({
+  validationSchema: schema,
 });
 
-// 提交表單
-function handleSubmit(values, { resetForm }) {
+// 定義表單欄位
+const [name, nameAttrs] = defineField('name');
+const [email, emailAttrs] = defineField('email');
+const [tel, telAttrs] = defineField('tel');
+const [message, messageAttrs] = defineField('message');
+
+// 表單提交處理函數
+const onSubmit = handleSubmit((values, { resetForm }) => {
   // console.log(values);
   apiResAlert('訊息已成功送出');
 
   // 送出表單後清除內容。
   resetForm();
-}
-
+});
 </script>
 
 <style lang="scss" scoped>
