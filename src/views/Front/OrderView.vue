@@ -70,7 +70,7 @@
                   <div class="col">
                     <label for="bill-name" class="form-label fw-semibold">發票抬頭
                       <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <input type="text" class="form-control" id="bill-name" placeholder="組織名稱"
+                    <input type="text" class="form-control" id="bill-name" placeholder="公司名稱"
                       v-model="billName"
                       v-bind="billNameAttrs">
                     <span class="text-danger">{{ errors['user.billInfo.billName'] }}</span>
@@ -79,7 +79,7 @@
                     <label for="bill-number" class="form-label fw-semibold">統一編號
                       <span class="text-danger fs-6 align-bottom">⁎</span></label>
                     <input type="text" class="form-control" id="bill-number"
-                      placeholder="例 : 123456789"
+                      placeholder="統一編號為8位數字"
                       v-model="billNumber"
                       v-bind="billNumberAttrs">
                     <span class="text-danger">{{ errors['user.billInfo.billNumber'] }}</span>
@@ -140,6 +140,7 @@
                   <span class="fw-normal text-gray-600">(選填)</span>
                 </label>
                 <textarea class="form-control" id="textarea" rows="5"
+                  placeholder="商品相關要求，是否需要磨豆等等 ~"
                   v-model="message"></textarea>
               </div>
             </div>
@@ -236,9 +237,9 @@ const schema = toTypedSchema(
         }),
       }),
       name: yup.string().required('必填!'),
-      email: yup.string().required('必填!').email(),
+      email: yup.string().required('必填!').email('電子郵件格式不正確'),
       tel: yup.string().required('必填!').isPhone(),
-      postalCode: yup.string().required('必填!').min(3, '最少三位數').max(3, '最多三位數'),
+      postalCode: yup.string().required('必填!').min(3, '需三位數').max(3, '需三位數'),
       address: yup.string().required('必填!'),
     }),
     message: yup.string().default(''),

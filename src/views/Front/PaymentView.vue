@@ -132,9 +132,11 @@
               <div class="mb-4">
                 <label for="credit-number" class="form-label fw-semibold">信用卡號碼
                   <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <input type="number" class="form-control" id="credit-number" placeholder="請輸入卡片號碼"
+                <input type="tel" class="form-control" id="credit-number"
+                  placeholder="請輸入卡片16位號碼"
                   v-model="number"
-                  v-bind="numberAttrs">
+                  v-bind="numberAttrs"
+                  @input="formatCreditCardNumber($event)">
                 <span class="text-danger">{{ errors['payment.creditCard.number'] }}</span>
               </div>
               <div class="row gx-2 gx-md-4">
@@ -151,7 +153,7 @@
                       <span class="text-danger fs-6 align-bottom">⁎</span>
                     </label>
                     <input type="number" class="form-control" id="credit-month"
-                      placeholder="MM"
+                      placeholder="DD"
                       v-model="day"
                       v-bind="dayAttrs">
                     <span class="text-danger">{{ errors['payment.creditCard.day'] }}</span>
@@ -246,9 +248,12 @@ function checkout() {
     })
     .catch((err) => apiErrAlert(err.response.data.message));
 }
+console.log(checkout);
 
 // 初始化取得訂單資料
-onMounted(() => getOrders());
+onMounted(() => {
+  getOrders();
+});
 
 // 引入 yup 驗證庫
 const yup = inject('$yup');
@@ -260,7 +265,9 @@ const schema = toTypedSchema(
       type: yup.string().required('必填!'),
       creditCard: yup.object({
         name: yup.string().required('必填!'),
-        number: yup.string().required('必填!').min(16, '格式為16組數字').max(16, '格式為16組數字'),
+        // number: yup.string().required('必填!').length(19, '格式需為16組數字'),
+        number: yup.string().required('必填!').transform((value) => value.replace(/\s+/g, '')) // 清除空白字元
+          .test('len-is-16', '格式需為16組數字', (val) => val.length === 16),
         month: yup.string().required('必填!').min(2, '格式不符').max(2, '格式不符'),
         day: yup.string().required('必填!').min(2, '格式不符').max(2, '格式不符'),
         cvv: yup.string().required('必填!').min(3, '格式不符').max(3, '格式不符'),
@@ -285,9 +292,23 @@ const [month, monthAttrs] = defineField('payment.creditCard.month');
 const [day, dayAttrs] = defineField('payment.creditCard.day');
 const [cvv, cvvAttrs] = defineField('payment.creditCard.cvv');
 
-const onSubmit = handleSubmit(() => {
-  checkout();
+const onSubmit = handleSubmit((value) => {
+  console.log(value);
 });
+
+// 格式化信用卡片輸入
+function formatCreditCardNumber(e) {
+  // 去除空白字串
+  let value = e.target.value.replace(/\D/g, '');
+  // 避免用戶輸入超過 16 個字元
+  if (value.length > 16) {
+    value = value.slice(0, 16);
+  }
+  // 每 4 個數字後方加一個空白字元
+  const formatValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+  e.target.value = formatValue; // 更新 HTML 輸入框數值
+  number.value = formatValue; // 更新表單接受數值
+}
 </script>
 
 <style lang="scss" scoped>
