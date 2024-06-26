@@ -91,13 +91,12 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 // 引入相關驗證函數
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
-import { toTypedSchema } from '@vee-validate/yup'; // 引入 toTypedSchema 定義驗證規則
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
+import useValidationStore from '@/stores/validation';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
@@ -108,31 +107,15 @@ const { width } = useWindowSize();
 const alertStore = useAlertStore();
 const { apiResAlert } = alertStore;
 
-// 引入 yup 驗證庫
-const yup = inject('$yup');
-
-// 電話驗證
-yup.addMethod(yup.string, 'isPhone', function isPhone() {
-  return this.matches(/^(09)[0-9]{8}$/, {
-    message: '電話號碼格式不正確',
-  });
-});
-
-// 定義表單驗證規則
-const schema = toTypedSchema(
-  yup.object({
-    name: yup.string().required('必填'),
-    email: yup.string().required('必填').email(),
-    tel: yup.string().required('必填').isPhone(),
-    message: yup.string().required('請輸入告訴我們的內容'),
-  }),
-);
+// 取得 validation 方法
+const validationStore = useValidationStore();
+const { contactSchema } = validationStore;
 
 // 使用 useForm 來處理表單驗證
 const {
   handleSubmit, defineField, errors, meta,
 } = useForm({
-  validationSchema: schema,
+  validationSchema: contactSchema,
 });
 
 // 定義表單欄位
@@ -143,7 +126,6 @@ const [message, messageAttrs] = defineField('message');
 
 // 表單提交處理函數
 const onSubmit = handleSubmit((values, { resetForm }) => {
-  // console.log(values);
   apiResAlert('訊息已成功送出');
 
   // 送出表單後清除內容。

@@ -186,6 +186,12 @@
               <span>總金額</span>
               <span class="text-danger">{{ `NT$ ${cartList.final_total }` }}</span></li>
           </ul>
+          <div v-if="meta.touched" class="mb-1">
+            <span v-if="!meta.valid" class="text-danger">
+              欄位未完成<i class="bi bi-exclamation-circle ms-2"></i>
+            </span>
+            <span v-else class="text-success">欄位已完成<i class="bi bi-check-circle ms-2"></i></span>
+          </div>
           <button type="button" class="btn btn-primary w-100"
             @click="onSubmit()"
             >下一步<i class="bi bi-chevron-right ms-1"></i></button>
@@ -256,7 +262,9 @@ const schema = toTypedSchema(
 );
 
 // 使用 useForm 來處理表單驗證
-const { handleSubmit, defineField, errors } = useForm({
+const {
+  handleSubmit, defineField, errors, meta,
+} = useForm({
   validationSchema: schema,
 });
 
