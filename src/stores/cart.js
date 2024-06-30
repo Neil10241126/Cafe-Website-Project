@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 // 引入 Pinia 狀態管理
 import alertStore from '@/stores/alert';
+import useLoadingStore from '@/stores/loading';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 
@@ -10,6 +11,11 @@ export default defineStore('cart', () => {
   // 取得 alert 方法
   const alert = alertStore();
   const { apiResAlert, apiErrAlert } = alert;
+
+  // 取得 loading 方法
+  const loadingStore = useLoadingStore();
+  const { loading, hiden } = loadingStore;
+  console.log(loading, hiden);
 
   // 定義購物車列表的狀態
   const cartList = ref([]);
@@ -26,6 +32,7 @@ export default defineStore('cart', () => {
 
   // 加入購物車 POST
   function addToCart(id, qty = 1) {
+    loading();
     const data = {
       product_id: id,
       qty,
@@ -45,6 +52,7 @@ export default defineStore('cart', () => {
     axios
       .delete(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${cartId}`)
       .then((res) => {
+        hiden();
         apiResAlert(res.data.message);
         getCart();
       })

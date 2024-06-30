@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "vite build && gh-pages -d dist",
+    "format-c": "prettier src/**/*.{js,vue} --check",
     "format-w": "prettier src/**/*.{js,vue} --write",
     "lint": "eslint . --ext .js,.vue",
     "format-and-lint": "npm run format-w && npm run lint"

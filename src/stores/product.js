@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 // 引入 Pinia 狀態管理
 import alertStore from '@/stores/alert';
+// import useLoadingStore from '@/stores/loading';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 
@@ -11,23 +12,14 @@ export default defineStore('product', () => {
   const alert = alertStore();
   const { apiErrAlert } = alert;
 
+  // 取得 loading 方法
+  // const loadingStore = useLoadingStore();
+  // const { $loading } = loadingStore;
+  // const loader = $loading.show();
+
   // 定義產品資料
   const products = ref([]);
   const tempProduct = ref({});
-  // const productsObj = ref({});
-  // const isProductsLoaded = ref(false);
-
-  // 資料分頁渲染(物件) : getProductPage(資料, 分頁)
-  // const getProductPage = (array) => {
-  //   const item = {};
-  //   const groupSize = 6; // 每頁顯示 6 筆
-  //   let pagenation = 1; // 從第 1 頁開始
-  //   for (let i = 0; i < array.length; i += groupSize) {
-  //     item[pagenation] = array.slice(i, i + groupSize);
-  //     pagenation += 1;
-  //   }
-  //   return item;
-  // };
 
   // 取特定產品 : filter
   function filter(cate) {
@@ -49,14 +41,14 @@ export default defineStore('product', () => {
 
   // 取得全部產品列表 GET
   function getProducts() {
-    // if (isProductsLoaded.value) return;
+    // $loading.show({
+    //   canCancel: true,
+    // });
     axios
       .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/products/all`)
       .then((res) => {
         products.value = res.data.products;
-        // productsObj.value = getProductPage(products.value);
-        // isProductsLoaded.value = true;
-        // console.log('取得非同步產品資料:');
+        // loader.hide();
       })
       .catch((err) => apiErrAlert(err.response.data.message));
   }
@@ -74,11 +66,9 @@ export default defineStore('product', () => {
   return {
     products,
     tempProduct,
-    // productsObj,
     getProducts,
     getProductItem,
     filter,
     sort,
-    // getProductPage,
   };
 });

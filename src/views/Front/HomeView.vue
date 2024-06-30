@@ -424,7 +424,6 @@ import CounterUp from '@/components/CounterUp.vue';
 import ProductCard from '@/components/ProductCard.vue';
 
 const { width } = useWindowSize();
-//
 
 // 取得產品資料
 const productStore = useProductStore();
