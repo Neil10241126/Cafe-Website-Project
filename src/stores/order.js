@@ -24,7 +24,8 @@ export default defineStore('order', () => {
     const data = {
       code,
     };
-    axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/coupon`, { data })
+    axios
+      .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/coupon`, { data })
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();
@@ -34,7 +35,8 @@ export default defineStore('order', () => {
 
   // 生成訂單 POST
   function submitOrder(userData) {
-    axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order`, { data: userData })
+    axios
+      .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order`, { data: userData })
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();

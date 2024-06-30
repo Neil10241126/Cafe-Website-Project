@@ -17,7 +17,12 @@ const getCurrentTimeString = () => {
 const customLog = (tag, message, tagColor = '\x1b[36m', messageColor = '\x1b[32m') => {
   const timeString = getCurrentTimeString();
   // eslint-disable-next-line no-console
-  console.log(`\x1b[90m%s\x1b[0m ${tagColor}\x1b[1m%s\x1b[0m ${messageColor}%s\x1b[0m`, timeString, `[${tag}]`, message);
+  console.log(
+    `\x1b[90m%s\x1b[0m ${tagColor}\x1b[1m%s\x1b[0m ${messageColor}%s\x1b[0m`,
+    timeString,
+    `[${tag}]`,
+    message
+  );
 };
 
 export default (mode) => {
@@ -25,7 +30,9 @@ export default (mode) => {
   const envPath = `${basePath}.${mode}`;
   const finalPath = fs.existsSync(envPath) ? envPath : basePath;
 
-  const envConfig = dotenv.config({ path: finalPath });
+  const envConfig = dotenv.config({
+    path: finalPath,
+  });
 
   if (envConfig.error) {
     customLog('vite', '無法讀取到環境變數(Environment Variables)檔案。');

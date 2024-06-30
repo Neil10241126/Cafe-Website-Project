@@ -1,9 +1,5 @@
-<template>
-  後台產品
-</template>
+<template>後台產品</template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

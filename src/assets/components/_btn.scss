@@ -1,4 +1,5 @@
-.btn {  // 結構
+.btn {
+  // 結構
   padding: 8px 16px;
   &-lg {
     padding: 8px 24px;
@@ -14,7 +15,8 @@
   }
 }
 
-.btn {  // 配色樣式
+.btn {
+  // 配色樣式
   &-primary {
     background: map-get($theme-colors, primary);
     border: 2px solid map-get($theme-colors, primary);
@@ -27,7 +29,8 @@
   }
 }
 
-.btn {  // 配色樣式
+.btn {
+  // 配色樣式
   &-outline-primary {
     border: 2px solid map-get($theme-colors, primary);
     color: 2px solid map-get($theme-colors, primary);

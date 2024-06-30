@@ -1,13 +1,18 @@
 <template>
   <!-- Banner -->
-  <section class="banner d-flex align-items-center position-relative
-    bg-size-cover bg-position-center bg-repeat-none">
+  <section
+    class="banner d-flex align-items-center position-relative bg-size-cover bg-position-center bg-repeat-none"
+  >
     <!-- 遮色片 25% -->
     <div class="position-absolute top-0 start-0 end-0 bottom-0 bg-dark opacity-25"></div>
     <div class="container position-relative">
-      <div class=" text-center">
-        <p class="fs-8 fs-md-5 fs-lg-2 fw-bold text-gray-300 mb-1 mb-lg-3">品嘗獨特風味，發掘咖啡世界的美味</p>
-        <h2 class="fs-6 fs-md-4 fs-lg-1 fw-bold text-light mb-4 mb-lg-6">尋找你的完美咖啡口味，享受限時折扣！</h2>
+      <div class="text-center">
+        <p class="fs-8 fs-md-5 fs-lg-2 fw-bold text-gray-300 mb-1 mb-lg-3">
+          品嘗獨特風味，發掘咖啡世界的美味
+        </p>
+        <h2 class="fs-6 fs-md-4 fs-lg-1 fw-bold text-light mb-4 mb-lg-6">
+          尋找你的完美咖啡口味，享受限時折扣！
+        </h2>
         <!-- <button type="button" class="btn btn-warning fs-md-6 px-md-4 py-md-2"
         >立刻選購</button> -->
         <RouterLink to="/products" class="btn btn-warning fs-md-6 px-md-4">立刻選購</RouterLink>
@@ -25,82 +30,139 @@
 
       <!-- 列表控制器 List group : lightRoast、mediumRoast、darkRoast -->
       <div class="list-group flex-row justify-content-center mb-5 mb-md-6">
-        <a class="btn btn-outline-primary rounded-pill
-          border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 active"
-          data-bs-toggle="list" href="#list-lightRoast">淺烘焙</a>
-        <a class="btn btn-outline-primary rounded-pill
-          border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 mx-3 mx-md-6"
-          data-bs-toggle="list" href="#list-mediumRoast">中烘焙</a>
-        <a class="btn btn-outline-primary rounded-pill
-          border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5"
-          data-bs-toggle="list" href="#list-darkRoast">深烘焙</a>
+        <a
+          class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 active"
+          data-bs-toggle="list"
+          href="#list-lightRoast"
+        >
+          淺烘焙
+        </a>
+        <a
+          class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 mx-3 mx-md-6"
+          data-bs-toggle="list"
+          href="#list-mediumRoast"
+        >
+          中烘焙
+        </a>
+        <a
+          class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5"
+          data-bs-toggle="list"
+          href="#list-darkRoast"
+        >
+          深烘焙
+        </a>
       </div>
 
       <!-- Tab panes & Swiper 輪播  -->
       <div class="tab-content">
         <!-- 淺烘焙 lightRoast -->
         <div class="tab-pane fade show active" id="list-lightRoast">
-          <swiper-container class="mb-5 mb-md-6"
+          <swiper-container
+            class="mb-5 mb-md-6"
             :autoplay="{
               delay: 2500,
               disableOnInteraction: false,
             }"
             :breakpoints="{
-              0: { slidesPerView: 2, spaceBetween: 12, },
-              768: { slidesPerView: 3, spaceBetween: 16, },
-              992: { slidesPerView: 4, spaceBetween: 20, }
-            }">
+              0: {
+                slidesPerView: 2,
+                spaceBetween: 12,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 16,
+              },
+              992: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
+            }"
+          >
             <swiper-slide v-for="product in filter('淺烘焙')" :key="product.id">
-              <ProductCard :title="product.title" :origin="product.origin"
-                  :acdity="product.acidity" :price="product.price"
-                  :origin_price="product.origin_price" :img_url="product.imageUrl"
-                  :product_id="product.id"
-                  :card_details="width <= 992 ? false : true">
-                </ProductCard>
+              <ProductCard
+                :title="product.title"
+                :origin="product.origin"
+                :acdity="product.acidity"
+                :price="product.price"
+                :origin_price="product.origin_price"
+                :img_url="product.imageUrl"
+                :product_id="product.id"
+                :card_details="width <= 992 ? false : true"
+              ></ProductCard>
             </swiper-slide>
           </swiper-container>
         </div>
-         <!-- 中烘焙 mediumRoast -->
+        <!-- 中烘焙 mediumRoast -->
         <div class="tab-pane fade" id="list-mediumRoast">
-          <swiper-container class="mb-5 mb-md-6"
+          <swiper-container
+            class="mb-5 mb-md-6"
             :autoplay="{
               delay: 2500,
               disableOnInteraction: false,
             }"
             :breakpoints="{
-              0: { slidesPerView: 2, spaceBetween: 12, },
-              768: { slidesPerView: 3, spaceBetween: 16, },
-              992: { slidesPerView: 4, spaceBetween: 20, }
-            }">
+              0: {
+                slidesPerView: 2,
+                spaceBetween: 12,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 16,
+              },
+              992: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
+            }"
+          >
             <swiper-slide v-for="product in filter('中烘焙')" :key="product.id">
-              <ProductCard :title="product.title" :origin="product.origin"
-                :acdity="product.acidity" :price="product.price"
-                :origin_price="product.origin_price" :img_url="product.imageUrl"
+              <ProductCard
+                :title="product.title"
+                :origin="product.origin"
+                :acdity="product.acidity"
+                :price="product.price"
+                :origin_price="product.origin_price"
+                :img_url="product.imageUrl"
                 :product_id="product.id"
-                :card_details="width <= 992 ? false : true">
-              </ProductCard>
+                :card_details="width <= 992 ? false : true"
+              ></ProductCard>
             </swiper-slide>
           </swiper-container>
         </div>
-         <!-- 深烘焙 darkRoast -->
+        <!-- 深烘焙 darkRoast -->
         <div class="tab-pane fade" id="list-darkRoast">
-          <swiper-container class="mb-5 mb-md-6"
+          <swiper-container
+            class="mb-5 mb-md-6"
             :autoplay="{
               delay: 2500,
               disableOnInteraction: false,
             }"
             :breakpoints="{
-              0: { slidesPerView: 2, spaceBetween: 12, },
-              768: { slidesPerView: 3, spaceBetween: 16, },
-              992: { slidesPerView: 4, spaceBetween: 20, }
-            }">
+              0: {
+                slidesPerView: 2,
+                spaceBetween: 12,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 16,
+              },
+              992: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
+            }"
+          >
             <swiper-slide v-for="product in filter('深烘焙')" :key="product.id">
-              <ProductCard :title="product.title" :origin="product.origin"
-                :acdity="product.acidity" :price="product.price"
-                :origin_price="product.origin_price" :img_url="product.imageUrl"
+              <ProductCard
+                :title="product.title"
+                :origin="product.origin"
+                :acdity="product.acidity"
+                :price="product.price"
+                :origin_price="product.origin_price"
+                :img_url="product.imageUrl"
                 :product_id="product.id"
-                :card_details="width <= 992 ? false : true">
-              </ProductCard>
+                :card_details="width <= 992 ? false : true"
+              ></ProductCard>
             </swiper-slide>
           </swiper-container>
         </div>
@@ -109,7 +171,6 @@
       <div class="d-flex justify-content-center">
         <RouterLink to="/products" class="btn btn-outline-primary border-2">更多商品</RouterLink>
       </div>
-
     </div>
   </section>
 
@@ -128,29 +189,37 @@
         <div class="row row-cols-2 row-cols-xl-4 gy-4">
           <div class="col">
             <div class="border border-3 py-3 rounded-3">
-              <CounterUp endVal="23500" class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm"
+              <CounterUp
+                endVal="23500"
+                class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm"
               ></CounterUp>
               <p class="fs-8 fs-md-6 text-light mb-0">每月服務顧客</p>
             </div>
           </div>
           <div class="col">
             <div class="border border-3 py-3 rounded-3">
-              <CounterUp endVal="216" class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm">
-              </CounterUp>
+              <CounterUp
+                endVal="216"
+                class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm"
+              ></CounterUp>
               <p class="fs-8 fs-md-6 text-light mb-0">信賴相關認證</p>
             </div>
           </div>
           <div class="col">
             <div class="border border-3 py-3 rounded-3">
-              <CounterUp endVal="425" class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm">
-              </CounterUp>
+              <CounterUp
+                endVal="425"
+                class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm"
+              ></CounterUp>
               <p class="fs-8 fs-md-6 text-light mb-0">全台據點</p>
             </div>
           </div>
           <div class="col">
             <div class="border border-3 py-3 rounded-3">
-              <CounterUp endVal="149" class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm">
-              </CounterUp>
+              <CounterUp
+                endVal="149"
+                class="ff-black-ops fs-4 fs-md-1 text-warning lh-sm"
+              ></CounterUp>
               <p class="fs-8 fs-md-6 text-light mb-0">咖啡產品</p>
             </div>
           </div>
@@ -161,13 +230,17 @@
       <div class="bg-gray-900 py-3 py-md-6">
         <div class="container d-flex justify-content-between overflow-auto">
           <div class="d-flex align-items-start" style="max-width: 400px">
-            <div class="d-md-none bg-light rounded-circle d-flex p-2" style="width: 40px;
-            height: 40px;">
-              <img src="/public/icons/service-coffee-beans.svg" alt="service-coffee-beans">
+            <div
+              class="d-md-none bg-light rounded-circle d-flex p-2"
+              style="width: 40px; height: 40px"
+            >
+              <img src="/public/icons/service-coffee-beans.svg" alt="service-coffee-beans" />
             </div>
-            <div class="d-none bg-light rounded-circle d-md-flex p-2" style="width: 60px;
-            height: 60px;">
-              <img src="/public/icons/service-coffee-beans.svg" alt="service-coffee-beans">
+            <div
+              class="d-none bg-light rounded-circle d-md-flex p-2"
+              style="width: 60px; height: 60px"
+            >
+              <img src="/public/icons/service-coffee-beans.svg" alt="service-coffee-beans" />
             </div>
             <div class="ms-3 text-nowrap">
               <h3 class="fs-6 fs-md-5 fw-bold text-light mb-1">提供多樣的咖啡豆</h3>
@@ -175,13 +248,17 @@
             </div>
           </div>
           <div class="d-flex align-items-start mx-6" style="max-width: 400px">
-            <div class="d-md-none bg-light rounded-circle d-flex p-2" style="width: 40px;
-            height: 40px;">
-              <img src="/public/icons/service-car.svg" alt="service-car">
+            <div
+              class="d-md-none bg-light rounded-circle d-flex p-2"
+              style="width: 40px; height: 40px"
+            >
+              <img src="/public/icons/service-car.svg" alt="service-car" />
             </div>
-            <div class="d-none bg-light rounded-circle d-md-flex p-2" style="width: 60px;
-            height: 60px;">
-              <img src="/public/icons/service-car.svg" alt="service-car">
+            <div
+              class="d-none bg-light rounded-circle d-md-flex p-2"
+              style="width: 60px; height: 60px"
+            >
+              <img src="/public/icons/service-car.svg" alt="service-car" />
             </div>
             <div class="ms-3 text-nowrap">
               <h3 class="fs-6 fs-md-5 fw-bold text-light mb-1">快速發貨</h3>
@@ -189,13 +266,17 @@
             </div>
           </div>
           <div class="d-flex align-items-start" style="max-width: 400px">
-            <div class="d-md-none bg-light rounded-circle d-flex p-2" style="width: 40px;
-            height: 40px;">
-              <img src="/public/icons/service-credit-card.svg" alt="service-credit-card">
+            <div
+              class="d-md-none bg-light rounded-circle d-flex p-2"
+              style="width: 40px; height: 40px"
+            >
+              <img src="/public/icons/service-credit-card.svg" alt="service-credit-card" />
             </div>
-            <div class="d-none bg-light rounded-circle d-md-flex p-2" style="width: 60px;
-            height: 60px;">
-              <img src="/public/icons/service-credit-card.svg" alt="service-credit-card">
+            <div
+              class="d-none bg-light rounded-circle d-md-flex p-2"
+              style="width: 60px; height: 60px"
+            >
+              <img src="/public/icons/service-credit-card.svg" alt="service-credit-card" />
             </div>
             <div class="ms-3 text-nowrap">
               <h3 class="fs-6 fs-md-5 fw-bold text-light mb-1">線上消費</h3>
@@ -215,85 +296,116 @@
         <h2 class="fs-6 fs-md-2 fw-bold text-primary mb-0">來自咖啡愛好者的真實反饋</h2>
       </div>
       <swiper-container
-        :pagination="{ enabled: true, clickable: true, }"
-        :autoplay="{ delay: 2500, disableOnInteraction: false, }"
+        :pagination="{
+          enabled: true,
+          clickable: true,
+        }"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
         :breakpoints="{
-          0: { slidesPerView: 1, spaceBetween: 12, },
-          768: { slidesPerView: 2, spaceBetween: 18, },
-          992: { slidesPerView: 3, spaceBetween: 24, },
-        }">
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 12,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 18,
+          },
+          992: {
+            slidesPerView: 3,
+            spaceBetween: 24,
+          },
+        }"
+      >
         <swiper-slide class="h-auto">
           <div class="d-flex h-100">
-            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
-             mx-auto" style="max-width: 375px;">
+            <div
+              class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1 mx-auto"
+              style="max-width: 375px"
+            >
               <div class="me-3">
-                <img src="/public/images/person-1.png" alt="" style="min-width: 60px;">
+                <img src="/public/images/person-1.png" alt="" style="min-width: 60px" />
               </div>
               <div>
                 <h5 class="fs-6 fw-bold text-gray-800 mb-2">Leo</h5>
                 <p class="text-gray-800 mb-0 text-truncate-3">
                   從未想過在網上購買咖啡豆會這麼方便！他們的客戶服務非常周到，
-                  讓我感到很受尊重。強烈推薦大家他們家的咖啡豆！</p>
+                  讓我感到很受尊重。強烈推薦大家他們家的咖啡豆！
+                </p>
               </div>
             </div>
           </div>
         </swiper-slide>
         <swiper-slide class="h-auto">
           <div class="d-flex h-100">
-            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
-             mx-auto" style="max-width: 375px;">
+            <div
+              class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1 mx-auto"
+              style="max-width: 375px"
+            >
               <div class="me-3">
-                <img src="/public/images/person-2.png" alt="" style="min-width: 60px;">
+                <img src="/public/images/person-2.png" alt="" style="min-width: 60px" />
               </div>
               <div>
                 <h5 class="fs-6 fw-bold text-gray-800 mb-2">Amber Shire</h5>
                 <p class="text-gray-800 mb-0 text-truncate-3">
-                  我是一個對咖啡非常挑剔的人，而且快速發貨服務讓我驚艷不已。下次我一定會再次光顧！</p>
+                  我是一個對咖啡非常挑剔的人，而且快速發貨服務讓我驚艷不已。下次我一定會再次光顧！
+                </p>
               </div>
             </div>
           </div>
         </swiper-slide>
         <swiper-slide class="h-auto">
           <div class="d-flex h-100">
-            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
-             mx-auto" style="max-width: 375px;">
+            <div
+              class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1 mx-auto"
+              style="max-width: 375px"
+            >
               <div class="me-3">
-                <img src="/public/images/person-3.png" alt="" style="min-width: 60px;">
+                <img src="/public/images/person-3.png" alt="" style="min-width: 60px" />
               </div>
               <div>
                 <h5 class="fs-6 fw-bold text-gray-800 mb-2">Hank Jons</h5>
                 <p class="text-gray-800 mb-0 text-truncate-3">
-                  這家網站給了我完美的選擇！他們的咖啡豆質量非常優秀。</p>
+                  這家網站給了我完美的選擇！他們的咖啡豆質量非常優秀。
+                </p>
               </div>
             </div>
           </div>
         </swiper-slide>
         <swiper-slide class="h-auto">
           <div class="d-flex h-100">
-            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
-             mx-auto" style="max-width: 375px;">
+            <div
+              class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1 mx-auto"
+              style="max-width: 375px"
+            >
               <div class="me-3">
-                <img src="/public/images/person-4.png" alt="" style="min-width: 60px;">
+                <img src="/public/images/person-4.png" alt="" style="min-width: 60px" />
               </div>
               <div>
                 <h5 class="fs-6 fw-bold text-gray-800 mb-2">Lucy</h5>
                 <p class="text-gray-800 mb-0 text-truncate-3">
-                  我很喜歡他們的咖啡豆跟一些售後服務，我會繼續支持!</p>
+                  我很喜歡他們的咖啡豆跟一些售後服務，我會繼續支持!
+                </p>
               </div>
             </div>
           </div>
         </swiper-slide>
         <swiper-slide class="h-auto">
           <div class="d-flex h-100">
-            <div class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1
-             mx-auto" style="max-width: 375px;">
+            <div
+              class="comment-card rounded-3 bg-gray-100 d-flex p-3 mb-1 mx-auto"
+              style="max-width: 375px"
+            >
               <div class="me-3">
-                <img src="/public/images/person-5.png" alt="" style="min-width: 60px;">
+                <img src="/public/images/person-5.png" alt="" style="min-width: 60px" />
               </div>
               <div>
                 <h5 class="fs-6 fw-bold text-gray-800 mb-2">Frank Wang</h5>
                 <p class="text-gray-800 mb-0 text-truncate-3">
-                  斯里蘭卡海鹽的香氣很棒，推薦給剛入門不知道如何選擇的人，也不會太酸。</p>
+                  斯里蘭卡海鹽的香氣很棒，推薦給剛入門不知道如何選擇的人，也不會太酸。
+                </p>
               </div>
             </div>
           </div>
@@ -317,31 +429,29 @@ const { width } = useWindowSize();
 // 取得產品資料
 const productStore = useProductStore();
 const { filter } = productStore;
-
 </script>
 
 <style lang="scss" scoped>
 // Banner
 .banner {
   height: 800px;
-  background-image: url("/public/images/Header-banner-lg.webp");
+  background-image: url('/public/images/Header-banner-lg.webp');
 }
 
 @media (max-width: 768px) {
   .banner {
-    background-image: url("/public/images/Header-banner-sm.webp");
+    background-image: url('/public/images/Header-banner-sm.webp');
     height: 330px;
   }
 }
 
 // Service
 .Service {
-  background-image: url("/public/images/Service-img.webp");
+  background-image: url('/public/images/Service-img.webp');
 }
 
 // Comment
 .comment-card {
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
-
 </style>

@@ -16,8 +16,11 @@ export default defineStore('cart', () => {
 
   // 取得購物車 GET
   function getCart() {
-    axios.get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart`)
-      .then((res) => { cartList.value = res.data.data; })
+    axios
+      .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart`)
+      .then((res) => {
+        cartList.value = res.data.data;
+      })
       .catch((err) => apiErrAlert(err.response.data.message));
   }
 
@@ -27,7 +30,8 @@ export default defineStore('cart', () => {
       product_id: id,
       qty,
     };
-    axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart`, { data })
+    axios
+      .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart`, { data })
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();
@@ -36,8 +40,10 @@ export default defineStore('cart', () => {
   }
 
   // 刪除單一品項 Delete
-  function delCartItem(cartId) { // 參數為購物車的 id，非產品 id。
-    axios.delete(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${cartId}`)
+  function delCartItem(cartId) {
+    // 參數為購物車的 id，非產品 id。
+    axios
+      .delete(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${cartId}`)
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();
@@ -51,7 +57,8 @@ export default defineStore('cart', () => {
       product_id: id,
       qty,
     };
-    axios.put(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${id}`, { data })
+    axios
+      .put(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/cart/${id}`, { data })
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();

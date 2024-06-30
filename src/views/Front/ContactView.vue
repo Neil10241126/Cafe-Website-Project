@@ -4,8 +4,11 @@
   <div class="container py-6">
     <ul class="nav justify-content-center align-items-center fs-8 mb-3">
       <li class="nav-item">
-        <RouterLink to="/" class="nav-link link-gray-800 text-decoration-underline
-        link-offset-1 px-2 py-0">首頁</RouterLink>
+        <RouterLink
+          to="/"
+          class="nav-link link-gray-800 text-decoration-underline link-offset-1 px-2 py-0"
+          >首頁</RouterLink
+        >
       </li>
       <li>/</li>
       <li class="nav-item">
@@ -24,39 +27,64 @@
       <div class="col">
         <form class="px-lg-3" @submit="onSubmit">
           <div class="mb-4">
-            <label for="name" class="form-label">您的姓名<span class="text-danger fs-6
-              align-bottom">⁎</span></label>
-            <input type="text" class="form-control" id="name" placeholder="請輸入您的姓名"
-              :class="{'is-invalid': errors.name}"
+            <label for="name" class="form-label">
+              的姓名
+              <span class="text-danger fs-6 align-bottom">⁎</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="請輸入您的姓名"
+              :class="{ 'is-invalid': errors.name }"
               v-model="name"
-              v-bind="nameAttrs">
+              v-bind="nameAttrs"
+            />
             <span class="text-danger">{{ errors.name }}</span>
           </div>
           <div class="mb-4">
-            <label for="email" class="form-label">電子郵件<span class="text-danger fs-6
-              align-bottom">⁎</span></label>
-            <input type="email" class="form-control" id="email" placeholder="test@coffeemail"
-              :class="{'is-invalid': errors.email}"
+            <label for="email" class="form-label">
+              電子郵件
+              <span class="text-danger fs-6 align-bottom">⁎</span>
+            </label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="test@coffeemail"
+              :class="{ 'is-invalid': errors.email }"
               v-model="email"
-              v-bind="emailAttrs">
+              v-bind="emailAttrs"
+            />
             <span class="text-danger">{{ errors.email }}</span>
           </div>
           <div class="mb-4">
-            <label for="tel" class="form-label">連絡電話<span class="text-danger fs-6
-              align-bottom">⁎</span></label>
-            <input type="tel" class="form-control" id="tel" placeholder="請輸入您的連絡電話"
-              :class="{'is-invalid': errors.tel}"
+            <label for="tel" class="form-label">
+              連絡電話
+              <span class="text-danger fs-6 align-bottom">⁎</span>
+            </label>
+            <input
+              type="tel"
+              class="form-control"
+              id="tel"
+              placeholder="請輸入您的連絡電話"
+              :class="{ 'is-invalid': errors.tel }"
               v-model="tel"
-              v-bind="telAttrs">
+              v-bind="telAttrs"
+            />
             <span class="text-danger">{{ errors.tel }}</span>
           </div>
           <div class="mb-4">
             <label for="textarea" class="form-label">訊息</label>
-            <textarea class="form-control" id="textarea" rows="5" placeholder="請輸入您想告訴我們的訊息"
-              :class="{'is-invalid': errors.message}"
+            <textarea
+              class="form-control"
+              id="textarea"
+              rows="5"
+              placeholder="請輸入您想告訴我們的訊息"
+              :class="{ 'is-invalid': errors.message }"
               v-model="message"
-              v-bind="messageAttrs">
-            </textarea>
+              v-bind="messageAttrs"
+            ></textarea>
             <span class="text-danger">{{ errors.message }}</span>
           </div>
           <button type="submit" class="btn btn-primary" :disabled="!meta.valid">送出內容</button>
@@ -79,12 +107,18 @@
           </li>
           <li class="d-flex align-items-center">
             <BadgeUi content="營業時間 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
-            <p class="text-gray-800 mb-0 ms-2">10:00 — 19:00  (週六店休)</p>
+            <p class="text-gray-800 mb-0 ms-2">10:00 — 19:00 (週六店休)</p>
           </li>
         </ul>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1807.6912091677023!2d121.50139339359627!3d25.021098027374258!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9b1907a9407%3A0x36d410a52e5787b6!2zMTA45Y-w5YyX5biC6JCs6I-v5Y2A!5e0!3m2!1szh-TW!2stw!4v1716819149124!5m2!1szh-TW!2stw"
-          width="600" height="350" style="border:0; width: 100%;"
-          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1807.6912091677023!2d121.50139339359627!3d25.021098027374258!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9b1907a9407%3A0x36d410a52e5787b6!2zMTA45Y-w5YyX5biC6JCs6I-v5Y2A!5e0!3m2!1szh-TW!2stw!4v1716819149124!5m2!1szh-TW!2stw"
+          width="600"
+          height="350"
+          style="border: 0; width: 100%"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
     </div>
   </div>
@@ -92,14 +126,14 @@
 
 <script setup>
 import { useWindowSize } from '@vueuse/core';
-// 引入相關驗證函數
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
-import useValidationStore from '@/stores/validation';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
+// 引入 helpers 方法
+import { contactSchema } from '@/helpers/validation';
 
 const { width } = useWindowSize();
 
@@ -107,14 +141,8 @@ const { width } = useWindowSize();
 const alertStore = useAlertStore();
 const { apiResAlert } = alertStore;
 
-// 取得 validation 方法
-const validationStore = useValidationStore();
-const { contactSchema } = validationStore;
-
 // 使用 useForm 來處理表單驗證
-const {
-  handleSubmit, defineField, errors, meta,
-} = useForm({
+const { defineField, handleSubmit, errors, meta } = useForm({
   validationSchema: contactSchema,
 });
 
@@ -133,5 +161,4 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

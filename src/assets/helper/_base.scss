@@ -1,5 +1,7 @@
 // 盒模型
-*,*::before,*::after{
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -8,7 +10,7 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
-	// vertical-align: middle;
+  // vertical-align: middle;
 }
 
 a {
@@ -17,13 +19,13 @@ a {
 }
 
 body {
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 
 .ff-black-ops {
-  font-family: "Black Ops One", system-ui;
+  font-family: 'Black Ops One', system-ui;
 }
 
 // 多行文字 utilities Start

@@ -4,77 +4,91 @@
 $utilities: map-merge(
   $utilities,
   (
-    "pointer-events": ( // 取消事件
+    'pointer-events': (
+      // 取消事件
       property: pointer-events,
       class: pointer-events,
       values: none,
     ),
-    "background-size": ( // 背景圖大小
+    'background-size': (
+      // 背景圖大小
       property: background-size,
       class: bg-size,
       values: auto contain cover,
     ),
-    "background-position": ( // 背景圖定位
+    'background-position': (
+      // 背景圖定位
       property: background-position,
       class: bg-position,
       values: center,
     ),
-    "background-repeat": ( // 背景圖定位
+    'background-repeat': (
+      // 背景圖定位
       property: background-repeat,
       class: bg-repeat,
-      values: ( none: no-repeat, )
+      values: (
+        none: no-repeat,
+      ),
     ),
-    "border-top": (
-      responsive: true,  //  【 setting 】
+    'border-top': (
+      responsive: true,
+      //  【 setting 】
       property: border-top,
       class: border-top,
       values: (
-        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style)
+          var(--#{$prefix}border-color),
         0: 0,
         2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
-      )
+      ),
     ),
-    "border-end": (
-      responsive: true,  //  【 setting 】
+    'border-end': (
+      responsive: true,
+      //  【 setting 】
       property: border-right,
       class: border-end,
       values: (
-        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style)
+          var(--#{$prefix}border-color),
         0: 0,
         2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
-      )
+      ),
     ),
-    "border-bottom": (
-      responsive: true,  //  【 setting 】
+    'border-bottom': (
+      responsive: true,
+      //  【 setting 】
       property: border-bottom,
       class: border-bottom,
       values: (
-        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style)
+          var(--#{$prefix}border-color),
         0: 0,
         2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
-      )
+      ),
     ),
-    "border-start": (
-      responsive: true,  //  【 setting 】
+    'border-start': (
+      responsive: true,
+      //  【 setting 】
       property: border-left,
       class: border-start,
       values: (
-        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
+        null: var(--#{$prefix}border-width) var(--#{$prefix}border-style)
+          var(--#{$prefix}border-color),
         0: 0,
         2: 2px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         3: 3px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         4: 4px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
         5: 5px var(--#{$prefix}border-style) var(--#{$prefix}border-color),
-      )
+      ),
     ),
   )
 );

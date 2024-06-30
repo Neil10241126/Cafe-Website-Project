@@ -7,7 +7,8 @@ const routes = [
   {
     path: '/',
     component: () => import('../views/FrontLayout.vue'),
-    async beforeEnter() { // 轉跳前，取得非同步資料
+    async beforeEnter() {
+      // 轉跳前，取得非同步資料
       const productStore = useProductStore();
       const cartStore = useCartStore();
       await productStore.getProducts();

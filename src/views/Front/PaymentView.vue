@@ -4,8 +4,11 @@
   <div class="container py-6">
     <ul class="nav justify-content-center align-items-center fs-8 mb-3">
       <li class="nav-item">
-        <RouterLink to="/" class="nav-link link-gray-800 text-decoration-underline
-          link-offset-1 px-2 py-0">首頁
+        <RouterLink
+          to="/"
+          class="nav-link link-gray-800 text-decoration-underline link-offset-1 px-2 py-0"
+        >
+          首頁
         </RouterLink>
       </li>
       <li>/</li>
@@ -21,9 +24,11 @@
 
   <!-- 步驟執行 Step -->
   <div class="container d-flex justify-content-center">
-    <ul class="list-unstyled d-flex border border-2 border-primary px-3 px-md-4 py-4 mb-0"
-      style="border-style: dashed !important;">
-       <!-- 步驟 1：確認商品 -->
+    <ul
+      class="list-unstyled d-flex border border-2 border-primary px-3 px-md-4 py-4 mb-0"
+      style="border-style: dashed !important"
+    >
+      <!-- 步驟 1：確認商品 -->
       <li class="text-center border border-2 border-primary py-2 px-2 px-md-4">
         <p class="fs-md-6 fw-seimbold text-primary mb-2">Step 1</p>
         <p class="fs-md-6 fw-seimbold text-primary mb-0 text-nowrap">確認商品</p>
@@ -46,8 +51,10 @@
     <!-- Toggle Desktop 表格 -->
     <div class="row justify-content-center d-none d-md-flex mb-5">
       <div class="col-12 col-lg-8">
-        <div class="p-5 bg-secondary-light rounded"
-          style="box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);">
+        <div
+          class="p-5 bg-secondary-light rounded"
+          style="box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25)"
+        >
           <table class="table align-middle table-primary text-center">
             <thead class="fs-6">
               <tr>
@@ -61,10 +68,12 @@
               <!-- 循環顯示訂單中的產品 -->
               <tr v-for="item in order.products" :key="item.id">
                 <td>
-                  <img :src="item.product.imageUrl" class="mx-auto my-2" alt="" width="100">
+                  <img :src="item.product.imageUrl" class="mx-auto my-2" alt="" width="100" />
                 </td>
                 <td>
-                  <p class="text-gray-800 mb-1">{{ item.product.title }}</p>
+                  <p class="text-gray-800 mb-1">
+                    {{ item.product.title }}
+                  </p>
                   <span class="fs-8 text-gray-600">{{ item.product.content }}</span>
                 </td>
                 <td>
@@ -102,18 +111,32 @@
           <div class="list-group flex-row">
             <!-- 信用卡付款選項 -->
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="payment"
-                id="creditCard" value="信用卡" data-bs-toggle="list" href="#credit-list"
+              <input
+                class="form-check-input"
+                type="radio"
+                name="payment"
+                id="creditCard"
+                value="信用卡"
+                data-bs-toggle="list"
+                href="#credit-list"
                 v-model="type"
-                v-bind="typeAttrs">
+                v-bind="typeAttrs"
+              />
               <label class="form-check-label fw-semibold" for="creditCard">信用卡</label>
             </div>
             <!-- 貨到付款選項 -->
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="payment"
-                id="cost" value="貨到付款" data-bs-toggle="list" href="#cost-list"
+              <input
+                class="form-check-input"
+                type="radio"
+                name="payment"
+                id="cost"
+                value="貨到付款"
+                data-bs-toggle="list"
+                href="#cost-list"
                 v-model="type"
-                v-bind="typeAttrs">
+                v-bind="typeAttrs"
+              />
               <label class="form-check-label fw-semibold" for="cost">貨到付款</label>
             </div>
             <span class="fs-8 text-danger">{{ errors['payment.type'] }}</span>
@@ -122,55 +145,97 @@
             <!-- 信用卡付款表單 -->
             <div class="tab-pane mt-4" id="credit-list">
               <div class="mb-4">
-                <label for="credit-name" class="form-label fw-semibold">持卡人姓名
-                  <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <input type="text" class="form-control" id="credit-name" placeholder="請輸入持卡本人姓名"
-                  :class="{'is-invalid': errors['payment.creditCard.name']}"
+                <label for="credit-name" class="form-label fw-semibold">
+                  持卡人姓名
+                  <span class="text-danger fs-6 align-bottom">⁎</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="credit-name"
+                  placeholder="請輸入持卡本人姓名"
+                  :class="{
+                    'is-invalid': errors['payment.creditCard.name'],
+                  }"
                   v-model="name"
-                  v-bind="nameAttrs">
+                  v-bind="nameAttrs"
+                />
                 <span class="fs-8 text-danger">{{ errors['payment.creditCard.name'] }}</span>
               </div>
               <div class="mb-4">
-                <label for="credit-number" class="form-label fw-semibold">信用卡號碼
-                  <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                <input type="tel" class="form-control" id="credit-number"
+                <label for="credit-number" class="form-label fw-semibold">
+                  信用卡號碼
+                  <span class="text-danger fs-6 align-bottom">⁎</span>
+                </label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="credit-number"
                   placeholder="請輸入卡片16位號碼"
-                  :class="{'is-invalid': errors['payment.creditCard.number']}"
+                  :class="{
+                    'is-invalid': errors['payment.creditCard.number'],
+                  }"
                   v-model="number"
                   v-bind="numberAttrs"
-                  @input="formatCreditCardNumber($event)">
+                  @input="formatCreditCardNumber($event)"
+                />
                 <span class="fs-8 text-danger">{{ errors['payment.creditCard.number'] }}</span>
               </div>
               <div class="row gx-2 gx-md-4">
                 <div class="col-4">
-                  <label for="credit-month" class="form-label fw-semibold">期限
-                    <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                    <input type="tel" class="form-control" id="credit-month" placeholder="MM"
-                      maxlength="2"
-                      :class="{'is-invalid': errors['payment.creditCard.month']}"
-                      v-model="month"
-                      v-bind="monthAttrs">
-                    <span class="fs-8 text-danger">{{ errors['payment.creditCard.month'] }}</span>
+                  <label for="credit-month" class="form-label fw-semibold">
+                    期限
+                    <span class="text-danger fs-6 align-bottom">⁎</span>
+                  </label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="credit-month"
+                    placeholder="MM"
+                    maxlength="2"
+                    :class="{
+                      'is-invalid': errors['payment.creditCard.month'],
+                    }"
+                    v-model="month"
+                    v-bind="monthAttrs"
+                  />
+                  <span class="fs-8 text-danger">{{ errors['payment.creditCard.month'] }}</span>
                 </div>
                 <div class="col-4">
-                    <label for="credit-month" class="form-label invisible">
-                      <span class="text-danger fs-6 align-bottom">⁎</span>
-                    </label>
-                    <input type="tel" class="form-control" id="credit-month" placeholder="DD"
-                      maxlength="2"
-                      :class="{'is-invalid': errors['payment.creditCard.day']}"
-                      v-model="day"
-                      v-bind="dayAttrs">
-                    <span class="fs-8 text-danger">{{ errors['payment.creditCard.day'] }}</span>
+                  <label for="credit-month" class="form-label invisible">
+                    <span class="text-danger fs-6 align-bottom">⁎</span>
+                  </label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="credit-month"
+                    placeholder="DD"
+                    maxlength="2"
+                    :class="{
+                      'is-invalid': errors['payment.creditCard.day'],
+                    }"
+                    v-model="day"
+                    v-bind="dayAttrs"
+                  />
+                  <span class="fs-8 text-danger">{{ errors['payment.creditCard.day'] }}</span>
                 </div>
                 <div class="col-4">
-                  <label for="credit-cvv" class="form-label fw-semibold">安全碼
-                    <span class="text-danger fs-6 align-bottom">⁎</span></label>
-                  <input type="tel" class="form-control" id="credit-cvv" placeholder="CVV"
+                  <label for="credit-cvv" class="form-label fw-semibold">
+                    安全碼
+                    <span class="text-danger fs-6 align-bottom">⁎</span>
+                  </label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="credit-cvv"
+                    placeholder="CVV"
                     maxlength="3"
-                    :class="{'is-invalid': errors['payment.creditCard.cvv']}"
+                    :class="{
+                      'is-invalid': errors['payment.creditCard.cvv'],
+                    }"
                     v-model="cvv"
-                    v-bind="cvvAttrs">
+                    v-bind="cvvAttrs"
+                  />
                   <span class="fs-8 text-danger">{{ errors['payment.creditCard.cvv'] }}</span>
                 </div>
               </div>
@@ -199,14 +264,17 @@
               <span class="fw-semibold text-nowrap me-4">收件地址</span>
               <span class="text-end text-wrap">{{ order.user?.address }}</span>
             </li>
-            <li class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark
-              d-flex justify-content-between pt-3 pb-4">
-              <span>總金額</span><span class="text-danger">{{ `NT$ ${order.total}` }}</span>
+            <li
+              class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark d-flex justify-content-between pt-3 pb-4"
+            >
+              <span>總金額</span>
+              <span class="text-danger">{{ `NT$ ${order.total}` }}</span>
             </li>
           </ul>
           <!-- 確認付款按鈕 -->
-          <button type="button" class="btn btn-primary w-100"
-            @click="onSubmit()">確認付款<i class="bi bi-chevron-right ms-1"></i>
+          <button type="button" class="btn btn-primary w-100" @click="onSubmit()">
+            確認付款
+            <i class="bi bi-chevron-right ms-1"></i>
           </button>
         </div>
       </div>
@@ -215,9 +283,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單驗證
-import { toTypedSchema } from '@vee-validate/yup'; // 引入 toTypedSchema 定義驗證規則
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 // 引入 Pinia 狀態管理
@@ -225,6 +292,8 @@ import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
+//
+import { paymentSchema } from '@/helpers/validation';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 
@@ -241,14 +310,18 @@ const order = ref({});
 
 // 取得訂單資訊 GET
 function getOrders() {
-  axios.get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order/${route.params.orderId}`)
-    .then((res) => { order.value = res.data.order; }) // 將訂單數據賦值給 order
+  axios
+    .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order/${route.params.orderId}`)
+    .then((res) => {
+      order.value = res.data.order;
+    }) // 將訂單數據賦值給 order
     .catch((err) => apiErrAlert(err.response.data.message));
 }
 
 // 完成付款 POST
 function checkout() {
-  axios.post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/pay/${route.params.orderId}`)
+  axios
+    .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/pay/${route.params.orderId}`)
     .then((res) => {
       apiResAlert(res.data.message); // 顯示成功消息
       router.push(`/checkout/${route.params.orderId}`); // 跳轉到結帳完成頁面
@@ -261,32 +334,9 @@ onMounted(() => {
   getOrders();
 });
 
-// 引入 yup 驗證庫
-const yup = inject('$yup');
-
-// 定義表單驗證規則
-const schema = toTypedSchema(
-  yup.object({
-    payment: yup.object({
-      type: yup.string().required('必填!'),
-      creditCard: yup.object({
-        name: yup.string().required('必填!'),
-        number: yup.string().required('必填!').transform((value) => value.replace(/\s+/g, '')) // 清除空白字元
-          .test('len-is-16', '格式需為16組數字', (val) => val.length === 16),
-        month: yup.string().required('必填!').matches(/^\d{2}$/, '格式不符'),
-        day: yup.string().required('必填!').matches(/^\d{2}$/, '格式不符'),
-        cvv: yup.string().required('必填!').matches(/^\d{3}$/, '格式不符'),
-      }).when('type', {
-        is: '貨到付款',
-        then: () => yup.string().transform(() => undefined).notRequired(),
-      }),
-    }),
-  }),
-);
-
 // 使用 useForm 來處理表單驗證
 const { handleSubmit, defineField, errors } = useForm({
-  validationSchema: schema,
+  validationSchema: paymentSchema,
 });
 
 // 定義表單欄位
@@ -300,20 +350,6 @@ const [cvv, cvvAttrs] = defineField('payment.creditCard.cvv');
 const onSubmit = handleSubmit(() => {
   checkout();
 });
-
-// 格式化輸入
-// function formatNumber(e, creditType) {
-//   // 去除空白字串，並限制只能輸入數字
-//   const formatValue = e.target.value.replace(/\D/g, '');
-
-//   e.target.value = formatValue; // 更新 HTML 輸入框數值
-
-//   switch (creditType) { // 更新對應表單接受數值
-//     case 'month': { month.value = formatValue; break; }
-//     case 'day': { day.value = formatValue; break; }
-//     default: { cvv.value = formatValue; }
-//   }
-// }
 
 // 格式化信用卡片輸入
 function formatCreditCardNumber(e) {
@@ -331,7 +367,7 @@ function formatCreditCardNumber(e) {
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/helper/colors";
+@import '/src/assets/helper/colors';
 
 // 表格樣式
 .table {

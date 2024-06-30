@@ -1,15 +1,9 @@
-### Vue 組件使用說明
-
-這個 Vue 組件是一個數量調整器，包括兩個按鈕（用於增減數量）和一個顯示當前數量的輸入框。
-你可以通過設置 size 和 count 兩個屬性來調整按鈕和輸入框的大小以及初始數量。
-
-### 參數設定
-
--  size  (String)：設置按鈕和輸入框的大小。有三個可選值：
-  -  'small' ：小尺寸按鈕和輸入框。
-  -  'large' ：大尺寸按鈕和輸入框。
-  -  'default' ：默認尺寸按鈕和輸入框（若未指定  size ，則使用此尺寸）。
--  count  (Number)：設置初始數量。默認為 1。
+### Vue 組件使用說明 這個 Vue
+組件是一個數量調整器，包括兩個按鈕（用於增減數量）和一個顯示當前數量的輸入框。 你可以通過設置 size
+和 count 兩個屬性來調整按鈕和輸入框的大小以及初始數量。 ### 參數設定 - size
+(String)：設置按鈕和輸入框的大小。有三個可選值： - 'small' ：小尺寸按鈕和輸入框。 - 'large'
+：大尺寸按鈕和輸入框。 - 'default' ：默認尺寸按鈕和輸入框（若未指定 size ，則使用此尺寸）。 - count
+(Number)：設置初始數量。默認為 1。
 
 <template>
   <div class="input-group flex-nowrap">
@@ -17,9 +11,11 @@
     <button
       type="button"
       class="btn-primary p-0"
-      :class="[btnClass, {'pointer-events-none': count === 1}]"
+      :class="[btnClass, { 'pointer-events-none': count === 1 }]"
       @click="count--"
-    >-</button>
+    >
+      -
+    </button>
 
     <!-- 顯示數量的輸入框 -->
     <input
@@ -28,16 +24,17 @@
       readonly
       :class="inputClass"
       v-model.number="count"
-    >
+    />
 
-     <!-- 增加數量按鈕 -->
+    <!-- 增加數量按鈕 -->
     <button
       type="button"
       class="btn-primary p-0"
-      :class="[btnClass, {'pointer-events-none': count === 10}]"
+      :class="[btnClass, { 'pointer-events-none': count === 10 }]"
       @click="count++"
-    >+</button>
-
+    >
+      +
+    </button>
   </div>
 </template>
 
@@ -60,22 +57,29 @@ const count = defineModel('qtyModel', {
 
 // 計算按鈕的 class
 const btnClass = computed(() => {
-  if (props.size === 'small') { return { 'btn-sm': true }; }
-  if (props.size === 'large') { return { 'btn-lg': true }; }
+  if (props.size === 'small') {
+    return { 'btn-sm': true };
+  }
+  if (props.size === 'large') {
+    return { 'btn-lg': true };
+  }
   return { btn: true };
 });
 
 // 計算輸入框的 class
 const inputClass = computed(() => {
-  if (props.size === 'small') { return { 'add-input-sm': true }; }
-  if (props.size === 'large') { return { 'add-input-lg': true }; }
+  if (props.size === 'small') {
+    return { 'add-input-sm': true };
+  }
+  if (props.size === 'large') {
+    return { 'add-input-lg': true };
+  }
   return { 'add-input': true };
 });
-
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/helper/colors";
+@import '/src/assets/helper/colors';
 
 // 按鈕樣式
 .btn {
@@ -109,5 +113,4 @@ const inputClass = computed(() => {
     max-width: 70px;
   }
 }
-
 </style>

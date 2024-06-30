@@ -11,7 +11,8 @@ const props = defineProps({
   duration: Number,
 });
 
-const options = { // 共用選項配置 :
+const options = {
+  // 共用選項配置 :
   enableScrollSpy: true, // (boolean) 目標進入可視範圍才開始動畫
   suffix: ' +', // (string) : 数值后缀
 };

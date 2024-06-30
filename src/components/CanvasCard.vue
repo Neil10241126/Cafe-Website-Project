@@ -1,15 +1,19 @@
 <template>
   <div class="card flex-row custom-card">
-    <img :src="img_url" class="object-fit-cover rounded-2" alt="...">
+    <img :src="img_url" class="object-fit-cover rounded-2" alt="..." />
     <div class="card-body d-flex flex-column h-auto py-1 pe-0">
       <div>
         <div class="d-flex justify-content-between align-items-center mb-1">
-          <h5 class="card-title fs-7 fw-semibold mb-0">{{ title }}</h5>
+          <h5 class="card-title fs-7 fw-semibold mb-0">
+            {{ title }}
+          </h5>
           <button type="button" class="btn p-0" @click="delCartItem(cart_id)">
-            <i class="bi bi-x-lg fs-7 d-flex" :class="{'d-none': !editor}"></i>
+            <i class="bi bi-x-lg fs-7 d-flex" :class="{ 'd-none': !editor }"></i>
           </button>
         </div>
-        <p class="card-text"><small class="text-body-secondary">{{ content }}</small></p>
+        <p class="card-text">
+          <small class="text-body-secondary">{{ content }}</small>
+        </p>
       </div>
       <div class="mt-auto d-flex justify-content-between align-items-center">
         <p class="fs-7 fw-bold text-danger mb-0">NT$ {{ price }}</p>
@@ -59,7 +63,7 @@ watch(qtyValue, (newValue) => {
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/helper/colors";
+@import '/src/assets/helper/colors';
 
 .custom-card {
   max-width: 540px;

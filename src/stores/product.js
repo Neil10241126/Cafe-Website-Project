@@ -38,9 +38,11 @@ export default defineStore('product', () => {
 
   // sort 價格排序
   function sort(value) {
-    if (value === 'sortByDescending') { // 降冪
+    if (value === 'sortByDescending') {
+      // 降冪
       products.value.sort((a, b) => b.price - a.price);
-    } else if (value === 'sortByAscending') { // 升冪
+    } else if (value === 'sortByAscending') {
+      // 升冪
       products.value.sort((a, b) => a.price - b.price);
     }
   }
@@ -48,7 +50,8 @@ export default defineStore('product', () => {
   // 取得全部產品列表 GET
   function getProducts() {
     // if (isProductsLoaded.value) return;
-    axios.get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/products/all`)
+    axios
+      .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/products/all`)
       .then((res) => {
         products.value = res.data.products;
         // productsObj.value = getProductPage(products.value);
@@ -60,8 +63,11 @@ export default defineStore('product', () => {
 
   // 取得特定產品 GET
   function getProductItem(id) {
-    axios.get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/product/${id}`)
-      .then((res) => { tempProduct.value = res.data.product; })
+    axios
+      .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/product/${id}`)
+      .then((res) => {
+        tempProduct.value = res.data.product;
+      })
       .catch((err) => apiErrAlert(err.response.data.message));
   }
 
