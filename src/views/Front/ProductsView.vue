@@ -1,4 +1,7 @@
 <template>
+  <!-- loading -->
+  <LoadingUi></LoadingUi>
+
   <AdView></AdView>
   <!-- 路由 Router -->
   <div class="container py-6">
@@ -276,10 +279,11 @@ import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
+import LoadingUi from '@/components/LoadingUi.vue';
 
 const { width } = useWindowSize();
 
-// 取得產品資料
+// 取得 product 資料、方法
 const productStore = useProductStore();
 const { products } = storeToRefs(productStore);
 const { filter, sort } = productStore;

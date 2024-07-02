@@ -28,7 +28,7 @@
         <form class="px-lg-3" @submit="onSubmit">
           <div class="mb-4">
             <label for="name" class="form-label">
-              的姓名
+              姓名
               <span class="text-danger fs-6 align-bottom">⁎</span></label
             >
             <input

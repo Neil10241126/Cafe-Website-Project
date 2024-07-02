@@ -272,6 +272,16 @@
             </li>
           </ul>
           <!-- 確認付款按鈕 -->
+          <div v-if="meta.touched" class="mb-1">
+            <span v-if="!meta.valid" class="text-danger">
+              欄位未完成
+              <i class="bi bi-exclamation-circle ms-!"></i>
+            </span>
+            <span v-else class="text-success">
+              欄位已完成
+              <i class="bi bi-check-circle ms-1"></i>
+            </span>
+          </div>
           <button type="button" class="btn btn-primary w-100" @click="onSubmit()">
             確認付款
             <i class="bi bi-chevron-right ms-1"></i>
@@ -292,12 +302,12 @@ import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
-//
+// 引入 helpers 方法
 import { paymentSchema } from '@/helpers/validation';
 
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 
-// 初始化路由
+// 初始化路由、路由參數
 const route = useRoute();
 const router = useRouter();
 
@@ -335,7 +345,7 @@ onMounted(() => {
 });
 
 // 使用 useForm 來處理表單驗證
-const { handleSubmit, defineField, errors } = useForm({
+const { handleSubmit, defineField, errors, meta } = useForm({
   validationSchema: paymentSchema,
 });
 

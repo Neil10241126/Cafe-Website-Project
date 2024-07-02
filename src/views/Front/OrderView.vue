@@ -296,11 +296,11 @@
           <div v-if="meta.touched" class="mb-1">
             <span v-if="!meta.valid" class="text-danger">
               欄位未完成
-              <i class="bi bi-exclamation-circle ms-2"></i>
+              <i class="bi bi-exclamation-circle ms-!"></i>
             </span>
             <span v-else class="text-success">
               欄位已完成
-              <i class="bi bi-check-circle ms-2"></i>
+              <i class="bi bi-check-circle ms-1"></i>
             </span>
           </div>
           <button type="button" class="btn btn-primary w-100" @click="onSubmit()">
@@ -324,11 +324,11 @@ import AdView from '@/components/AdView.vue';
 // 引入 helpers 方法
 import { orderSchema } from '@/helpers/validation';
 
-// 取得購物車資料
+// 取得 cart 資料
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
 
-// 取得訂單資料
+// 取得 order 方法
 const orderStore = useOrderStore();
 const { submitOrder } = orderStore;
 

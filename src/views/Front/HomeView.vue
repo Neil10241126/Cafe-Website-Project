@@ -425,7 +425,7 @@ import ProductCard from '@/components/ProductCard.vue';
 
 const { width } = useWindowSize();
 
-// 取得產品資料
+// 取得 product 方法
 const productStore = useProductStore();
 const { filter } = productStore;
 </script>

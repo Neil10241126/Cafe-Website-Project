@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 // 引入 Pinia 狀態管理
+import { defineStore } from 'pinia';
 import useCartStore from '@/stores/cart';
 import alertStore from '@/stores/alert';
 
@@ -11,7 +11,7 @@ export default defineStore('order', () => {
   // 初始化路由
   const router = useRouter();
 
-  // 取得購物車資料
+  // 取得 cart 方法
   const cartStore = useCartStore();
   const { getCart } = cartStore;
 

@@ -213,7 +213,7 @@ import CanvasCard from '@/components/CanvasCard.vue';
 // 初始化路由
 const router = useRouter();
 
-// 取得購物車資料
+// 取得 cart 資料
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="card border border-gray-400 rounded-3" style="max-width: 300px">
+  <div class="card border border-gray-400 rounded-3 overflow-hidden" style="max-width: 300px">
     <!-- 圖片 URL -->
     <img :src="img_url" class="card-img-top rounded-top-3" alt="Honduran-coffee-bean-2" />
     <!-- 收藏按鈕 -->
@@ -18,7 +18,6 @@
           class="fs-6 text-gray-800 lh-21px lh-sm-30px"
           v-if="!card_details"
           :to="`/products/${product_id}`"
-          @click="getProductItem(product_id)"
         >
           <i class="bi bi-box-arrow-in-up-right"></i>
         </RouterLink>
@@ -46,15 +45,17 @@
 
       <!-- 功能操作 -->
       <div v-if="card_details" class="d-flex">
-        <RouterLink
-          :to="`/products/${product_id}`"
-          class="btn btn-outline-primary border-2 w-100"
-          @click="getProductItem(product_id)"
-        >
+        <RouterLink :to="`/products/${product_id}`" class="btn btn-outline-primary border-2 w-100">
           查看更多
         </RouterLink>
-        <button type="button" class="btn btn-primary ms-2" @click="addToCart(product_id, 1)">
-          <i class="bi bi-cart3"></i>
+        <button
+          type="button"
+          class="btn btn-primary ms-2"
+          @click="addToCart(product_id, 1)"
+          :disabled="loadingObj.isLoading"
+        >
+          <i class="bi bi-cart3" v-show="!loadingObj.isLoading"></i>
+          <LoadingUi :name="'inline'" v-show="loadingObj.isLoading" />
         </button>
       </div>
       <button
@@ -72,8 +73,11 @@
 
 <script setup>
 // 引入 Pinia 狀態管理
-import useProductStore from '@/stores/product';
+import { storeToRefs } from 'pinia';
+import useLoadingStore from '@/stores/loading';
+// 引入 UI 組件
 import useCartStore from '@/stores/cart';
+import LoadingUi from '@/components/LoadingUi.vue';
 
 defineProps({
   // 資料參數 value :
@@ -88,13 +92,13 @@ defineProps({
   card_details: Boolean, // 詳細 / 簡要 卡片樣式切換
 });
 
-// 取得產品資料
-const productStore = useProductStore();
-const { getProductItem } = productStore;
-
-// 取得購物車資料
+// 取得 cart 方法
 const cartStore = useCartStore();
 const { addToCart } = cartStore;
+
+// 取得 loading 資料
+const loaderStore = useLoadingStore();
+const { loadingObj } = storeToRefs(loaderStore);
 </script>
 
 <style lang="scss" scoped>

@@ -49,7 +49,7 @@ const props = defineProps({
   qty: Number,
 });
 
-// 取得購物車資料
+// 取得 cart 方法
 const cartStore = useCartStore();
 const { delCartItem, changeNum } = cartStore;
 

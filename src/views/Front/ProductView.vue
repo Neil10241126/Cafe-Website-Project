@@ -1,4 +1,7 @@
 <template>
+  <!-- loading -->
+  <LoadingUi></LoadingUi>
+
   <AdView></AdView>
   <!-- 路由 Router -->
   <div class="container py-6">
@@ -117,9 +120,11 @@
                   type="button"
                   class="btn btn-primary border-0 fs-lg-6 d-flex justify-content-center align-items-center w-100"
                   @click="addToCart(tempProduct.id, quantity)"
+                  :disabled="loadingObj.isLoading"
                 >
                   加入購物車
-                  <i class="bi bi-cart3 fs-7 d-flex ms-2"></i>
+                  <i class="bi bi-cart3 fs-7 ms-2" v-show="!loadingObj.isLoading"></i>
+                  <LoadingUi :name="'inline'" class="ms-2" v-show="loadingObj.isLoading" />
                 </button>
                 <button type="button" class="btn text-primary p-0 ms-4">
                   <i class="bi bi-suit-heart d-flex fs-2"></i>
@@ -285,28 +290,41 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useWindowSize } from '@vueuse/core';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useProductStore from '@/stores/product';
 import useCartStore from '@/stores/cart';
+import useLoadingStore from '@/stores/loading';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
+import LoadingUi from '@/components/LoadingUi.vue';
 
 const { width } = useWindowSize();
 
-// 取得產品資料
+// 初始化路由參數
+const route = useRoute();
+
+// 取得 product 資料、方法
 const productStore = useProductStore();
 const { tempProduct } = storeToRefs(productStore);
+const { getProductItem } = productStore;
 
-// 取得購物車資料
+// 取得 cart 方法
 const cartStore = useCartStore();
 const { addToCart } = cartStore;
 
+// 取得 loading 方法
+const loaderStore = useLoadingStore();
+const { loadingObj } = storeToRefs(loaderStore);
+
 const quantity = ref(1); // 定義數量變數
+
+onMounted(() => getProductItem(route.params.id));
 </script>
 
 <style lang="scss" scoped></style>

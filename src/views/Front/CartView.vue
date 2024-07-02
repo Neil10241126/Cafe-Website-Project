@@ -1,4 +1,6 @@
 <template>
+  <!-- Loading -->
+  <LoadingUi></LoadingUi>
   <AdView></AdView>
   <!-- 路由 Router -->
   <div class="container py-6">
@@ -178,16 +180,17 @@ import useOrderStore from '@/stores/order';
 import AdView from '@/components/AdView.vue';
 import AddButtonUi from '@/components/AddButtonUi.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
+import LoadingUi from '@/components/LoadingUi.vue';
 
 // 初始化路由
 const router = useRouter();
 
-// 取得購物車資料
+// 取得 cart 資料、方法
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
 const { changeNum, delCartItem } = cartStore;
 
-// 取得優惠券
+// 取得 order 方法
 const orderStore = useOrderStore();
 const { useCoupon } = orderStore;
 
