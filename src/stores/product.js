@@ -1,11 +1,10 @@
 import { ref } from 'vue';
-import axios from 'axios';
 // 引入 Pinia 狀態管理
 import { defineStore } from 'pinia';
 import useAlertStore from '@/stores/alert';
 import useLoadingStore from '@/stores/loading';
-
-const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+// 引入 helpers 方法
+import { fetchProdcuts, fetchProductItem } from '@/helpers/api';
 
 export default defineStore('product', () => {
   // 取得 alert 方法
@@ -39,9 +38,8 @@ export default defineStore('product', () => {
 
   // 取得全部產品列表 GET
   function getProducts() {
-    console.log('觸發 getProducts 方法');
-    axios
-      .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/products/all`)
+    console.log('觸發 api.js getProducts 方法');
+    fetchProdcuts()
       .then((res) => {
         products.value = res.data.products;
       })
@@ -50,10 +48,10 @@ export default defineStore('product', () => {
 
   // 取得特定產品 GET
   function getProductItem(id) {
-    console.log('觸發 getProductsItem 方法');
+    console.log('觸發 api.js getProductsItem 方法');
     isLoadingOn('isFullLoading');
-    axios
-      .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/product/${id}`)
+
+    fetchProductItem(id)
       .then((res) => {
         tempProduct.value = res.data.product;
         isLoadingOff('isFullLoading');

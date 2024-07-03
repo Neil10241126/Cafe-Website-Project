@@ -296,7 +296,6 @@
 import { ref, onMounted } from 'vue';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單驗證
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
@@ -304,8 +303,7 @@ import AdView from '@/components/AdView.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
 // 引入 helpers 方法
 import { paymentSchema } from '@/helpers/validation';
-
-const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+import { fetchOrder, fetchCheckout } from '@/helpers/api';
 
 // 初始化路由、路由參數
 const route = useRoute();
@@ -320,8 +318,7 @@ const order = ref({});
 
 // 取得訂單資訊 GET
 function getOrders() {
-  axios
-    .get(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order/${route.params.orderId}`)
+  fetchOrder(route.params.orderId)
     .then((res) => {
       order.value = res.data.order;
     }) // 將訂單數據賦值給 order
@@ -330,8 +327,7 @@ function getOrders() {
 
 // 完成付款 POST
 function checkout() {
-  axios
-    .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/pay/${route.params.orderId}`)
+  fetchCheckout(route.params.orderId)
     .then((res) => {
       apiResAlert(res.data.message); // 顯示成功消息
       router.push(`/checkout/${route.params.orderId}`); // 跳轉到結帳完成頁面

@@ -1,11 +1,10 @@
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 // 引入 Pinia 狀態管理
 import { defineStore } from 'pinia';
 import useCartStore from '@/stores/cart';
-import alertStore from '@/stores/alert';
-
-const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
+import useAlertStore from '@/stores/alert';
+// 引入 helpers 方法
+import { fetchCreate, fetchCoupon } from '@/helpers/api';
 
 export default defineStore('order', () => {
   // 初始化路由
@@ -16,7 +15,7 @@ export default defineStore('order', () => {
   const { getCart } = cartStore;
 
   // 取得 alert 方法
-  const alert = alertStore();
+  const alert = useAlertStore();
   const { apiResAlert, apiErrAlert } = alert;
 
   // 啟用優惠券 POST
@@ -24,8 +23,7 @@ export default defineStore('order', () => {
     const data = {
       code,
     };
-    axios
-      .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/coupon`, { data })
+    fetchCoupon({ data })
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();
@@ -35,8 +33,7 @@ export default defineStore('order', () => {
 
   // 生成訂單 POST
   function submitOrder(userData) {
-    axios
-      .post(`${VITE_API_URL}/v2/api/${VITE_API_NAME}/order`, { data: userData })
+    fetchCreate({ data: userData })
       .then((res) => {
         apiResAlert(res.data.message);
         getCart();

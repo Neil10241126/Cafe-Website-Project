@@ -1,5 +1,5 @@
 <template>
-  <div class="card border border-gray-400 rounded-3 overflow-hidden" style="max-width: 300px">
+  <div class="card border border-gray-400 rounded-3" style="max-width: 300px">
     <!-- 圖片 URL -->
     <img :src="img_url" class="card-img-top rounded-top-3" alt="Honduran-coffee-bean-2" />
     <!-- 收藏按鈕 -->

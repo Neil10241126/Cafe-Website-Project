@@ -88,15 +88,13 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
-import axios from 'axios';
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
 import BadgeUi from '@/components/BadgeUi.vue';
 // 引入 helpers 方法
 import { singinSchema } from '@/helpers/validation';
-
-const { VITE_API_URL } = import.meta.env;
+import { loginUser } from '@/helpers/api';
 
 // 初始化路由
 const router = useRouter();
@@ -109,14 +107,14 @@ const { apiResAlert, apiErrAlert } = alertStore;
 const { defineField, errors, meta, values } = useForm({
   validationSchema: singinSchema,
 });
+
 // 定義表單欄位
 const [username, usernameAttrs] = defineField('username');
 const [password, passwordAttrs] = defineField('password');
 
 // 登入後台 POST
-function signin() {
-  axios
-    .post(`${VITE_API_URL}/v2/admin/signin`, values)
+const signin = () => {
+  loginUser(values)
     .then((res) => {
       const { token, expired: expires } = res.data;
 
@@ -126,7 +124,7 @@ function signin() {
       router.push('/admin');
     })
     .catch((err) => apiErrAlert(err.response.data.message));
-}
+};
 </script>
 
 <style lang="scss" scoped></style>
