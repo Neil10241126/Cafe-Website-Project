@@ -433,8 +433,14 @@ const { filter } = productStore;
 
 function api() {
   axios
-    .get(`http://localhost:3000/users`)
-    .then((res) => console.log(res))
+    .post(`https://cafe-json-server.onrender.com/api/login`, {
+      email: 'test@gmail.com',
+      password: 'test',
+    })
+    .then((res) => {
+      axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
+      console.log(res);
+    })
     .catch((err) => console.log(err));
 }
 onMounted(() => {

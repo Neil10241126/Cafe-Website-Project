@@ -12,13 +12,11 @@ export default defineStore('loader', () => {
   // 開啟 loading
   const isLoadingOn = (loadType) => {
     loadingObj.value[loadType] = true;
-    console.log(loadType, '開啟');
   };
 
   // 關閉 loading
   const isLoadingOff = (loadType) => {
     loadingObj.value[loadType] = false;
-    console.log(loadType, '關閉');
   };
 
   return {

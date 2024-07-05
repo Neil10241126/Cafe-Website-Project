@@ -20,7 +20,6 @@ export default defineStore('cart', () => {
 
   // 取得購物車 GET
   function getCart() {
-    console.log('執行 getCart 方法');
     fetchCart()
       .then((res) => {
         cartList.value = res.data.data;

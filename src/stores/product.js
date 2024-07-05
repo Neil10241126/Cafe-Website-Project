@@ -38,7 +38,6 @@ export default defineStore('product', () => {
 
   // 取得全部產品列表 GET
   function getProducts() {
-    console.log('觸發 api.js getProducts 方法');
     fetchProdcuts()
       .then((res) => {
         products.value = res.data.products;

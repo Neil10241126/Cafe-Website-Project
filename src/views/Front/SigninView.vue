@@ -37,10 +37,11 @@
                     class="form-control"
                     id="email"
                     placeholder="請輸入您的帳號"
+                    :class="{ 'is-invalid': errors['signin.username'] }"
                     v-model="username"
                     v-bind="usernameAttrs"
                   />
-                  <span class="text-danger">{{ errors.username }}</span>
+                  <span class="text-danger">{{ errors['signin.username'] }}</span>
                 </div>
               </div>
               <div class="d-flex mb-4">
@@ -54,31 +55,105 @@
                     id="password"
                     placeholder="請輸入您的密碼"
                     autocomplete="true"
+                    :class="{ 'is-invalid': errors['signin.password'] }"
                     v-model="password"
                     v-bind="passwordAttrs"
                     @keyup.enter="signin()"
                   />
-                  <span class="text-danger">{{ errors.password }}</span>
-                </div>
-              </div>
-              <div class="d-flex align-items-center justify-content-between">
-                <RouterLink to="/" class="link-gray-600 text-decoration-underline link-offset-1">
-                  返回首頁
-                </RouterLink>
-                <div>
-                  <button type="button" class="btn btn-outline-primary">註冊</button>
-                  <button
-                    type="button"
-                    class="btn btn-primary ms-4"
-                    :disabled="!meta.valid"
-                    @click="signin()"
-                  >
-                    登入
-                  </button>
+                  <span class="text-danger">{{ errors['signin.password'] }}</span>
                 </div>
               </div>
             </form>
+            <div class="d-flex align-items-center justify-content-between">
+              <RouterLink to="/" class="link-gray-600 text-decoration-underline link-offset-1">
+                返回首頁
+              </RouterLink>
+              <div>
+                <a
+                  href="#"
+                  class="link-primary text-decoration-underline link-offset-1"
+                  @click.prevent="showModal()"
+                  >註冊帳號</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-primary ms-3"
+                  :disabled="!meta.valid"
+                  @click="signin()"
+                >
+                  登入
+                </button>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 註冊 modal -->
+  <div class="modal fade" id="signupModal" ref="refModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">註冊帳號</h1>
+          <button type="button" class="btn-close" @click="hideModal()"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center py-4">
+          <form>
+            <div class="d-flex mb-4">
+              <label for="name" class="form-label me-3 mb-0 text-nowrap">姓名</label>
+              <div class="w-100">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="您要註冊的姓名"
+                  :class="{ 'is-invalid': errors['signup.name'] }"
+                  v-model="name"
+                  v-bind="nameAttrs"
+                />
+                <span class="text-danger">{{ errors['signup.name'] }}</span>
+              </div>
+            </div>
+            <div class="d-flex mb-4">
+              <label for="signupEmail" class="form-label me-3 mb-0 text-nowrap">信箱</label>
+              <div class="w-100">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="signupEmail"
+                  placeholder="您要註冊的信箱"
+                  :class="{ 'is-invalid': errors['signup.email'] }"
+                  v-model="email"
+                  v-bind="emailAttrs"
+                />
+                <span class="text-danger">{{ errors['signup.email'] }}</span>
+              </div>
+            </div>
+            <div class="d-flex">
+              <label for="signupPassword" class="form-label me-3 mb-0 text-nowrap">密碼</label>
+              <div class="w-100">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="signupPassword"
+                  placeholder="您要註冊的密碼"
+                  autocomplete="true"
+                  :class="{ 'is-invalid': errors['signup.password'] }"
+                  v-model="signupPassword"
+                  v-bind="signupPasswordAttrs"
+                />
+                <span class="text-danger">{{ errors['signup.password'] }}</span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="hideModal()">取消</button>
+          <button type="button" class="btn btn-primary" :disabled="!meta.valid" @click="signup()">
+            確認註冊
+          </button>
         </div>
       </div>
     </div>
@@ -86,6 +161,7 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 // 引入 Pinia 狀態管理
@@ -93,8 +169,10 @@ import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
 import BadgeUi from '@/components/BadgeUi.vue';
 // 引入 helpers 方法
-import { singinSchema } from '@/helpers/validation';
-import { loginUser } from '@/helpers/api';
+import { signinSchema, signupSchema } from '@/helpers/validation';
+import { loginUser, renderSignup } from '@/helpers/api';
+// 引入 Bootstrap 方法
+import Modal from 'bootstrap/js/dist/modal';
 
 // 初始化路由
 const router = useRouter();
@@ -103,18 +181,27 @@ const router = useRouter();
 const alertStore = useAlertStore();
 const { apiResAlert, apiErrAlert } = alertStore;
 
+// 動態選擇 schema
+const isSignup = ref(false);
+const validationSchema = computed(() => (isSignup.value ? signupSchema : signinSchema));
+
 // 使用 useForm 來處理表單驗證
 const { defineField, errors, meta, values } = useForm({
-  validationSchema: singinSchema,
+  validationSchema,
 });
 
-// 定義表單欄位
-const [username, usernameAttrs] = defineField('username');
-const [password, passwordAttrs] = defineField('password');
+// 定義表單欄位 : 登入
+const [username, usernameAttrs] = defineField('signin.username');
+const [password, passwordAttrs] = defineField('signin.password');
+
+// 定義表單欄位 : 註冊
+const [name, nameAttrs] = defineField('signup.name');
+const [email, emailAttrs] = defineField('signup.email');
+const [signupPassword, signupPasswordAttrs] = defineField('signup.password');
 
 // 登入後台 POST
 const signin = () => {
-  loginUser(values)
+  loginUser(values.signin)
     .then((res) => {
       const { token, expired: expires } = res.data;
 
@@ -125,6 +212,51 @@ const signin = () => {
     })
     .catch((err) => apiErrAlert(err.response.data.message));
 };
+
+// 註冊帳號 POST
+const signup = () => {
+  renderSignup(values.signup)
+    .then(() => apiResAlert('註冊成功'))
+    .catch((err) => {
+      // 回傳註冊錯誤類型
+      const resError = {
+        'Email already exists': '電子信箱已存在',
+      };
+      apiErrAlert(resError[err.response.data]);
+    });
+};
+
+const refModal = ref(null);
+const signupModal = ref(null);
+
+// 開啟 modal
+const showModal = () => signupModal.value.show();
+
+// 關閉 modal
+const hideModal = () => signupModal.value.hide();
+
+onMounted(() => {
+  signupModal.value = new Modal(refModal.value);
+
+  // 使用 MutationObserver 監聽 classList 變化
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        // 當 Modal 顯示時，isSignup 為 true
+        const result = Array.from(refModal.value.classList).includes('show');
+        if (result) {
+          isSignup.value = true;
+        } else {
+          isSignup.value = false;
+        }
+      }
+    });
+  });
+
+  observer.observe(refModal.value, {
+    attributes: true, // 監聽屬性變化
+  });
+});
 </script>
 
 <style lang="scss" scoped></style>
