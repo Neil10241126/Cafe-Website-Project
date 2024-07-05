@@ -416,8 +416,8 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import axios from 'axios';
+// import { onMounted } from 'vue';
+// import axios from 'axios';
 import { useWindowSize } from '@vueuse/core';
 // 引入 Pinia 狀態管理
 import useProductStore from '@/stores/product';
@@ -431,21 +431,21 @@ const { width } = useWindowSize();
 const productStore = useProductStore();
 const { filter } = productStore;
 
-function api() {
-  axios
-    .post(`https://cafe-json-server.onrender.com/api/login`, {
-      email: 'test@gmail.com',
-      password: 'test',
-    })
-    .then((res) => {
-      axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
-      console.log(res);
-    })
-    .catch((err) => console.log(err));
-}
-onMounted(() => {
-  api();
-});
+// function api() {
+//   axios
+//     .post(`https://cafe-json-server.onrender.com/api/login`, {
+//       email: 'test@gmail.com',
+//       password: 'test',
+//     })
+//     .then((res) => {
+//       axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
+//       console.log(res);
+//     })
+//     .catch((err) => console.log(err));
+// }
+// onMounted(() => {
+//   api();
+// });
 </script>
 
 <style lang="scss" scoped>

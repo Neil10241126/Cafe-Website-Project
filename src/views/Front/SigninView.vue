@@ -79,7 +79,7 @@
                   type="button"
                   class="btn btn-primary ms-3"
                   :disabled="!meta.valid"
-                  @click="signin()"
+                  @click="signUser()"
                 >
                   登入
                 </button>
@@ -163,14 +163,17 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 // 引入 Pinia 狀態管理
+import { storeToRefs } from 'pinia';
 import useAlertStore from '@/stores/alert';
+import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import BadgeUi from '@/components/BadgeUi.vue';
 // 引入 helpers 方法
 import { signinSchema, signupSchema } from '@/helpers/validation';
-import { loginUser, renderSignup } from '@/helpers/api';
+import { loginAdmin, renderSignin, renderSignup } from '@/helpers/api';
 // 引入 Bootstrap 方法
 import Modal from 'bootstrap/js/dist/modal';
 
@@ -180,6 +183,10 @@ const router = useRouter();
 // 取得 alert 方法
 const alertStore = useAlertStore();
 const { apiResAlert, apiErrAlert } = alertStore;
+
+// 取得 user 資料
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
 // 動態選擇 schema
 const isSignup = ref(false);
@@ -201,7 +208,7 @@ const [signupPassword, signupPasswordAttrs] = defineField('signup.password');
 
 // 登入後台 POST
 const signin = () => {
-  loginUser(values.signin)
+  loginAdmin(values.signin)
     .then((res) => {
       const { token, expired: expires } = res.data;
 
@@ -213,7 +220,26 @@ const signin = () => {
     .catch((err) => apiErrAlert(err.response.data.message));
 };
 
-// 註冊帳號 POST
+// 用戶登陸 POST
+const signUser = () => {
+  const data = {
+    email: values.signin.username,
+    password: values.signin.password,
+  };
+  renderSignin(data)
+    .then((res) => {
+      console.log(res);
+      axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
+      user.value = res.data.user;
+      apiResAlert('登入成功');
+      router.push('/products');
+    })
+    .catch((err) => {
+      apiErrAlert(err.response.data);
+    });
+};
+
+// 用戶註冊 POST
 const signup = () => {
   renderSignup(values.signup)
     .then(() => apiResAlert('註冊成功'))

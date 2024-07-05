@@ -6,13 +6,13 @@ import axios from 'axios';
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
 const renderApi = 'https://cafe-json-server.onrender.com/api';
 
-// User註冊 相關 api
+// User Render 相關 api
 const renderUserApi = axios.create({
   baseURL: renderApi,
 });
 
 // User 相關 api
-const userApi = axios.create({
+const adminApi = axios.create({
   baseURL: VITE_API_URL,
 });
 
@@ -36,11 +36,12 @@ const couponApi = axios.create({
   baseURL: VITE_API_URL,
 });
 
-// User 註冊相關 api
+// User Render 相關 api
 export const renderSignup = (userData) => renderUserApi.post('/signup', userData);
+export const renderSignin = (userData) => renderUserApi.post('/signin', userData);
 
-// User 相關 api
-export const loginUser = (userData) => userApi.post('/v2/admin/signin', userData);
+// Admin 相關 api
+export const loginAdmin = (userData) => adminApi.post('/v2/admin/signin', userData);
 
 // Product 相關 api
 export const fetchProdcuts = () => productApi.get(`/v2/api/${VITE_API_NAME}/products/all`);

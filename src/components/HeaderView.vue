@@ -68,76 +68,124 @@
 
       <!-- 導覽列表 -->
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <RouterLink
-            to="/"
-            class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
-          >
-            首頁
-          </RouterLink>
-          <RouterLink
-            to="/products"
-            class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
-          >
-            全部商品
-          </RouterLink>
-          <RouterLink
-            to="/about"
-            class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
-          >
-            關於我們
-          </RouterLink>
-          <RouterLink
-            to="/contact"
-            class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
-          >
-            聯絡我們
-          </RouterLink>
-          <RouterLink
-            to="#"
-            class="nav-link link-warning text-light px-3 d-none d-lg-flex align-items-center"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#Cart"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              class="bi bi-cart3"
-              viewBox="0 0 16 16"
+        <ul class="navbar-nav">
+          <li>
+            <RouterLink
+              to="/"
+              class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
             >
-              <path
-                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0
-                0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1
-              0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102
-                4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2
-                2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0
-                  1 1 0 2 1 1 0 0 1 0-2"
-              />
-            </svg>
-          </RouterLink>
-          <RouterLink
-            to="/signin"
-            class="nav-link link-warning text-light ps-3 d-none d-lg-flex align-items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="36"
-              fill="currentColor"
-              class="bi bi-person-circle"
-              viewBox="0 0 16 16"
+              首頁
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/products"
+              class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
             >
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-              <path
-                fill-rule="evenodd"
-                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7
-                0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-              />
-            </svg>
-          </RouterLink>
-        </div>
+              全部商品
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/about"
+              class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
+            >
+              關於我們
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/contact"
+              class="nav-link link-warning text-light fs-7 fs-lg-5 fw-bold py-3 px-lg-3"
+            >
+              聯絡我們
+            </RouterLink>
+          </li>
+          <li class="d-flex">
+            <RouterLink
+              to="#"
+              class="nav-link link-warning text-light px-3 d-none d-lg-flex align-items-center"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#Cart"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="currentColor"
+                class="bi bi-cart3"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0
+                  0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1
+                0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102
+                  4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2
+                  2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0
+                    1 1 0 2 1 1 0 0 1 0-2"
+                />
+              </svg>
+            </RouterLink>
+          </li>
+          <li class="d-flex dropdown">
+            <RouterLink
+              to="#"
+              class="nav-link link-warning text-light ps-3 d-none d-lg-flex align-items-center"
+              data-bs-toggle="dropdown"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="36"
+                fill="currentColor"
+                class="bi bi-person-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path
+                  fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7
+                  0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                />
+              </svg>
+            </RouterLink>
+            <ul class="dropdown-menu dropdown-menu-end px-1">
+              <li>
+                <div class="dropdown-item">
+                  <i class="bi bi-person-circle me-2"></i> {{ !user.name ? '尚未登入' : user.name }}
+                  <a
+                    href="#"
+                    @click.prevent=""
+                    ref="popoverButton"
+                    data-bs-toggle="popover"
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-popover"
+                    data-bs-trigger="hover"
+                    data-bs-content="一般用戶"
+                    ><i class="bi bi-exclamation-circle text-gray-500 ms-2"></i
+                  ></a>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>設定</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="bi bi-bag-plus me-2"></i>確認訂單</a>
+              </li>
+
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <RouterLink to="/signin" v-if="!user.name" class="dropdown-item"
+                  ><i class="bi bi-box-arrow-in-right me-2"></i>登入</RouterLink
+                >
+                <a v-else class="dropdown-item" href="#"
+                  ><i class="bi bi-box-arrow-in-left me-2"></i>登出</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -203,12 +251,16 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useCartStore from '@/stores/cart';
+import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import CanvasCard from '@/components/CanvasCard.vue';
+// 引入 Bootstrap 方法
+import Popover from 'bootstrap/js/dist/popover';
 
 // 初始化路由
 const router = useRouter();
@@ -216,6 +268,26 @@ const router = useRouter();
 // 取得 cart 資料
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
+
+// 取得 user 資料
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
+
+// 初始化 popover 元件
+const popoverButton = ref(null);
+onMounted(() => {
+  popoverButton.value = new Popover(popoverButton.value);
+});
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.custom-popover {
+  --bs-popover-max-width: 200px;
+  --bs-popover-border-color: #6f42c1;
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: 0.5rem;
+  & .popover-body {
+    color: #6f42c1;
+  }
+}
+</style>

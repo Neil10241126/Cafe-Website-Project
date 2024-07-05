@@ -10,7 +10,7 @@ import App from './App.vue';
 import router from './router';
 
 import './assets/all.scss';
-import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 const app = createApp(App);
 app.component('VueLoading', Loading);
