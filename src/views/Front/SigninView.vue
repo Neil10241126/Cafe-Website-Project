@@ -184,7 +184,7 @@ const router = useRouter();
 const alertStore = useAlertStore();
 const { apiResAlert, apiErrAlert } = alertStore;
 
-// 取得 user 資料
+// 取得 user 資料、方法
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
@@ -213,7 +213,7 @@ const signin = () => {
       const { token, expired: expires } = res.data;
 
       // 將 token expires 存入 cookie
-      document.cookie = `token=${token}; expires=${expires}; path=/`;
+      document.cookie = `token=${token}; expires=${new Date(expires)}; path=/`;
       apiResAlert(res.data.message);
       router.push('/admin');
     })
@@ -228,9 +228,15 @@ const signUser = () => {
   };
   renderSignin(data)
     .then((res) => {
-      console.log(res);
-      axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
-      user.value = res.data.user;
+      // 取得伺服器回傳的 accessToken，並設定 token 的過期時間為 1 分鐘後
+      const token = res.data.accessToken;
+      const expires = new Date(new Date().getTime() + 30 * 60 * 1000).toUTCString();
+
+      // 將 token 存入 cookie，並設定過期時間和路徑，並存入 Authorization 當中
+      document.cookie = `accessToken=${token}; expires=${expires}; path=/`;
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+      user.value.userInfo = res.data.user;
       apiResAlert('登入成功');
       router.push('/products');
     })
@@ -241,6 +247,7 @@ const signUser = () => {
 
 // 用戶註冊 POST
 const signup = () => {
+  console.log(values);
   renderSignup(values.signup)
     .then(() => apiResAlert('註冊成功'))
     .catch((err) => {

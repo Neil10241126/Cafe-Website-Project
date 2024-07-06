@@ -39,6 +39,7 @@ const couponApi = axios.create({
 // User Render 相關 api
 export const renderSignup = (userData) => renderUserApi.post('/signup', userData);
 export const renderSignin = (userData) => renderUserApi.post('/signin', userData);
+export const renderLogout = () => renderUserApi.post('/signout');
 
 // Admin 相關 api
 export const loginAdmin = (userData) => adminApi.post('/v2/admin/signin', userData);

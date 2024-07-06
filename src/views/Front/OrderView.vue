@@ -314,11 +314,13 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單驗證
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useCartStore from '@/stores/cart';
 import useOrderStore from '@/stores/order';
+import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 // 引入 helpers 方法
@@ -331,6 +333,10 @@ const { cartList } = storeToRefs(cartStore);
 // 取得 order 方法
 const orderStore = useOrderStore();
 const { submitOrder } = orderStore;
+
+// 取得 user 資料、方法
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
 // 使用 useForm 來處理表單驗證
 const { handleSubmit, defineField, errors, meta } = useForm({
@@ -354,6 +360,16 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 
   // 送出表單後清除內容。
   resetForm();
+});
+
+const updateDate = () => {
+  if (user.value.loginState) {
+    name.value = user.value.userInfo.name;
+  }
+};
+
+onMounted(() => {
+  updateDate();
 });
 </script>
 

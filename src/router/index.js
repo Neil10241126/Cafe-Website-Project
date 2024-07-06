@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 import useProductStore from '@/stores/product';
 import useCartStore from '@/stores/cart';
 import useLoadingStore from '@/stores/loading';
+import useUserStore from '@/stores/user';
 
 const routes = [
   {
@@ -77,6 +78,14 @@ const router = createRouter({
     // 始終滾動至頂部
     return { top: 0 };
   },
+});
+
+router.beforeEach(() => {
+  // 取得 user 資料、方法
+  const userStore = useUserStore();
+  const { checkToken } = userStore;
+
+  checkToken();
 });
 
 router.afterEach(async () => {
