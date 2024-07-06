@@ -193,12 +193,16 @@ const { apiResAlert, apiErrAlert } = alertStore;
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
+// 定義 modal
+const refModal = ref(null);
+const signupModal = ref(null);
+
 // 動態選擇 schema
 const isSignup = ref(false);
 const validationSchema = computed(() => (isSignup.value ? signupSchema : signinSchema));
 
 // 使用 useForm 來處理表單驗證
-const { defineField, errors, meta, values } = useForm({
+const { defineField, handleSubmit, errors, meta, values } = useForm({
   validationSchema,
 });
 
@@ -251,9 +255,15 @@ const signinUser = () => {
 };
 
 // 用戶註冊 POST
-const signupUser = () => {
+const signupUser = handleSubmit((value, { resetForm }) => {
   renderSignup(values.signup)
-    .then(() => apiResAlert('註冊成功'))
+    .then(() => {
+      apiResAlert('註冊成功');
+      signupModal.value.hide();
+
+      // 送出表單後清除內容。
+      resetForm();
+    })
     .catch((err) => {
       // 回傳註冊錯誤類型
       const resError = {
@@ -261,10 +271,7 @@ const signupUser = () => {
       };
       apiErrAlert(resError[err.response.data]);
     });
-};
-
-const refModal = ref(null);
-const signupModal = ref(null);
+});
 
 // 開啟 modal
 const showModal = () => signupModal.value.show();
