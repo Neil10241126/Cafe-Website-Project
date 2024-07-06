@@ -1,6 +1,6 @@
 <template>
   <!-- 導覽列 -->
-  <nav class="navbar navbar-expand-lg bg-gray-900 py-3">
+  <nav class="navbar navbar-expand-lg bg-gray-900 fixed-top py-3">
     <div class="container d-flex">
       <!-- 漢堡選單 -->
       <button
@@ -13,7 +13,7 @@
       </button>
 
       <!-- Logo -->
-      <RouterLink class="navbar-brand mx-auto" to="/">
+      <RouterLink class="navbar-brand mx-auto mx-lg-0" to="/">
         <img
           class="d-none d-lg-block"
           src="/public/images/Beans-cafe-logo-light.png"
@@ -62,7 +62,13 @@
             class="nav-link link-warning text-light px-3 d-flex align-items-center"
             data-bs-toggle="offcanvas"
             data-bs-target="#Cart"
-            ><i class="bi bi-cart3 d-flex fs-4 fs-lg-3"></i>
+            ><i class="bi bi-cart3 d-flex fs-4 fs-lg-3 position-relative">
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-gray-900 fs-8 ms-1"
+              >
+                {{ cartList.carts?.length }}
+              </span>
+            </i>
           </RouterLink>
         </li>
         <li class="d-flex dropdown">
@@ -70,6 +76,7 @@
             to="#"
             class="nav-link link-warning text-light ps-3 d-flex align-items-center"
             data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
             ><i class="bi bi-person-circle d-flex fs-4 fs-lg-3"></i>
           </RouterLink>
           <ul class="dropdown-menu dropdown-menu-end position-absolute px-1">
@@ -84,7 +91,7 @@
                   data-bs-toggle="popover"
                   data-bs-placement="top"
                   data-bs-custom-class="custom-popover"
-                  data-bs-trigger="hover"
+                  data-bs-trigger="focus hover"
                   data-bs-content="一般用戶"
                   ><i class="bi bi-exclamation-circle text-gray-500 ms-2"></i
                 ></a>
@@ -103,7 +110,7 @@
               <RouterLink to="/signin" v-if="!user.userInfo.name" class="dropdown-item"
                 ><i class="bi bi-box-arrow-in-right me-2"></i>登入</RouterLink
               >
-              <a v-else class="dropdown-item" href="#" @click.prevent="logout()"
+              <a v-else class="dropdown-item" href="#" @click.prevent="signout()"
                 ><i class="bi bi-box-arrow-in-left me-2"></i>登出</a
               >
             </li>
@@ -220,8 +227,6 @@ import useCartStore from '@/stores/cart';
 import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import CanvasCard from '@/components/CanvasCard.vue';
-// 引入 helpers 方法
-import { renderLogout } from '@/helpers/api';
 // 引入 Bootstrap 方法
 import Popover from 'bootstrap/js/dist/popover';
 
@@ -232,25 +237,17 @@ const router = useRouter();
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
 
-// 取得 user 資料
+// 取得 user 資料、方法
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+const { signout } = userStore;
 
 // 初始化 popover 元件
 const popoverButton = ref(null);
+
 onMounted(() => {
   popoverButton.value = new Popover(popoverButton.value);
 });
-
-function logout() {
-  renderLogout()
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
 </script>
 
 <style lang="scss">

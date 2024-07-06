@@ -362,9 +362,11 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
   resetForm();
 });
 
+// 更新用戶資訊至填寫訂單
 const updateDate = () => {
   if (user.value.loginState) {
     name.value = user.value.userInfo.name;
+    email.value = user.value.userInfo.email;
   }
 };
 

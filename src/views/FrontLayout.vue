@@ -1,6 +1,6 @@
 <template>
   <HeaderView></HeaderView>
-  <div class="bg-secondary-tint">
+  <div class="front-view bg-secondary-tint">
     <RouterView></RouterView>
   </div>
   <FooterView></FooterView>
@@ -12,4 +12,12 @@ import HeaderView from '@/components/HeaderView.vue';
 import FooterView from '@/components/FooterView.vue';
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.front-view {
+  margin-top: 77px;
+
+  @media (min-width: 992px) {
+    margin-top: 100px;
+  }
+}
+</style>

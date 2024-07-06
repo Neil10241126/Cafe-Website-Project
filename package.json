@@ -13,7 +13,7 @@
     "format-w": "prettier src/**/*.{js,vue} --write",
     "lint": "eslint . --ext .js,.vue",
     "format-and-lint": "npm run format-w && npm run lint",
-    "json-db": "json-server --watch ./src/service/db.json"
+    "json-db": "json-server --watch ./src/service/db.json --port 3000"
   },
   "dependencies": {
     "@vee-validate/yup": "^4.13.1",

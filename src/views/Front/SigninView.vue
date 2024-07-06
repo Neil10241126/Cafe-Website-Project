@@ -79,7 +79,7 @@
                   type="button"
                   class="btn btn-primary ms-3"
                   :disabled="!meta.valid"
-                  @click="signUser()"
+                  @click="signinUser()"
                 >
                   登入
                 </button>
@@ -151,7 +151,12 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="hideModal()">取消</button>
-          <button type="button" class="btn btn-primary" :disabled="!meta.valid" @click="signup()">
+          <button
+            type="button"
+            class="btn btn-primary"
+            :disabled="!meta.valid"
+            @click="signupUser()"
+          >
             確認註冊
           </button>
         </div>
@@ -206,7 +211,7 @@ const [name, nameAttrs] = defineField('signup.name');
 const [email, emailAttrs] = defineField('signup.email');
 const [signupPassword, signupPasswordAttrs] = defineField('signup.password');
 
-// 登入後台 POST
+// 後台登入 POST
 const signin = () => {
   loginAdmin(values.signin)
     .then((res) => {
@@ -220,8 +225,8 @@ const signin = () => {
     .catch((err) => apiErrAlert(err.response.data.message));
 };
 
-// 用戶登陸 POST
-const signUser = () => {
+// 用戶登入 POST
+const signinUser = () => {
   const data = {
     email: values.signin.username,
     password: values.signin.password,
@@ -246,8 +251,7 @@ const signUser = () => {
 };
 
 // 用戶註冊 POST
-const signup = () => {
-  console.log(values);
+const signupUser = () => {
   renderSignup(values.signup)
     .then(() => apiResAlert('註冊成功'))
     .catch((err) => {

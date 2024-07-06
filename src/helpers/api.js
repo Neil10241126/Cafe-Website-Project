@@ -4,11 +4,12 @@ import axios from 'axios';
 
 // 匯入環境變數
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
-const renderApi = 'https://cafe-json-server.onrender.com/api';
+// const renderApi = 'https://cafe-json-server.onrender.com/api';
+const jsonAPi = 'http://localhost:3000/';
 
 // User Render 相關 api
 const renderUserApi = axios.create({
-  baseURL: renderApi,
+  baseURL: jsonAPi,
 });
 
 // User 相關 api
@@ -37,9 +38,8 @@ const couponApi = axios.create({
 });
 
 // User Render 相關 api
-export const renderSignup = (userData) => renderUserApi.post('/signup', userData);
+export const renderSignup = (userData) => renderUserApi.post('/users', userData);
 export const renderSignin = (userData) => renderUserApi.post('/signin', userData);
-export const renderLogout = () => renderUserApi.post('/signout');
 
 // Admin 相關 api
 export const loginAdmin = (userData) => adminApi.post('/v2/admin/signin', userData);
