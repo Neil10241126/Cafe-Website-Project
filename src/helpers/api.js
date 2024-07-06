@@ -4,12 +4,12 @@ import axios from 'axios';
 
 // 匯入環境變數
 const { VITE_API_URL, VITE_API_NAME } = import.meta.env;
-// const renderApi = 'https://cafe-json-server.onrender.com/api';
-const jsonAPi = 'http://localhost:3000/';
+const renderApi = 'https://cafe-json-server.onrender.com/api';
+// const jsonAPi = 'http://localhost:3000/';
 
 // User Render 相關 api
 const renderUserApi = axios.create({
-  baseURL: jsonAPi,
+  baseURL: renderApi,
 });
 
 // User 相關 api
