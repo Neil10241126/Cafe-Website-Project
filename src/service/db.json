@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "912e",
+      "id": "1",
       "name": "王大明",
       "email": "test@gmail.com",
       "password": "11111111"
@@ -10,8 +10,32 @@
   "favorites": [
     {
       "id": "1",
-      "userId": "912e",
-      "products": []
+      "userId": "1",
+      "products": [
+        {
+          "title":"西達摩晨露",
+          "origin":"衣索比亞",
+          "acdity":4,
+          "price":310,
+          "origin_price":310,
+          "img_url":"https://storage.googleapis.com/vue-course-api.appspot.com/vue3-api-use/1717823557308.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=UYqMs%2FK6xt1xFZlc75p3IiFHkMhoQiIPXONgM8PPTkZeMD7hlyJ8xCuU5Cf5LYrTRnkZ9vdTHfVx4NEQ4iS7JoVcqVmMlyXirjEJMcPRqHu8wDfrHgCxSNBj9TDqsGiHJ5vcCzHlGuQ%2F4e0yEow4j9RN2U1E3oxGIOg9AVOyG2C%2F1gnWYOGYj9a9QgHKx09hP81mjHHVPfaJy%2Fb%2BLHFWAmL1GRgOhAmZYXPRZx3RBvGp3AnxPu4dt7Q4rdJ%2BGurSeHe%2FKmnM%2Bpn8wkup6%2Fi8MLGBqIhSWj%2FBu%2BCIKVUg7gkRlENyRTtsoBBnyGR6glCLF4E1Qa1bq99H%2Fr%2B39cpyhg%3D%3D",
+          "product_id":"-NnSlW82kSPwVrc8jCw7",
+          "isFavorite":false,
+          "card_details":true
+        },
+        {
+          "title":"耶加雪菲 G1",
+          "origin":"衣索比亞",
+          "acdity":3,
+          "price":399,
+          "origin_price":450,
+          "img_url":"https://storage.googleapis.com/vue-course-api.appspot.com/vue3-api-use/1717822461885.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=d975pnLPFcyookh%2F45XxBZAdz64ZVlzxHP%2FNUKamUhU%2Bej3CDzd2j4uPSf0wcXBn7ctB%2F2t3NZzakoUFaUm%2FS8uP2SnPZzfbnqpkvf1SvKdw8qUPy6ybRrlPeRLQPcWw0ywYh5uy6MW%2BXnZ5FZ%2FwF63fcJe1jUU5Em9nIFOlifFE4Qm3zZUkpAwclYOf9QwUPPehNcIFcroFWuKhl3reYH1EPjuhbDGDMMMt1VLJ7AOcIGvR4EAYS0qfeUuXR4%2BFO%2Bg7rNRU3icbuG81JUmVlvnnbgPjY88KwtmSvBSPJaDCAcQRX3a7zChz8g%2FIofA2ML6L0z0BcasRmWjD6yVInA%3D%3D",
+          "product_id":"-NnSlK9URB8NY58lktBQ",
+          "isFavorite":false,
+          "card_details":true
+        }
+      ]
     }
   ]
+  
 }

@@ -1,4 +1,7 @@
 <template>
+  <!-- loading -->
+  <LoadingUi></LoadingUi>
+
   <div class="py-8">
     <div class="container px-4">
       <div
@@ -174,8 +177,10 @@ import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 import { storeToRefs } from 'pinia';
 import useAlertStore from '@/stores/alert';
 import useUserStore from '@/stores/user';
+import useLoadingStore from '@/stores/loading';
 // 引入 UI 組件
 import BadgeUi from '@/components/BadgeUi.vue';
+import LoadingUi from '@/components/LoadingUi.vue';
 // 引入 helpers 方法
 import { signinSchema, signupSchema } from '@/helpers/validation';
 import { loginAdmin, renderSignin, renderSignup } from '@/helpers/api';
@@ -192,6 +197,11 @@ const { apiResAlert, apiErrAlert } = alertStore;
 // 取得 user 資料、方法
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+const { getFavorite, addAttrDate } = userStore;
+
+// 取得 loading 方法
+const loaderStore = useLoadingStore();
+const { isLoadingOn, isLoadingOff } = loaderStore;
 
 // 定義 modal
 const refModal = ref(null);
@@ -229,48 +239,63 @@ const signin = () => {
     .catch((err) => apiErrAlert(err.response.data.message));
 };
 
-// 用戶登入 POST
-const signinUser = () => {
+// 用戶登入 POST :
+const signinUser = async () => {
+  isLoadingOn('isFullLoading');
   const data = {
     email: values.signin.username,
     password: values.signin.password,
   };
-  renderSignin(data)
-    .then((res) => {
-      // 取得伺服器回傳的 accessToken，並設定 token 的過期時間為 1 分鐘後
-      const token = res.data.accessToken;
-      const expires = new Date(new Date().getTime() + 30 * 60 * 1000).toUTCString();
+  try {
+    const res = await renderSignin(data);
 
-      // 將 token 存入 cookie，並設定過期時間和路徑，並存入 Authorization 當中
-      document.cookie = `accessToken=${token}; expires=${expires}; path=/`;
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    // 取得伺服器回傳的 accessToken，並設定 token 的過期時間為 1 分鐘後
+    const { user: userInfo, accessToken: token } = res.data;
+    const expires = new Date(new Date().getTime() + 60 * 60 * 1000).toUTCString();
 
-      user.value.userInfo = res.data.user;
-      apiResAlert('登入成功');
-      router.push('/products');
-    })
-    .catch((err) => {
-      apiErrAlert(err.response.data);
-    });
+    // 將 token 存入 cookie，並設定過期時間和路徑，並存入 Authorization 當中
+    document.cookie = `accessToken=${token}; expires=${expires}; path=/`;
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+    // 寫入 Pinia User 資料
+    user.value.userInfo = userInfo;
+    user.value.loginState = true;
+
+    // 帶入收藏相關資料
+    await getFavorite(userInfo.id);
+
+    // 提示並轉跳頁面、關閉讀取效果
+    apiResAlert('登入成功');
+    router.push('/products');
+    isLoadingOff('isFullLoading');
+  } catch (err) {
+    apiErrAlert(err.response.data);
+    isLoadingOff('isFullLoading');
+  }
 };
 
-// 用戶註冊 POST
-const signupUser = handleSubmit((value, { resetForm }) => {
-  renderSignup(values.signup)
-    .then(() => {
-      apiResAlert('註冊成功');
-      signupModal.value.hide();
+// 用戶註冊 POST :
+const signupUser = handleSubmit(async (value, { resetForm }) => {
+  isLoadingOn('isFullLoading');
+  try {
+    const res = await renderSignup(values.signup);
 
-      // 送出表單後清除內容。
-      resetForm();
-    })
-    .catch((err) => {
-      // 回傳註冊錯誤類型
-      const resError = {
-        'Email already exists': '電子信箱已存在',
-      };
-      apiErrAlert(resError[err.response.data]);
-    });
+    const { id } = res.data.user;
+    await addAttrDate(id);
+    signupModal.value.hide();
+
+    // 送出表單後清除內容、關閉讀取效果、提示。
+    resetForm();
+    isLoadingOff('isFullLoading');
+    apiResAlert('註冊成功');
+  } catch (err) {
+    // 回傳註冊錯誤類型
+    const resError = {
+      'Email already exists': '電子信箱已存在',
+    };
+    isLoadingOff('isFullLoading');
+    apiErrAlert(resError[err.response.data]);
+  }
 });
 
 // 開啟 modal

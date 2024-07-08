@@ -3,7 +3,7 @@
   <div class="container">
     <swiper-container
       class="py-3 py-md-4"
-      :allowTouchMove="true"
+      :allowTouchMove="false"
       :slidesPerView="1"
       :speed="20000"
       :loop="true"
@@ -14,14 +14,14 @@
     >
       <swiper-slide class="fs-6 fs-md-4 fw-bold text-gray-800 w-auto">
         單筆達
-        <span class="text-danger">NT$999免運費</span>
-        ，另輸入折扣優惠碼再打
+        <span class="text-success">NT$999免運費</span>
+        ，另輸入折扣<span class="text-danger">coupon</span>優惠碼再打
         <span class="text-danger">88折 !</span>
       </swiper-slide>
       <swiper-slide class="fs-6 fs-md-4 fw-bold text-gray-800 w-auto">
         單筆達
-        <span class="text-danger">NT$999免運費</span>
-        ，另輸入折扣優惠碼再打
+        <span class="text-success">NT$999免運費</span>
+        ，另輸入折扣<span class="text-danger">coupon</span>優惠碼再打
         <span class="text-danger">88折 !</span>
       </swiper-slide>
     </swiper-container>

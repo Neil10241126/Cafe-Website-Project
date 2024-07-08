@@ -25,10 +25,18 @@
               type="email"
               class="form-control bg-gray-100 fs-8 p-3 rounded-0"
               placeholder="請輸入你的 Email"
+              v-model="email"
             />
-            <button class="btn btn-warning fs-8 fw-bold rounded-0" type="button">立即訂閱</button>
+            <button
+              class="btn btn-warning fs-8 fw-bold rounded-0"
+              type="button"
+              @click="getCoupon()"
+            >
+              立即訂閱
+            </button>
           </div>
         </div>
+        <p class="text-light">{{ typeof email }}</p>
       </div>
     </div>
   </section>
@@ -100,7 +108,21 @@
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+// 引入 Pinia 狀態管理
+import useAlertStore from '@/stores/alert';
+
+// 取得 alert 方法
+const alertStore = useAlertStore();
+const { apiResAlert } = alertStore;
+
+const email = ref('');
+
+function getCoupon() {
+  apiResAlert('優惠代碼: coupon');
+}
+</script>
 
 <style lang="scss" scoped>
 @import '/src/assets/helper/colors';

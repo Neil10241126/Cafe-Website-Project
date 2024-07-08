@@ -79,11 +79,11 @@
             data-bs-auto-close="outside"
             ><i class="bi bi-person-circle d-flex fs-4 fs-lg-3"></i>
           </RouterLink>
-          <ul class="dropdown-menu dropdown-menu-end position-absolute px-1">
+          <ul class="dropdown-menu dropdown-menu-end position-absolute bg-secondary-tint px-1">
             <li>
               <div class="dropdown-item">
                 <i class="bi bi-person-circle me-2"></i>
-                {{ !user.userInfo.name ? '尚未登入' : user.userInfo.name }}
+                {{ user.loginState ? user.userInfo.name : '尚未登入' }}
                 <a
                   href="#"
                   @click.prevent=""
@@ -98,11 +98,19 @@
               </div>
             </li>
             <li><hr class="dropdown-divider" /></li>
-            <li>
+            <li class="">
               <a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>設定</a>
             </li>
             <li>
               <a class="dropdown-item" href="#"><i class="bi bi-bag-plus me-2"></i>確認訂單</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#"
+                ><i class="bi bi-suit-heart me-2"></i>收藏<span
+                  class="badge text-bg-primary ms-2"
+                  >{{ favorites.list.length }}</span
+                ></a
+              >
             </li>
 
             <li><hr class="dropdown-divider" /></li>
@@ -239,7 +247,7 @@ const { cartList } = storeToRefs(cartStore);
 
 // 取得 user 資料、方法
 const userStore = useUserStore();
-const { user } = storeToRefs(userStore);
+const { user, favorites } = storeToRefs(userStore);
 const { signout } = userStore;
 
 // 初始化 popover 元件
@@ -251,13 +259,16 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+@import '/src/assets/helper/colors';
+
 .custom-popover {
   --bs-popover-max-width: 200px;
-  --bs-popover-border-color: #6f42c1;
+  --bs-popover-border-color: #000;
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: 0.5rem;
   & .popover-body {
-    color: #6f42c1;
+    color: $primary;
+    font-weight: bold;
   }
 }
 

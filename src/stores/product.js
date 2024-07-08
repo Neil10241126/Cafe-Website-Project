@@ -47,7 +47,6 @@ export default defineStore('product', () => {
 
   // 取得特定產品 GET
   function getProductItem(id) {
-    console.log('觸發 api.js getProductsItem 方法');
     isLoadingOn('isFullLoading');
 
     fetchProductItem(id)

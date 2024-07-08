@@ -80,12 +80,16 @@ const router = createRouter({
   },
 });
 
-router.beforeEach(() => {
+router.beforeEach(async () => {
   // 取得 user 資料、方法
   const userStore = useUserStore();
+  const { user } = storeToRefs(userStore);
   const { checkToken } = userStore;
 
-  checkToken();
+  // 若登入狀態為 true 需驗證 accessToken 是否過期
+  if (user.value.loginState) {
+    await checkToken();
+  }
 });
 
 router.afterEach(async () => {

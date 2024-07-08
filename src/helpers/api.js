@@ -37,27 +37,32 @@ const couponApi = axios.create({
   baseURL: VITE_API_URL,
 });
 
-// User Render 相關 api
-export const renderSignup = (userData) => renderUserApi.post('/users', userData);
-export const renderSignin = (userData) => renderUserApi.post('/signin', userData);
+// User Render 相關 api : [註冊、登入]
+export const renderSignup = (userData) => renderUserApi.post(`/signup`, userData);
+export const renderSignin = (userData) => renderUserApi.post(`/signin`, userData);
 
-// Admin 相關 api
-export const loginAdmin = (userData) => adminApi.post('/v2/admin/signin', userData);
+// Favorite Render 相關 api : [新增、取得、更新]
+export const renderNewFavorite = (data) => renderUserApi.post(`/favorites`, data);
+export const renderGetFavorite = (userId) => renderUserApi.get(`/favorites?userId=${userId}`);
+export const renderAddFavorite = (id, products) => renderUserApi.patch(`/favorites/${id}`, products);
 
-// Product 相關 api
+// Admin 相關 api : [登入]
+export const loginAdmin = (userData) => adminApi.post(`/v2/admin/signin`, userData);
+
+// Product 相關 api : [取得列表、取得品項]
 export const fetchProdcuts = () => productApi.get(`/v2/api/${VITE_API_NAME}/products/all`);
 export const fetchProductItem = (id) => productApi.get(`/v2/api/${VITE_API_NAME}/product/${id}`);
 
-// cart 相關 api
+// cart 相關 api : [取得、新增、刪除、更新]
 export const fetchCart = () => cartApi.get(`/v2/api/${VITE_API_NAME}/cart`);
 export const fetchAdd = (data) => cartApi.post(`/v2/api/${VITE_API_NAME}/cart`, data);
 export const fetchDeleteItem = (cartId) => cartApi.delete(`/v2/api/${VITE_API_NAME}/cart/${cartId}`);
 export const fetchChangeNum = (id, data) => cartApi.put(`/v2/api/${VITE_API_NAME}/cart/${id}`, data);
 
-// Order 相關 api
+// Order 相關 api : [取得、新增、結帳]
 export const fetchOrder = (orderId) => orderApi.get(`/v2/api/${VITE_API_NAME}/order/${orderId}`);
 export const fetchCreate = (data) => orderApi.post(`/v2/api/${VITE_API_NAME}/order`, data);
 export const fetchCheckout = (orderId) => orderApi.post(`/v2/api/${VITE_API_NAME}/pay/${orderId}`);
 
-// Coupon 相關 api
+// Coupon 相關 api : [取得]
 export const fetchCoupon = (data) => couponApi.post(`/v2/api/${VITE_API_NAME}/coupon`, data);

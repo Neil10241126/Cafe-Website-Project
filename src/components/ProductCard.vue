@@ -3,9 +3,17 @@
     <!-- 圖片 URL -->
     <img :src="img_url" class="card-img-top rounded-top-3" alt="Honduran-coffee-bean-2" />
     <!-- 收藏按鈕 -->
-    <button type="button" class="favorite-btn btn border border-3 rounded-circle p-2 d-flex p-0">
-      <i class="bi bi-suit-heart-fill link-light d-flex fs-8"></i>
-    </button>
+    <a
+      href="#"
+      class="favorite-btn border border-3 rounded-circle p-2 d-flex p-0"
+      @click.prevent="addFavorite(props)"
+      :class="{ 'border-warning': isFavorite }"
+    >
+      <i
+        class="bi bi-suit-heart-fill link-light d-flex fs-8"
+        :class="{ 'text-warning': isFavorite }"
+      ></i>
+    </a>
 
     <!-- 卡片主體 -->
     <div class="card-body bg-secondary-tint rounded-bottom-3 px-2 p-xxs-3">
@@ -72,14 +80,16 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useLoadingStore from '@/stores/loading';
+import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import useCartStore from '@/stores/cart';
 import LoadingUi from '@/components/LoadingUi.vue';
 
-defineProps({
+const props = defineProps({
   // 資料參數 value :
   title: String,
   origin: String,
@@ -99,6 +109,17 @@ const { addToCart } = cartStore;
 // 取得 loading 資料
 const loaderStore = useLoadingStore();
 const { loadingObj } = storeToRefs(loaderStore);
+
+// 取得 user 方法
+const userStore = useUserStore();
+const { favorites } = storeToRefs(userStore);
+const { addFavorite } = userStore;
+
+// 計算商品是否收藏
+const isFavorite = computed(() => {
+  const retult = favorites.value.list.find((item) => item.product_id === props.product_id);
+  return retult;
+});
 </script>
 
 <style lang="scss" scoped>
