@@ -268,7 +268,7 @@
               class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark d-flex justify-content-between pt-3 pb-4"
             >
               <span>總金額</span>
-              <span class="text-danger">{{ `NT$ ${order.total}` }}</span>
+              <span class="text-danger">{{ `NT$ ${Round(order.total)}` }}</span>
             </li>
           </ul>
           <!-- 確認付款按鈕 -->
@@ -297,7 +297,9 @@ import { ref, onMounted } from 'vue';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單驗證
 import { useRoute, useRouter } from 'vue-router';
 // 引入 Pinia 狀態管理
+import { storeToRefs } from 'pinia';
 import useAlertStore from '@/stores/alert';
+import useCartStore from '@/stores/cart';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import CanvasCard from '@/components/CanvasCard.vue';
@@ -312,6 +314,10 @@ const router = useRouter();
 // 取得 alert 方法
 const alertStore = useAlertStore();
 const { apiResAlert, apiErrAlert } = alertStore;
+
+// 取得 cart Computed
+const cartStore = useCartStore();
+const { Round } = storeToRefs(cartStore);
 
 // 寫入訂單資料
 const order = ref({});

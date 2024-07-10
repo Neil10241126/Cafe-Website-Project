@@ -104,50 +104,66 @@
         </div>
         <div class="modal-body d-flex justify-content-center py-4">
           <form>
-            <div class="d-flex mb-4">
-              <label for="name" class="form-label me-3 mb-0 text-nowrap">姓名</label>
-              <div class="w-100">
+            <div class="row gx-0 mb-3">
+              <label for="name" class="form-label col-3 mb-0">姓名</label>
+              <div class="col-9">
                 <input
                   type="text"
                   class="form-control"
                   id="name"
-                  placeholder="您要註冊的姓名"
+                  placeholder="註冊的姓名"
                   :class="{ 'is-invalid': errors['signup.name'] }"
                   v-model="name"
                   v-bind="nameAttrs"
                 />
-                <span class="text-danger">{{ errors['signup.name'] }}</span>
+                <span class="text-danger fs-8">{{ errors['signup.name'] }}</span>
               </div>
             </div>
-            <div class="d-flex mb-4">
-              <label for="signupEmail" class="form-label me-3 mb-0 text-nowrap">信箱</label>
-              <div class="w-100">
+            <div class="row gx-0 mb-3">
+              <label for="signupEmail" class="form-label col-3 mb-0">信箱</label>
+              <div class="col-9">
                 <input
                   type="email"
                   class="form-control"
                   id="signupEmail"
-                  placeholder="您要註冊的信箱"
+                  placeholder="註冊的信箱"
                   :class="{ 'is-invalid': errors['signup.email'] }"
                   v-model="email"
                   v-bind="emailAttrs"
                 />
-                <span class="text-danger">{{ errors['signup.email'] }}</span>
+                <span class="text-danger fs-8">{{ errors['signup.email'] }}</span>
               </div>
             </div>
-            <div class="d-flex">
-              <label for="signupPassword" class="form-label me-3 mb-0 text-nowrap">密碼</label>
-              <div class="w-100">
+            <div class="row gx-0 mb-3">
+              <label for="signupPassword" class="form-label col-3 mb-0">密碼</label>
+              <div class="col-9">
                 <input
                   type="password"
                   class="form-control"
                   id="signupPassword"
-                  placeholder="您要註冊的密碼"
+                  placeholder="註冊的密碼"
                   autocomplete="true"
                   :class="{ 'is-invalid': errors['signup.password'] }"
                   v-model="signupPassword"
                   v-bind="signupPasswordAttrs"
                 />
-                <span class="text-danger">{{ errors['signup.password'] }}</span>
+                <span class="text-danger fs-8">{{ errors['signup.password'] }}</span>
+              </div>
+            </div>
+            <div class="row gx-0">
+              <label for="signupPassword" class="form-label col-3 mb-0">確認密碼</label>
+              <div class="col-9">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="signupPassword"
+                  placeholder="確認密碼"
+                  autocomplete="true"
+                  :class="{ 'is-invalid': errors['signup.passwordConfirm'] }"
+                  v-model="passwordConfirm"
+                  v-bind="passwordConfirmAttrs"
+                />
+                <span class="text-danger fs-8">{{ errors['signup.passwordConfirm'] }}</span>
               </div>
             </div>
           </form>
@@ -192,7 +208,7 @@ const router = useRouter();
 
 // 取得 alert 方法
 const alertStore = useAlertStore();
-const { apiResAlert, apiErrAlert } = alertStore;
+const { apiResAlert, apiErrAlert, handleError } = alertStore;
 
 // 取得 user 資料、方法
 const userStore = useUserStore();
@@ -224,6 +240,7 @@ const [password, passwordAttrs] = defineField('signin.password');
 const [name, nameAttrs] = defineField('signup.name');
 const [email, emailAttrs] = defineField('signup.email');
 const [signupPassword, signupPasswordAttrs] = defineField('signup.password');
+const [passwordConfirm, passwordConfirmAttrs] = defineField('signup.passwordConfirm');
 
 // 後台登入 POST
 const signin = () => {
@@ -242,10 +259,12 @@ const signin = () => {
 // 用戶登入 POST :
 const signinUser = async () => {
   isLoadingOn('isFullLoading');
+
   const data = {
     email: values.signin.username,
     password: values.signin.password,
   };
+
   try {
     const res = await renderSignin(data);
 
@@ -267,34 +286,39 @@ const signinUser = async () => {
     // 提示並轉跳頁面、關閉讀取效果
     apiResAlert('登入成功');
     router.push('/products');
-    isLoadingOff('isFullLoading');
   } catch (err) {
-    apiErrAlert(err.response.data);
+    handleError(err);
+    throw err;
+  } finally {
     isLoadingOff('isFullLoading');
   }
 };
 
 // 用戶註冊 POST :
 const signupUser = handleSubmit(async (value, { resetForm }) => {
+  // 定義註冊資料
+  const data = {
+    name: values.signup.name,
+    email: values.signup.email,
+    password: values.signup.password,
+  };
+
   isLoadingOn('isFullLoading');
   try {
-    const res = await renderSignup(values.signup);
+    const res = await renderSignup(data);
 
     const { id } = res.data.user;
     await addAttrDate(id);
-    signupModal.value.hide();
 
     // 送出表單後清除內容、關閉讀取效果、提示。
+    signupModal.value.hide();
     resetForm();
-    isLoadingOff('isFullLoading');
     apiResAlert('註冊成功');
   } catch (err) {
-    // 回傳註冊錯誤類型
-    const resError = {
-      'Email already exists': '電子信箱已存在',
-    };
+    handleError(err);
+    throw err;
+  } finally {
     isLoadingOff('isFullLoading');
-    apiErrAlert(resError[err.response.data]);
   }
 });
 

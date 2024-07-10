@@ -41,33 +41,14 @@ const signupSchema = toTypedSchema(
       name: yup.string().required('姓名 為必填'),
       email: yup.string().required('帳號 為必填').email('帳號需為有效電子郵件'),
       password: yup.string().required('密碼 為必填').min(8, '密碼至少8個字元'),
+      passwordConfirm: yup
+        .string()
+        .required('確認密碼 為必填')
+        .min(8, '密碼至少8個字元')
+        .oneOf([yup.ref('password')], '確認密碼有誤'),
     }),
   })
 );
-
-// 【註冊 schema 】 **
-// const signSchema = toTypedSchema(
-//   yup.object({
-//     isSignup: yup.boolean().default(false),
-//     signin: yup.object().when('isSignup', {
-//       is: false,
-//       then: () =>
-//         yup.object({
-//           username: yup.string().required('帳號 為必填').email('帳號需為有效電子郵件'),
-//           password: yup.string().required('密碼 為必填').min(8, '密碼至少8個字元'),
-//         }),
-//     }),
-//     signup: yup.object().when('isSignup', {
-//       is: true,
-//       then: () =>
-//         yup.object({
-//           name: yup.string().required('姓名 為必填'),
-//           email: yup.string().required('帳號 為必填').email('帳號需為有效電子郵件'),
-//           password: yup.string().required('密碼 為必填').min(8, '密碼至少8個字元'),
-//         }),
-//     }),
-//   })
-// );
 
 // 【填寫訂單 schema 】
 const orderSchema = toTypedSchema(

@@ -130,11 +130,11 @@
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
             <span>小計</span>
-            <span>{{ `NT$ ${cartList.total}` }}</span>
+            <span>{{ `NT$ ${Round(cartList.total)}` }}</span>
           </li>
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
             <span>折扣</span>
-            <span>{{ `NT$ ${cartList.final_total - cartList.total}` }}</span>
+            <span>{{ `NT$ ${Round(cartList.final_total - cartList.total)}` }}</span>
           </li>
           <li class="list-group-item d-flex justify-content-between bg-transparent border-0 px-0">
             <span>運費</span>
@@ -147,7 +147,9 @@
             class="list-group-item d-flex justify-content-between bg-transparent border-0 border-top border-dark px-0 py-3"
           >
             <span class="fs-6 fw-semibold">總金額</span>
-            <span class="fs-6 fw-semibold text-danger">{{ `NT$ ${cartList.final_total}` }}</span>
+            <span class="fs-6 fw-semibold text-danger">
+              {{ `NT$ ${Round(cartList.final_total)}` }}</span
+            >
           </li>
         </ul>
       </div>
@@ -185,10 +187,10 @@ import LoadingUi from '@/components/LoadingUi.vue';
 // 初始化路由
 const router = useRouter();
 
-// 取得 cart 資料、方法
+// 取得 cart 資料、方法、Computed
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
-const { changeNum, delCartItem } = cartStore;
+const { changeNum, delCartItem, Round } = cartStore;
 
 // 取得 order 方法
 const orderStore = useOrderStore();

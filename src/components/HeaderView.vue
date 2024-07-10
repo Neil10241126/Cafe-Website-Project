@@ -201,7 +201,7 @@
       <div>
         <div class="fs-5 fw-semibold d-flex justify-content-between mb-3">
           <span>總金額 :</span>
-          <span class="text-danger">{{ `NT$ ${cartList.final_total}` }}</span>
+          <span class="text-danger">{{ `NT$ ${Round(cartList.final_total)}` }}</span>
         </div>
         <RouterLink
           to="/cart"
@@ -241,9 +241,10 @@ import Popover from 'bootstrap/js/dist/popover';
 // 初始化路由
 const router = useRouter();
 
-// 取得 cart 資料
+// 取得 cart 資料、Computed
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
+const { Round } = cartStore;
 
 // 取得 user 資料、方法
 const userStore = useUserStore();

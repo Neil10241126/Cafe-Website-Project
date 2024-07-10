@@ -126,8 +126,13 @@
                   <i class="bi bi-cart3 fs-7 ms-2" v-show="!loadingObj.isLoading"></i>
                   <LoadingUi :name="'inline'" class="ms-2" v-show="loadingObj.isLoading" />
                 </button>
-                <button type="button" class="btn text-primary p-0 ms-4">
-                  <i class="bi bi-suit-heart d-flex fs-2"></i>
+                <button
+                  type="button"
+                  class="btn text-primary p-0 ms-4"
+                  @click="toggleFavorite(tempProduct.id)"
+                >
+                  <i v-if="IsFavorite" class="bi bi-suit-heart-fill d-flex fs-2"></i>
+                  <i v-else class="bi bi-suit-heart d-flex fs-2"></i>
                 </button>
               </div>
             </div>
@@ -290,7 +295,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useWindowSize } from '@vueuse/core';
 // 引入 Pinia 狀態管理
@@ -298,6 +303,7 @@ import { storeToRefs } from 'pinia';
 import useProductStore from '@/stores/product';
 import useCartStore from '@/stores/cart';
 import useLoadingStore from '@/stores/loading';
+import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
@@ -322,7 +328,18 @@ const { addToCart } = cartStore;
 const loaderStore = useLoadingStore();
 const { loadingObj } = storeToRefs(loaderStore);
 
+// 取得 user 方法
+const userStore = useUserStore();
+const { favorites } = storeToRefs(userStore);
+const { toggleFavorite } = userStore;
+
 const quantity = ref(1); // 定義數量變數
+
+// 計算商品是否收藏
+const IsFavorite = computed(() => {
+  const result = favorites.value.list.some((item) => item.id === tempProduct.value.id);
+  return result;
+});
 
 onMounted(() => getProductItem(route.params.id));
 </script>

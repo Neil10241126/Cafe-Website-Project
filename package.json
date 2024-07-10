@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"npm run json-db\"",
-    "dev-vite": "vite",
+    "dev": "vite",
+    "dev-json": "concurrently \"vite\" \"npm run json-db\"",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "vite build && gh-pages -d dist",

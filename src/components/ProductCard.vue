@@ -6,12 +6,12 @@
     <a
       href="#"
       class="favorite-btn border border-3 rounded-circle p-2 d-flex p-0"
-      @click.prevent="addFavorite(props)"
-      :class="{ 'border-warning': isFavorite }"
+      @click.prevent="toggleFavorite(props.product_id)"
+      :class="{ 'border-warning': IsFavorite }"
     >
       <i
         class="bi bi-suit-heart-fill link-light d-flex fs-8"
-        :class="{ 'text-warning': isFavorite }"
+        :class="{ 'text-warning': IsFavorite }"
       ></i>
     </a>
 
@@ -42,10 +42,10 @@
           <span class="fs-8 text-gray-600">{{ `${acdity}分` }}</span>
         </div>
         <div class="d-flex align-items-center">
-          <span class="fs-6 text-primary me-2">
-            <strong>{{ `售價$ ${price}` }}</strong>
+          <span class="fs-6 text-primary fw-bold me-2" :class="{ 'text-danger': IsDiscount }">
+            {{ IsDiscount ? `特價$ ${price}` : `售價$ ${price}` }}
           </span>
-          <span class="text-gray-600">
+          <span v-if="IsDiscount" class="text-gray-600">
             <del>{{ `原價$ ${origin_price}` }}</del>
           </span>
         </div>
@@ -113,12 +113,17 @@ const { loadingObj } = storeToRefs(loaderStore);
 // 取得 user 方法
 const userStore = useUserStore();
 const { favorites } = storeToRefs(userStore);
-const { addFavorite } = userStore;
+const { toggleFavorite } = userStore;
 
 // 計算商品是否收藏
-const isFavorite = computed(() => {
-  const retult = favorites.value.list.find((item) => item.product_id === props.product_id);
+const IsFavorite = computed(() => {
+  const retult = favorites.value.list.some((item) => item.id === props.product_id);
   return retult;
+});
+
+// 計算是否特價
+const IsDiscount = computed(() => {
+  return props.price < props.origin_price;
 });
 </script>
 

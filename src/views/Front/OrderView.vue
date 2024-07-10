@@ -276,11 +276,11 @@
             </li>
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between py-2">
               <span>小計</span>
-              <span>{{ `NT$ ${cartList.final_total}` }}</span>
+              <span>{{ `NT$ ${Round(cartList.total)}` }}</span>
             </li>
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between py-2">
               <span>折扣</span>
-              <span>{{ `NT$ ${cartList.final_total - cartList.total}` }}</span>
+              <span>{{ `NT$ ${Round(cartList.final_total - cartList.total)}` }}</span>
             </li>
             <li class="fs-6 fw-semibold text-gray-800 d-flex justify-content-between pt-2 pb-3">
               <span>運費</span>
@@ -290,7 +290,7 @@
               class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark d-flex justify-content-between pt-3 pb-4"
             >
               <span>總金額</span>
-              <span class="text-danger">{{ `NT$ ${cartList.final_total}` }}</span>
+              <span class="text-danger">{{ `NT$ ${Round(cartList.final_total)}` }}</span>
             </li>
           </ul>
           <div v-if="meta.touched" class="mb-1">
@@ -326,9 +326,10 @@ import AdView from '@/components/AdView.vue';
 // 引入 helpers 方法
 import { orderSchema } from '@/helpers/validation';
 
-// 取得 cart 資料
+// 取得 cart 資料、Computed
 const cartStore = useCartStore();
 const { cartList } = storeToRefs(cartStore);
+const { Round } = cartStore;
 
 // 取得 order 方法
 const orderStore = useOrderStore();

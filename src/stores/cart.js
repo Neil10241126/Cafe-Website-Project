@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 // 引入 Pinia 狀態管理
 import { defineStore } from 'pinia';
 import useAlertStore from '@/stores/alert';
@@ -71,11 +71,17 @@ export default defineStore('cart', () => {
       .catch((err) => apiErrAlert(err.response.data.message));
   }
 
+  // 處理金額浮點數
+  const Round = computed(() => (total) => {
+    return Math.round(total);
+  });
+
   return {
     cartList,
     getCart,
     addToCart,
     delCartItem,
     changeNum,
+    Round,
   };
 });

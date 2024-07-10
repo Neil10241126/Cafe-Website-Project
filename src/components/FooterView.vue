@@ -36,7 +36,6 @@
             </button>
           </div>
         </div>
-        <p class="text-light">{{ typeof email }}</p>
       </div>
     </div>
   </section>
