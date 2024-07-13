@@ -5,8 +5,8 @@ import { defineStore, storeToRefs } from 'pinia';
 import useAlertStore from '@/stores/alert';
 import useLoadingStore from '@/stores/loading';
 import useProductStore from '@/stores/product';
-// 引入 helper 方法
-import { renderGetFavorite, renderAddFavorite, renderNewFavorite } from '@/helpers/api';
+// 引入 Composables 方法
+import useApi from '@/composables/useApi';
 
 // 定義 user 狀
 
@@ -27,6 +27,9 @@ export default defineStore(
     // 取得 product 資料
     const productStore = useProductStore();
     const { products } = storeToRefs(productStore);
+
+    // 取得 useApi 方法
+    const { renderGetFavorite, renderAddFavorite, renderNewFavorite } = useApi();
 
     // 定義 user 資料
     const user = ref({

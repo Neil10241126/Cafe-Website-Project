@@ -3,8 +3,8 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import useAlertStore from '@/stores/alert';
 import useLoadingStore from '@/stores/loading';
-// 引入 helpers 方法
-import { fetchProdcuts, fetchProductItem } from '@/helpers/api';
+// 引入 Composables 方法
+import useApi from '@/composables/useApi';
 
 export default defineStore('product', () => {
   // 取得 alert 方法
@@ -14,6 +14,9 @@ export default defineStore('product', () => {
   // 取得 loading 方法
   const loaderStore = useLoadingStore();
   const { isLoadingOn, isLoadingOff } = loaderStore;
+
+  // 取得 useApi 方法
+  const { fetchProdcuts, fetchProductItem } = useApi();
 
   // 定義產品資料
   const products = ref([]); // 產品列表

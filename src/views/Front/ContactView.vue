@@ -51,7 +51,7 @@
               type="email"
               class="form-control"
               id="email"
-              placeholder="test@coffeemail"
+              placeholder="test@coffeemail.com"
               :class="{ 'is-invalid': errors.email }"
               v-model="email"
               v-bind="emailAttrs"
@@ -132,14 +132,17 @@ import useAlertStore from '@/stores/alert';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
-// 引入 helpers 方法
-import { contactSchema } from '@/helpers/validation';
+// 引入 Composables 方法
+import useValidation from '@/composables/useValidation';
 
 const { width } = useWindowSize();
 
 // 取得 alert 方法
 const alertStore = useAlertStore();
 const { apiResAlert } = alertStore;
+
+// 取出 schema 驗證規則
+const { contactSchema } = useValidation();
 
 // 使用 useForm 來處理表單驗證
 const { defineField, handleSubmit, errors, meta } = useForm({

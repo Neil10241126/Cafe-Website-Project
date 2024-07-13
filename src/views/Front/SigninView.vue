@@ -151,12 +151,12 @@
               </div>
             </div>
             <div class="row gx-0">
-              <label for="signupPassword" class="form-label col-3 mb-0">確認密碼</label>
+              <label for="passwordConfirm" class="form-label col-3 mb-0">確認密碼</label>
               <div class="col-9">
                 <input
                   type="password"
                   class="form-control"
-                  id="signupPassword"
+                  id="passwordConfirm"
                   placeholder="確認密碼"
                   autocomplete="true"
                   :class="{ 'is-invalid': errors['signup.passwordConfirm'] }"
@@ -197,9 +197,9 @@ import useLoadingStore from '@/stores/loading';
 // 引入 UI 組件
 import BadgeUi from '@/components/BadgeUi.vue';
 import LoadingUi from '@/components/LoadingUi.vue';
-// 引入 helpers 方法
-import { signinSchema, signupSchema } from '@/helpers/validation';
-import { loginAdmin, renderSignin, renderSignup } from '@/helpers/api';
+// 引入 Composables 方法
+import useValidation from '@/composables/useValidation';
+import useApi from '@/composables/useApi';
 // 引入 Bootstrap 方法
 import Modal from 'bootstrap/js/dist/modal';
 
@@ -219,9 +219,15 @@ const { getFavorite, addAttrDate } = userStore;
 const loaderStore = useLoadingStore();
 const { isLoadingOn, isLoadingOff } = loaderStore;
 
+// 取得 useApi 方法
+const { loginAdmin, renderSignin, renderSignup } = useApi();
+
 // 定義 modal
 const refModal = ref(null);
 const signupModal = ref(null);
+
+// 取出 schema 驗證規則
+const { signupSchema, signinSchema } = useValidation();
 
 // 動態選擇 schema
 const isSignup = ref(false);

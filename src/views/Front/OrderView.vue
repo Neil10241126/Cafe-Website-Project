@@ -323,8 +323,8 @@ import useOrderStore from '@/stores/order';
 import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import AdView from '@/components/AdView.vue';
-// 引入 helpers 方法
-import { orderSchema } from '@/helpers/validation';
+// 引入 Composables 方法
+import useValidation from '@/composables/useValidation';
 
 // 取得 cart 資料、Computed
 const cartStore = useCartStore();
@@ -338,6 +338,9 @@ const { submitOrder } = orderStore;
 // 取得 user 資料、方法
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+
+// 取出 schema 驗證規則
+const { orderSchema } = useValidation();
 
 // 使用 useForm 來處理表單驗證
 const { handleSubmit, defineField, errors, meta } = useForm({

@@ -3,8 +3,8 @@ import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import useCartStore from '@/stores/cart';
 import useAlertStore from '@/stores/alert';
-// 引入 helpers 方法
-import { fetchCreate, fetchCoupon } from '@/helpers/api';
+// 引入 Composables 方法
+import useApi from '@/composables/useApi';
 
 export default defineStore('order', () => {
   // 初始化路由
@@ -17,6 +17,9 @@ export default defineStore('order', () => {
   // 取得 alert 方法
   const alert = useAlertStore();
   const { apiResAlert, apiErrAlert } = alert;
+
+  // 取得 useApi 方法
+  const { fetchCreate, fetchCoupon } = useApi();
 
   // 啟用優惠券 POST
   function useCoupon(code) {

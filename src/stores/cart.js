@@ -3,8 +3,8 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import useAlertStore from '@/stores/alert';
 import useLoadingStore from '@/stores/loading';
-// 引入 helpers 方法
-import { fetchCart, fetchAdd, fetchDeleteItem, fetchChangeNum } from '@/helpers/api';
+// 引入 Composables 方法
+import useApi from '@/composables/useApi';
 
 export default defineStore('cart', () => {
   // 取得 alert 方法
@@ -14,6 +14,9 @@ export default defineStore('cart', () => {
   // 取得 loading 方法
   const loaderStore = useLoadingStore();
   const { isLoadingOn, isLoadingOff } = loaderStore;
+
+  // 取得 useApi 方法
+  const { fetchCart, fetchAdd, fetchDeleteItem, fetchChangeNum } = useApi();
 
   // 定義購物車列表的狀態
   const cartList = ref([]);
