@@ -33,6 +33,7 @@ body {
   @each $line in $lines-to-clamp {
     .text-truncate-#{$line} {
       display: -webkit-box;
+      line-clamp: $line;
       -webkit-line-clamp: $line;
       -webkit-box-orient: vertical;
       overflow: hidden;

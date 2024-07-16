@@ -37,9 +37,17 @@ const routes = [
         component: () => import('../views/Front/ContactView.vue'),
       },
       {
-        path: 'signin',
+        path: 'signin/:isAdmin',
         name: 'Signin',
         component: () => import('../views/Front/SigninView.vue'),
+        beforeEnter(to, from, next) {
+          const route = to.params.isAdmin;
+          if (route === 'admin' || route === 'user') {
+            next();
+          } else {
+            next({ name: 'Home' }); // 重新導向回首頁
+          }
+        },
       },
       {
         path: 'cart',

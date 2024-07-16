@@ -75,10 +75,14 @@
           <div
             class="d-flex flex-column align-items-center border-top border-bottom border-lg-0 py-5 py-lg-0"
           >
-            <button type="button" class="btn btn-outline-light px-3 py-2 border-2 d-flex mb-4">
+            <RouterLink
+              to="/signin/admin"
+              class="btn btn-outline-light px-3 py-2 border-2 d-flex mb-4"
+              @click="user.isAdmin = true"
+            >
               後台登入
               <i class="bi bi-shield-lock fs-6 lh-24px ms-1"></i>
-            </button>
+            </RouterLink>
             <ul class="list-group">
               <li class="list-group-item bg-transparent d-flex p-0 border-0">
                 <a href="tel:+" class="link-warning text-light d-flex">
@@ -110,11 +114,17 @@
 <script setup>
 import { ref } from 'vue';
 // 引入 Pinia 狀態管理
+import { storeToRefs } from 'pinia';
 import useAlertStore from '@/stores/alert';
+import useUserStore from '@/stores/user';
 
 // 取得 alert 方法
 const alertStore = useAlertStore();
 const { apiResAlert } = alertStore;
+
+// 取得 user 資料
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
 const email = ref('');
 

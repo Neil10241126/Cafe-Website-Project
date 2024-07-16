@@ -27,7 +27,7 @@
                 class="mx-auto mb-2"
                 alt="logo-dark"
               />
-              <BadgeUi content="一般用戶" size="normal"></BadgeUi>
+              <BadgeUi :content="user.isAdmin ? '管理者' : '一般用戶'" size="normal"></BadgeUi>
             </div>
             <form>
               <div class="d-flex mb-4">
@@ -61,7 +61,7 @@
                     :class="{ 'is-invalid': errors['signin.password'] }"
                     v-model="password"
                     v-bind="passwordAttrs"
-                    @keyup.enter="signin()"
+                    @keyup.enter="user.isAdmin ? signinAdmin() : signinUser()"
                   />
                   <span class="text-danger">{{ errors['signin.password'] }}</span>
                 </div>
@@ -82,7 +82,7 @@
                   type="button"
                   class="btn btn-primary ms-3"
                   :disabled="!meta.valid"
-                  @click="signinUser()"
+                  @click="user.isAdmin ? signinAdmin() : signinUser()"
                 >
                   登入
                 </button>
@@ -249,17 +249,23 @@ const [signupPassword, signupPasswordAttrs] = defineField('signup.password');
 const [passwordConfirm, passwordConfirmAttrs] = defineField('signup.passwordConfirm');
 
 // 後台登入 POST
-const signin = () => {
-  loginAdmin(values.signin)
-    .then((res) => {
-      const { token, expired: expires } = res.data;
+const signinAdmin = async () => {
+  isLoadingOn('isFullLoading');
 
-      // 將 token expires 存入 cookie
-      document.cookie = `token=${token}; expires=${new Date(expires)}; path=/`;
-      apiResAlert(res.data.message);
-      router.push('/admin');
-    })
-    .catch((err) => apiErrAlert(err.response.data.message));
+  try {
+    const res = await loginAdmin(values.signin);
+    const { token, expired: expires } = res.data;
+
+    // 將 token expires 存入 cookie
+    document.cookie = `token=${token}; expires=${new Date(expires)}; path=/`;
+    router.push('/admin');
+    apiResAlert(res.data.message);
+  } catch (err) {
+    apiErrAlert(err.response.data.message);
+    throw err;
+  } finally {
+    isLoadingOff('isFullLoading');
+  }
 };
 
 // 用戶登入 POST :

@@ -34,6 +34,7 @@ export default defineStore(
     // 定義 user 資料
     const user = ref({
       loginState: false,
+      isAdmin: false,
       userInfo: {},
     });
     // 定義 favorites 資料
@@ -51,7 +52,7 @@ export default defineStore(
       );
       document.cookie = `accessToken=${accessToken}; expires=${new Date().toUTCString()}; path=/`;
       // 若用戶登出，清除使用者資料
-      user.value = { loginState: false, userInfo: {} };
+      user.value = { loginState: false, isAdmin: false, userInfo: {} };
       favorites.value = { id: null, list: [] };
 
       apiResAlert('登出成功');
@@ -140,7 +141,7 @@ export default defineStore(
 
       if (!accessToken) {
         // 若用戶 accessToken 失效，清除使用者資料
-        user.value = { loginState: false, userInfo: {} };
+        user.value = { loginState: false, isAdmin: false, userInfo: {} };
         favorites.value = { id: null, list: [] };
       }
     };

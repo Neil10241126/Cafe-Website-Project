@@ -76,14 +76,16 @@
             to="#"
             class="nav-link link-warning text-light ps-3 d-flex align-items-center"
             data-bs-toggle="dropdown"
-            data-bs-auto-close="outside"
+            data-bs-auto-close="true"
             ><i class="bi bi-person-circle d-flex fs-4 fs-lg-3"></i>
           </RouterLink>
           <ul class="dropdown-menu dropdown-menu-end position-absolute bg-secondary-tint px-1">
             <li>
-              <div class="dropdown-item">
+              <div class="dropdown-item d-flex">
                 <i class="bi bi-person-circle me-2"></i>
-                {{ user.loginState ? user.userInfo.name : '尚未登入' }}
+                <span class="d-inline-block text-truncate" style="max-width: 80px">
+                  {{ user.loginState ? user.userInfo.name : '尚未登入' }}
+                </span>
                 <a
                   href="#"
                   @click.prevent=""
@@ -115,7 +117,11 @@
 
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <RouterLink to="/signin" v-if="!user.userInfo.name" class="dropdown-item"
+              <RouterLink
+                to="/signin/user"
+                v-if="!user.userInfo.name"
+                class="dropdown-item"
+                @click="user.isAdmin = false"
                 ><i class="bi bi-box-arrow-in-right me-2"></i>登入</RouterLink
               >
               <a v-else class="dropdown-item" href="#" @click.prevent="signout()"

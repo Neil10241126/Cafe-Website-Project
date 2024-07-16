@@ -48,9 +48,9 @@
             data-bs-toggle="list"
             href="#allProducts"
             :class="{
-              active: listOption === 'allProducts',
+              active: listOption === '全部',
             }"
-            @click="listOption = 'allProducts'"
+            @click="listOption = '全部'"
           >
             <p class="trasition-x mb-0">全部商品</p>
             <i class="bi bi-chevron-right"></i>
@@ -60,9 +60,9 @@
             data-bs-toggle="list"
             href="#lightRoast"
             :class="{
-              active: listOption === 'lightRoast',
+              active: listOption === '淺烘焙',
             }"
-            @click="listOption = 'lightRoast'"
+            @click="listOption = '淺烘焙'"
           >
             <p class="trasition-x mb-0">淺烘焙</p>
             <i class="bi bi-chevron-right"></i>
@@ -72,9 +72,9 @@
             data-bs-toggle="list"
             href="#mediumRoast"
             :class="{
-              active: listOption === 'mediumRoast',
+              active: listOption === '中烘焙',
             }"
-            @click="listOption = 'mediumRoast'"
+            @click="listOption = '中烘焙'"
           >
             <p class="trasition-x mb-0">中烘焙</p>
             <i class="bi bi-chevron-right"></i>
@@ -84,9 +84,9 @@
             data-bs-toggle="list"
             href="#darkRoast"
             :class="{
-              active: listOption === 'darkRoast',
+              active: listOption === '深烘焙',
             }"
-            @click="listOption = 'darkRoast'"
+            @click="listOption = '深烘焙'"
           >
             <p class="trasition-x mb-0">深烘焙</p>
             <i class="bi bi-chevron-right"></i>
@@ -172,7 +172,7 @@
                 <button
                   type="button"
                   class="dropdown-item"
-                  @click="(select = '價格由高至低'), sort('sortByDescending')"
+                  @click="(select = '價格由高至低'), sort(listOption, 'sortByDescending')"
                 >
                   價格由高至低
                 </button>
@@ -181,7 +181,7 @@
                 <button
                   type="button"
                   class="dropdown-item"
-                  @click="(select = '價格由低至高'), sort('sortByAscending')"
+                  @click="(select = '價格由低至高'), sort(listOption, 'sortByAscending')"
                 >
                   價格由低至高
                 </button>
@@ -190,10 +190,11 @@
           </div>
         </div>
         <!-- 品項內容切換 -->
-        <div class="tab-content mb-6">
+        <div class="tab-content">
+          <!-- 全部 -->
           <div class="tab-pane fade show active" id="allProducts">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
-              <div class="col" v-for="product in products" :key="product.id">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+              <div class="col" v-for="product in productsList.全部" :key="product.id">
                 <ProductCard
                   :title="product.title"
                   :origin="product.origin"
@@ -205,12 +206,20 @@
                   :card_details="width <= 992 ? false : true"
                 ></ProductCard>
               </div>
+            </div>
+            <!-- 分頁元件 -->
+            <div class="d-flex justify-content-center justify-content-lg-end">
+              <PaginationUi
+                :pages="Math.ceil(filter('全部').length / 6)"
+                :updateProducts="updateProducts"
+                :cate="'全部'"
+              ></PaginationUi>
             </div>
           </div>
           <!-- 淺烘焙 -->
           <div class="tab-pane fade" id="lightRoast">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
-              <div class="col" v-for="product in filter('淺烘焙')" :key="product.id">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+              <div class="col" v-for="product in productsList.淺烘焙" :key="product.id">
                 <ProductCard
                   :title="product.title"
                   :origin="product.origin"
@@ -222,12 +231,20 @@
                   :card_details="width <= 992 ? false : true"
                 ></ProductCard>
               </div>
+            </div>
+            <!-- 分頁元件 -->
+            <div class="d-flex justify-content-center justify-content-lg-end">
+              <PaginationUi
+                :pages="Math.ceil(filter('淺烘焙').length / 6)"
+                :updateProducts="updateProducts"
+                :cate="'淺烘焙'"
+              ></PaginationUi>
             </div>
           </div>
           <!-- 中烘焙 -->
           <div class="tab-pane fade" id="mediumRoast">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
-              <div class="col" v-for="product in filter('中烘焙')" :key="product.id">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+              <div class="col" v-for="product in productsList.中烘焙" :key="product.id">
                 <ProductCard
                   :title="product.title"
                   :origin="product.origin"
@@ -239,12 +256,20 @@
                   :card_details="width <= 992 ? false : true"
                 ></ProductCard>
               </div>
+            </div>
+            <!-- 分頁元件 -->
+            <div class="d-flex justify-content-center justify-content-lg-end">
+              <PaginationUi
+                :pages="Math.ceil(filter('中烘焙').length / 6)"
+                :updateProducts="updateProducts"
+                :cate="'中烘焙'"
+              ></PaginationUi>
             </div>
           </div>
           <!-- 深烘焙 -->
           <div class="tab-pane fade" id="darkRoast">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4">
-              <div class="col" v-for="product in filter('深烘焙')" :key="product.id">
+            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+              <div class="col" v-for="product in productsList.深烘焙" :key="product.id">
                 <ProductCard
                   :title="product.title"
                   :origin="product.origin"
@@ -257,11 +282,15 @@
                 ></ProductCard>
               </div>
             </div>
+            <!-- 分頁元件 -->
+            <div class="d-flex justify-content-center justify-content-lg-end">
+              <PaginationUi
+                :pages="Math.ceil(filter('深烘焙').length / 6)"
+                :updateProducts="updateProducts"
+                :cate="'深烘焙'"
+              ></PaginationUi>
+            </div>
           </div>
-        </div>
-        <!-- 分頁元件 -->
-        <div class="d-flex justify-content-center justify-content-lg-end">
-          <PaginationUi></PaginationUi>
         </div>
       </div>
     </div>
@@ -269,7 +298,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
@@ -281,15 +310,29 @@ import ProductCard from '@/components/ProductCard.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 import LoadingUi from '@/components/LoadingUi.vue';
 
+// 獲取 useWindowSize 當中的 width 視窗寬度
 const { width } = useWindowSize();
 
 // 取得 product 資料、方法
 const productStore = useProductStore();
-const { products } = storeToRefs(productStore);
-const { filter, sort } = productStore;
+const { products, productsList } = storeToRefs(productStore);
+const { sort, filter, updateProducts } = productStore;
 
 const select = ref('排序項目'); // 篩選器變數
-const listOption = ref('allProducts'); // 導覽切換變數
+const listOption = ref('全部'); // 導覽切換變數
+
+// 監聽 productsList 當中資料，當產生變化時執行排序 sort 方法
+watch(
+  () => productsList.value[listOption.value],
+  () => {
+    // 判斷 select 值決定當前排序行為
+    if (select.value === '價格由高至低') {
+      sort(listOption.value, 'sortByDescending');
+    } else if (select.value === '價格由低至高') {
+      sort(listOption.value, 'sortByAscending');
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
