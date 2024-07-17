@@ -26,16 +26,18 @@
   <div class="container">
     <h3
       class="fs-5 fs-xl-1 fw-bold text-primary border-5 border-bottom border-primary rounded-1 d-flex py-3"
+      data-aos="fade-up"
+      data-aos-duration="600"
     >
       品牌故事 Our Story
       <img src="/public/icons/coffee-bean.svg" class="d-xl-none ms-2" alt="" />
       <img src="/public/icons/coffee-bean.svg" class="d-none d-xl-block ms-2" alt="" width="48" />
     </h3>
-    <div class="row row-cols-1 row-cols-lg-2 g-4 py-8">
-      <div class="col">
+    <div class="row row-cols-1 row-cols-lg-2 g-4 py-8" style="overflow-x: hidden">
+      <div class="col" data-aos="fade-right" data-aos-duration="800">
         <img src="/public/images/about-img-1.webp" alt="about-img-1" />
       </div>
-      <div class="col">
+      <div class="col" data-aos="fade-left" data-aos-duration="800" data-aos-delay="500">
         <div>
           <h4 class="fs-6 fs-xl-3 lh-base lh-xl-sm fw-bold text-gray-800 mb-2 mb-xl-3">
             一場對品味的追求，精挑細選的價值
@@ -54,8 +56,11 @@
         </div>
       </div>
     </div>
-    <div class="row flex-column-reverse flex-lg-row row-cols-1 row-cols-lg-2 g-4 pb-8">
-      <div class="col">
+    <div
+      class="row flex-column-reverse flex-lg-row row-cols-1 row-cols-lg-2 g-4 pb-8"
+      style="overflow-x: hidden"
+    >
+      <div class="col" data-aos="fade-right" data-aos-duration="800" data-aos-delay="500">
         <div>
           <h4 class="fs-6 fs-xl-3 lh-base lh-xl-sm fw-bold text-gray-800 mb-2 mb-xl-3">
             職人嚴格的把關確保品質
@@ -73,7 +78,7 @@
           </p>
         </div>
       </div>
-      <div class="col">
+      <div class="col" data-aos="fade-left" data-aos-duration="800">
         <img src="/public/images/about-img-2.webp" alt="about-img-2" />
       </div>
     </div>

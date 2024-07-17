@@ -187,6 +187,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useMutationObserver } from '@vueuse/core';
 import axios from 'axios';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 // 引入 Pinia 狀態管理
@@ -344,23 +345,21 @@ onMounted(() => {
   signupModal.value = new Modal(refModal.value);
 
   // 使用 MutationObserver 監聽 classList 變化
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        // 當 Modal 顯示時，isSignup 為 true
-        const result = Array.from(refModal.value.classList).includes('show');
-        if (result) {
-          isSignup.value = true;
-        } else {
-          isSignup.value = false;
+  useMutationObserver(
+    refModal,
+    (mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          // 判斷 refModal 的 class 是否包含 show
+          const result = Array.from(refModal.value.classList).includes('show');
+          isSignup.value = result;
         }
-      }
-    });
-  });
-
-  observer.observe(refModal.value, {
-    attributes: true, // 監聽屬性變化
-  });
+      });
+    },
+    {
+      attributes: true, // 監聽屬性變化
+    }
+  );
 });
 </script>
 

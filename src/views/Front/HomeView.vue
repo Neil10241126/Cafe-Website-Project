@@ -23,38 +23,40 @@
   <!-- Products List -->
   <section class="py-8">
     <div class="container">
-      <div class="text-center mb-5 mb-md-6">
-        <p class="fs-8 fs-md-4 fw-bold text-primary mb-1 mb-md-2">按您的口味挑選</p>
-        <h2 class="fs-6 fs-md-2 fw-bold text-primary mb-0">我們的咖啡豆產品</h2>
-      </div>
+      <div data-aos="fade-up" data-aos-duration="600">
+        <div class="text-center mb-5 mb-md-6">
+          <p class="fs-8 fs-md-4 fw-bold text-primary mb-1 mb-md-2">按您的口味挑選</p>
+          <h2 class="fs-6 fs-md-2 fw-bold text-primary mb-0">我們的咖啡豆產品</h2>
+        </div>
 
-      <!-- 列表控制器 List group : lightRoast、mediumRoast、darkRoast -->
-      <div class="list-group flex-row justify-content-center mb-5 mb-md-6">
-        <a
-          class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 active"
-          data-bs-toggle="list"
-          href="#list-lightRoast"
-        >
-          淺烘焙
-        </a>
-        <a
-          class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 mx-3 mx-md-6"
-          data-bs-toggle="list"
-          href="#list-mediumRoast"
-        >
-          中烘焙
-        </a>
-        <a
-          class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5"
-          data-bs-toggle="list"
-          href="#list-darkRoast"
-        >
-          深烘焙
-        </a>
+        <!-- 列表控制器 List group : lightRoast、mediumRoast、darkRoast -->
+        <div class="list-group flex-row justify-content-center mb-5 mb-md-6">
+          <a
+            class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 active"
+            data-bs-toggle="list"
+            href="#list-lightRoast"
+          >
+            淺烘焙
+          </a>
+          <a
+            class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5 mx-3 mx-md-6"
+            data-bs-toggle="list"
+            href="#list-mediumRoast"
+          >
+            中烘焙
+          </a>
+          <a
+            class="btn btn-outline-primary rounded-pill border-3 fs-md-4 fw-bold py-1 py-md-2 px-3 px-md-5"
+            data-bs-toggle="list"
+            href="#list-darkRoast"
+          >
+            深烘焙
+          </a>
+        </div>
       </div>
 
       <!-- Tab panes & Swiper 輪播  -->
-      <div class="tab-content">
+      <div class="tab-content" data-aos="fade-up" data-aos-duration="600">
         <!-- 淺烘焙 lightRoast -->
         <div class="tab-pane fade show active" id="list-lightRoast">
           <swiper-container
@@ -181,7 +183,12 @@
 
     <div class="position-relative">
       <!-- 計數器列表 -->
-      <div class="container text-center py-8">
+      <div
+        class="container text-center py-8"
+        data-aos="fade-up"
+        data-aos-duration="600"
+        data-aos-offset="250"
+      >
         <div class="mb-5 mb-md-6">
           <p class="fs-8 fs-md-4 fw-bold text-gray-300 mb-1 mb-md-2">為何選擇我們</p>
           <h2 class="fs-6 fs-md-2 fw-bold text-light mb-0">為您打造優質品質與一站式服務</h2>
@@ -227,7 +234,12 @@
       </div>
 
       <!-- 服務列表 -->
-      <div class="bg-gray-900 py-3 py-md-6">
+      <div
+        class="bg-gray-900 py-3 py-md-6"
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-offset="50"
+      >
         <div class="container d-flex justify-content-between overflow-auto">
           <div class="d-flex align-items-start" style="max-width: 400px">
             <div
@@ -291,7 +303,7 @@
   <!-- Comment -->
   <section class="py-8">
     <div class="container">
-      <div class="text-center mb-5 mb-md-6">
+      <div class="text-center mb-5 mb-md-6" data-aos="fade-up" data-aos-duration="600">
         <p class="fs-8 fs-md-4 fw-bold text-primary mb-1 mb-md-2">顧客評價</p>
         <h2 class="fs-6 fs-md-2 fw-bold text-primary mb-0">來自咖啡愛好者的真實反饋</h2>
       </div>
@@ -318,6 +330,8 @@
             spaceBetween: 24,
           },
         }"
+        data-aos="fade-up"
+        data-aos-duration="600"
       >
         <swiper-slide class="h-auto">
           <div class="d-flex h-100">

@@ -23,8 +23,11 @@
 
   <!-- 聯絡我們 -->
   <div class="container pb-8">
-    <div class="row row-cols-1 row-cols-lg-2 flex-column-reverse flex-lg-row g-5">
-      <div class="col">
+    <div
+      class="row row-cols-1 row-cols-lg-2 flex-column-reverse flex-lg-row g-5"
+      style="overflow-x: hidden; overflow-y: hidden"
+    >
+      <div class="col" data-aos="fade-right" data-aos-duration="600">
         <form class="px-lg-3" @submit="onSubmit">
           <div class="mb-4">
             <label for="name" class="form-label">
@@ -91,25 +94,27 @@
         </form>
       </div>
       <div class="col">
-        <h3 class="fs-5 fw-semibold text-gray-800 lh-base mb-4 px-lg-3">彼恩斯咖啡</h3>
-        <ul class="list-unstyled px-lg-3 mb-6">
-          <li class="d-flex align-items-center mb-4">
-            <BadgeUi content="地址 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
-            <p class="text-gray-800 mb-0 ms-2">台北市萬里區長山路2130號</p>
-          </li>
-          <li class="d-flex align-items-center mb-4">
-            <BadgeUi content="電話 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
-            <p class="text-gray-800 mb-0 ms-2">+(886) 0912-345-678</p>
-          </li>
-          <li class="d-flex align-items-center mb-4">
-            <BadgeUi content="信箱 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
-            <p class="text-gray-800 mb-0 ms-2">BeansCoffee@gmail.com.tw</p>
-          </li>
-          <li class="d-flex align-items-center">
-            <BadgeUi content="營業時間 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
-            <p class="text-gray-800 mb-0 ms-2">10:00 — 19:00 (週六店休)</p>
-          </li>
-        </ul>
+        <div data-aos="fade-left" data-aos-duration="600">
+          <h3 class="fs-5 fw-semibold text-gray-800 lh-base mb-4 px-lg-3">彼恩斯咖啡</h3>
+          <ul class="list-unstyled px-lg-3 mb-6">
+            <li class="d-flex align-items-center mb-4">
+              <BadgeUi content="地址 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
+              <p class="text-gray-800 mb-0 ms-2">台北市萬里區長山路2130號</p>
+            </li>
+            <li class="d-flex align-items-center mb-4">
+              <BadgeUi content="電話 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
+              <p class="text-gray-800 mb-0 ms-2">+(886) 0912-345-678</p>
+            </li>
+            <li class="d-flex align-items-center mb-4">
+              <BadgeUi content="信箱 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
+              <p class="text-gray-800 mb-0 ms-2">BeansCoffee@gmail.com.tw</p>
+            </li>
+            <li class="d-flex align-items-center">
+              <BadgeUi content="營業時間 :" :size="width < 576 ? 'small' : 'normal'"></BadgeUi>
+              <p class="text-gray-800 mb-0 ms-2">10:00 — 19:00 (週六店休)</p>
+            </li>
+          </ul>
+        </div>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1807.6912091677023!2d121.50139339359627!3d25.021098027374258!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9b1907a9407%3A0x36d410a52e5787b6!2zMTA45Y-w5YyX5biC6JCs6I-v5Y2A!5e0!3m2!1szh-TW!2stw!4v1716819149124!5m2!1szh-TW!2stw"
           width="600"
@@ -118,6 +123,8 @@
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
+          data-aos="fade-up"
+          data-aos-duration="800"
         ></iframe>
       </div>
     </div>

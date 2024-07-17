@@ -42,5 +42,12 @@ module.exports = {
         ignoreHTMLAttributeValues: true, // 忽略 HTML 屬性長度
       },
     ],
+    'import/no-extraneous-dependencies': [
+      0,
+      {
+        devDependencies: true,
+        peerDependencies: true,
+      },
+    ],
   },
 };
