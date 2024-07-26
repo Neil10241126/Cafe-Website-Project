@@ -1,110 +1,92 @@
-# 六角學院 Vue 樣板
+# Beans 彼恩斯咖啡網站
 
-> 這是六角學院的 Vue 樣板，是基於 Vite 所建立的專案。
+---
 
-Node.js 版本建議為：18.17.1 以上
+## 專案描述
 
-## 安裝與使用
+![alt text](./public/desc_img/image.png)
 
-以下將會引導你如何安裝此專案到你的電腦上。
+自己本身喜歡品嘗手沖咖啡，因此想做一個咖啡網站專題，讓使用者可以透過網站來購買咖啡豆，並且可以將喜歡的咖啡加入收藏清單，參考相關網站資源來實踐電商購物。
 
-### 取得專案
+平台開發使用 Vue3 搭配 VITE 來開發，使用 Bootstrap 5 建構響應式應用，用戶可自行選擇註冊，並提供商品瀏覽、加入購物車、結帳等功能。
+
+
+## 主要技術
+
+---
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=FFF"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=FFF"> <img src="https://img.shields.io/badge/javascript-454545?style=for-the-badge&logo=javascript&logoColor=F7DF1E"> <img src="https://img.shields.io/badge/Vue3.js-454545?style=for-the-badge&logo=vue.js"> <img src="https://img.shields.io/badge/scss-CC6699?style=for-the-badge&logo=sass&logoColor=FFFFFF"> <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=FFFFFF">
+
+## Demo 連結
+---
+
+- [前台](https://neil10241126.github.io/Cafe-Website-Project/#/)
+
+## 畫面介紹
+
+---
+> 依序為首頁服務畫面、產品列表、登入
+> 
+![alt text](./public/desc_img/image2.png)
+
+![alt text](./public/desc_img/image3.png)
+
+![alt text](./public/desc_img/image4.png)
+
+
+## 下載專案
+
+---
+
+> 按造流程下載並運行
+
+### 引入專案
 
 ```bash
-git clone https://github.com/hexschool/vite-template.git
+git clone https://github.com/Neil10241126/Cafe-Website-Project.git
 ```
 
-### 移動到專案資料夾
+### 移動至目錄
 
 ```bash
-cd vite-template
+cd Front-Cafe-Websit
 ```
 
-## 環境變數
-
-請將 `.env.example` 複製一份並命名為 `.env`，並將裡面的環境變數設定為你的值。
-
-```bash
-cp .env.example .env
-```
-
-### 安裝套件
+### 初始化套件
 
 ```bash
 npm install
 ```
 
-### 啟動開發環境
+### 運行專案
 
 ```bash
 npm run dev
 ```
 
-### 打包專案
+## 運用技術
 
-```bash
-npm run build
-```
+---
 
-### 部署專案
+### 主要
+- Node.js v18.15.0
+- Vue.js v3.3.11
+- Vite v5.0.10
+- Vue Router v4.2.5
+- Pinia v2.1.7
+- Bootstrap v5.3.2
+- Vee-Validate v4.13.1
+- Yup v1.4.0
 
-```bash
-npm run deploy
-```
+### 效果
+- Vue-Loading-Overlay v6.0.4
+- Vue-Countup-V3 v1.4.2
+- Aos v2.3.4
+- SweetAlert2 v11.11.1
+- Swiper v11.1.3
+  
+## RESTful API
 
-## 套件
+---
 
-以下是已經安裝在專案中的套件。
-
-- axios (^1.6.5)
-- bootstrap (^5.3.2)
-- bootstrap-icons (^1.11.3)
-- dotenv (^16.3.1)
-- pinia (^2.1.7)
-- vue (^3.3.11)
-- vue-router (^4.2.5)
-- @vitejs/plugin-vue (^4.5.2)
-- eslint (^8.49.0)
-- eslint-config-airbnb-base (^15.0.0)
-- eslint-import-resolver-alias (^1.1.2)
-- eslint-plugin-import (^2.29.1)
-- eslint-plugin-n (^16.6.2)
-- eslint-plugin-promise (^6.1.1)
-- eslint-plugin-vue (^9.20.1)
-- gh-pages (^6.1.1)
-- sass (^1.69.7)
-- vite (^5.0.10)
-- vite-plugin-eslint (^1.8.1)
-
-## 資料夾結構
-
-- `.vscode`：Visual Studio Code 的設定檔
-- `dist`：打包後的檔案
-- `public`：公開的靜態檔案
-- `src`：專案的程式碼
-  - `assets`：靜態檔案
-  - `components`：元件
-  - `router`：路由
-  - `store`：狀態管理
-  - `views`：頁面
-  - `App.vue`：根元件
-  - `main.js`：進入點
-- `.env.example`：環境變數範本
-- `.eslintrc.js`：ESLint 設定檔
-- `.gitignore`：Git 忽略檔案
-- `.nvmrc`：Node.js 版本
-- `index.html`：進入點 HTML
-- `package-lock.json`：套件版本鎖定
-- `package.json`：專案資訊
-- `README.md`：專案說明
-- `vite.config.js`：Vite 設定檔
-
-## gh-pages 部署說明
-
-內建預設是使用 gh-pages 進行部署，因此只需要在專案根目錄下執行以下指令即可。
-
-```bash
-npm run deploy
-```
-
-（請記得將 `.env` 中的 `REPOSITORY_NAME` 改為你的專案名稱即可。）
+- `六角學院 - 電商 API` : 包含商品、購物車、結帳、優惠券功能。
+- `Json Server Auth API` : 包含用戶端登入註冊、收藏功能。

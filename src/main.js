@@ -12,11 +12,13 @@ import 'aos/dist/aos.css';
 
 import App from './App.vue';
 import router from './router';
-
+// 引入 bootstrap
 import './assets/all.scss';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-AOS.init();
+AOS.init({
+  delay: 0,
+});
 
 const app = createApp(App);
 const pinia = createPinia();

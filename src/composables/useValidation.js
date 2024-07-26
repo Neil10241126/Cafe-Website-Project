@@ -15,6 +15,7 @@ export default function useValidation() {
     .transform(() => null)
     .notRequired();
 
+  // ======== 前台 ========
   // 聯絡我們 schema
   const contactSchema = toTypedSchema(
     yup.object({
@@ -136,7 +137,29 @@ export default function useValidation() {
     })
   );
 
-  return { contactSchema, signinSchema, signupSchema, orderSchema, paymentSchema };
+  // ======== 後台 ========
+  // 新增產品 schema
+  const addProductSchema = toTypedSchema(
+    yup.object({
+      title: yup.string().required('必填!'),
+      category: yup.string().required('必填!'),
+      originPrice: yup.number().required('必填!'),
+      price: yup.number().required('必填!'),
+      unit: yup.string().required('必填!'),
+      content: yup.string().required('必填!'),
+      desc: yup.string().required('必填!'),
+      isEnabled: yup.boolean().default(true).required('必填!'),
+    })
+  );
+
+  return {
+    contactSchema,
+    signinSchema,
+    signupSchema,
+    orderSchema,
+    paymentSchema,
+    addProductSchema,
+  };
 }
 
 // 電話驗證

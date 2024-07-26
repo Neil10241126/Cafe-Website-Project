@@ -160,6 +160,7 @@
               type="button"
               class="btn btn-outline-primary dropdown-toggle d-flex w-100 justify-content-between align-items-center"
               data-bs-toggle="dropdown"
+              aria-expanded="false"
               style="min-width: 220px"
             >
               {{ select }}

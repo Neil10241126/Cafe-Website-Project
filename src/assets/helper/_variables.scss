@@ -324,23 +324,24 @@ $theme-colors: (
   'light': $light,
   'dark': $dark,
   'gray-900': #1a1a1a,
-  //  【 setting 】
   'gray-800': #333333,
-  //  【 setting 】
   'gray-700': #545454,
-  //  【 setting 】
   'gray-600': #737373,
-  //  【 setting 】
   'gray-500': #999999,
-  //  【 setting 】
   'gray-400': #b3b3b3,
-  //  【 setting 】
   'gray-300': #cccccc,
-  //  【 setting 】
   'gray-200': #e6e6e6,
-  //  【 setting 】
   'gray-100': #f7f7f7,
-  //  【 setting 】
+  // dashboard-color-theme
+  'netural-100': #F2F2F2,
+  'netural-200': #DADADA,
+  'netural-300': #C1C1C1,
+  'netural-400': #A8A8A8,
+  'netural-500': #8F8F8F,
+  'netural-600': #767676,
+  'netural-700': #5D5D5D,
+  'netural-800': #444444,
+  'netural-900': #2B2B2B,
 ) !default;
 // scss-docs-end theme-colors-map
 

@@ -76,6 +76,24 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/admin',
+    component: () => import('../views/DashboardLayout.vue'),
+    children: [
+      {
+        path: 'products',
+        component: () => import('../views/Dashboard/AdminProducts.vue'),
+      },
+      {
+        path: 'orders',
+        component: () => import('../views/Dashboard/AdminOrders.vue'),
+      },
+      {
+        path: 'coupons',
+        component: () => import('../views/Dashboard/AdminCoupons.vue'),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({

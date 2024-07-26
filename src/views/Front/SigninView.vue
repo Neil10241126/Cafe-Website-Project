@@ -259,7 +259,7 @@ const signinAdmin = async () => {
 
     // 將 token expires 存入 cookie
     document.cookie = `token=${token}; expires=${new Date(expires)}; path=/`;
-    router.push('/admin');
+    router.push('/admin/products');
     apiResAlert(res.data.message);
   } catch (err) {
     apiErrAlert(err.response.data.message);

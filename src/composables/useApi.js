@@ -37,6 +37,10 @@ const couponApi = axios.create({
   baseURL: VITE_API_URL,
 });
 
+// Upload 相關 api
+const uploadApi = axios.create({
+  baseURL: VITE_API_URL,
+});
 
 export default function useApi() {
   // User Render 相關 api : [註冊、登入]
@@ -69,6 +73,9 @@ export default function useApi() {
   // Coupon 相關 api : [取得]
   const fetchCoupon = (data) => couponApi.post(`/v2/api/${VITE_API_NAME}/coupon`, data);
 
+  // Upload 相關 api
+  const fetchUpload = (formData) => uploadApi.post(`/v2/api/${VITE_API_NAME}/admin/upload`, formData);
+
   return {
     renderSignup,
     renderSignin,
@@ -85,6 +92,7 @@ export default function useApi() {
     fetchOrder,
     fetchCreate,
     fetchCheckout,
-    fetchCoupon
+    fetchCoupon,
+    fetchUpload
   }
 }
