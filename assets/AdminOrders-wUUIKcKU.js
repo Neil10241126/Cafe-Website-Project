@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{f as t,h as o,i as s}from"./index-PEMABB9d.js";const c={},r={class:"mb-5"},n=s("h2",{class:"fs-5 text-netural-100"},"訂單列表",-1),_=s("p",{class:"fs-8 text-netural-400 mb-0"},"檢視用戶訂單相關訊息，調整訂單內容。",-1),a=[n,_];function d(i,f){return t(),o("div",r,a)}const h=e(c,[["render",d]]);export{h as default};
