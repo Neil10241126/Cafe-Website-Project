@@ -8,7 +8,10 @@
     <button type="button" class="btn btn-netural-200 d-flex align-items-center">
       新增優惠券
       <svg width="16" height="16" class="ms-2">
-        <use xlink:href="/public/icons/icons.svg#tickit-outline" href="/public/icons/icons.svg#tickit-outline" />
+        <use
+          xlink:href="/public/icons/icons.svg#tickit-outline"
+          href="/public/icons/icons.svg#tickit-outline"
+        />
       </svg>
     </button>
   </div>

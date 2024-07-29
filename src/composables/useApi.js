@@ -37,11 +37,6 @@ const couponApi = axios.create({
   baseURL: VITE_API_URL,
 });
 
-// Upload 相關 api
-const uploadApi = axios.create({
-  baseURL: VITE_API_URL,
-});
-
 export default function useApi() {
   // User Render 相關 api : [註冊、登入]
   const renderSignup = (userData) => renderUserApi.post(`/signup`, userData);
@@ -52,8 +47,14 @@ export default function useApi() {
   const renderGetFavorite = (userId) => renderUserApi.get(`/favorites?userId=${userId}`);
   const renderAddFavorite = (id, products) => renderUserApi.patch(`/favorites/${id}`, products);
 
-  // Admin 相關 api : [登入]
+  // Admin 相關 api : [登入]、[登出]、[驗證]
   const loginAdmin = (userData) => adminApi.post(`/v2/admin/signin`, userData);
+  const logoutAdmin = () => adminApi.post(`/v2/logout`);
+  const adminCheck = () => adminApi.post(`/v2/api/user/check`);
+
+  // adminApi 添加 headers 方法
+  const setAdminToken = (token) => { adminApi.defaults.headers.common.Authorization = `${token}` };
+
 
   // Product 相關 api : [取得列表、取得品項]
   const fetchProdcuts = () => productApi.get(`/v2/api/${VITE_API_NAME}/products/all`);
@@ -73,16 +74,19 @@ export default function useApi() {
   // Coupon 相關 api : [取得]
   const fetchCoupon = (data) => couponApi.post(`/v2/api/${VITE_API_NAME}/coupon`, data);
 
-  // Upload 相關 api
-  const fetchUpload = (formData) => uploadApi.post(`/v2/api/${VITE_API_NAME}/admin/upload`, formData);
+  // Upload 相關 api : [新增]
+  const fetchUpload = (formData) => adminApi.post(`/v2/api/${VITE_API_NAME}/admin/upload`, formData);
 
   return {
+    // Call API
     renderSignup,
     renderSignin,
     renderNewFavorite,
     renderGetFavorite,
     renderAddFavorite,
     loginAdmin,
+    logoutAdmin,
+    adminCheck, // 未使用
     fetchProdcuts,
     fetchProductItem,
     fetchCart,
@@ -93,6 +97,8 @@ export default function useApi() {
     fetchCreate,
     fetchCheckout,
     fetchCoupon,
-    fetchUpload
+    fetchUpload,
+    // Methods
+    setAdminToken,
   }
 }

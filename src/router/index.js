@@ -113,8 +113,10 @@ router.beforeEach(async () => {
   const { checkToken } = userStore;
 
   // 若登入狀態為 true 需驗證 accessToken 是否過期
-  if (user.value.loginState) {
-    await checkToken();
+  if (user.value.loginState && user.value.isAdmin === false) {
+    await checkToken('user');
+  } else if (user.value.loginState && user.value.isAdmin === true) {
+    await checkToken('admin');
   }
 });
 

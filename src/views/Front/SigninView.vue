@@ -257,8 +257,10 @@ const signinAdmin = async () => {
     const res = await loginAdmin(values.signin);
     const { token, expired: expires } = res.data;
 
-    // 將 token expires 存入 cookie
+    // 將 token expires 存入 cookie，並將登入狀態設置為 true
     document.cookie = `token=${token}; expires=${new Date(expires)}; path=/`;
+    user.value.loginState = true;
+
     router.push('/admin/products');
     apiResAlert(res.data.message);
   } catch (err) {

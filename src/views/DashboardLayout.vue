@@ -1,4 +1,7 @@
 <template>
+  <!-- loading -->
+  <LoadingUi></LoadingUi>
+
   <div class="layout d-flex">
     <!-- 側邊導覽 -->
     <aside class="bg-netural-800 vh-100" style="width: 250px">
@@ -45,14 +48,25 @@
     <div class="flex-fill p-3">
       <nav class="d-flex align-items-center justify-content-between mb-3">
         <h3 class="fs-4 fw-semibold">產品列表</h3>
-        <button type="button" class="btn btn-netural-600 rounded-0 py-1">登出</button>
+        <button type="button" class="btn btn-netural-600 rounded-0 py-1" @click="adminSignout()">
+          登出
+        </button>
       </nav>
       <RouterView></RouterView>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+// 引入 Pinia 狀態管理
+import useUserStore from '@/stores/user';
+// 引入 UI 組件
+import LoadingUi from '@/components/LoadingUi.vue';
+
+//
+const userStore = useUserStore();
+const { adminSignout } = userStore;
+</script>
 
 <style lang="scss" scoped>
 // sider 樣式

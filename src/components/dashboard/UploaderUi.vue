@@ -2,7 +2,7 @@
   <label
     for="file-input"
     class="drop-area"
-    :class="[{ 'border-netural-800': imgData.isUploaded }, { show: imgData.isUploaded }]"
+    :class="[{ 'border-netural-800': imageDate.isUploaded }, { show: imageDate.isUploaded }]"
     @drop.prevent="dropImg($event)"
     @dragover.prevent=""
   >
@@ -11,17 +11,17 @@
       id="file-input"
       accept="image/jpeg, image/png, image/webp"
       hidden
-      ref="fileInput"
+      ref="fileInputRef"
       @change="uploadImg()"
     />
 
     <!-- 圖片顯示 -->
-    <div class="img-view" ref="imgView">
-      <svg v-show="!imgData.isUploaded" width="36" height="36" class="img-icons">
+    <div class="img-view" ref="imgViewRef">
+      <svg v-show="!imageDate.isUploaded" width="36" height="36" class="img-icons">
         <use xlink:href="/public/icons/icons.svg#plus" />
       </svg>
 
-      <div class="tool" :class="{ show: imgData.isUploaded }">
+      <div class="tool" :class="{ show: imageDate.isUploaded }">
         <div class="tool-list">
           <a href="#" class="tool-icon" @click.prevent="removeImg()">
             <svg width="24" height="24">
@@ -35,38 +35,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-const fileInput = ref(null);
-const imgView = ref(null);
+const fileInputRef = ref(null);
+const imgViewRef = ref(null);
 
-const imgData = ref({
+const imageDate = ref({
   isUploaded: false,
-  link: '',
-  name: '',
-  size: 0,
-  type: '',
+  viewLink: '',
+  fileName: '',
+  fileSize: 0,
+  fileType: '',
   data: {},
 });
 
-const emits = defineEmits(['sendImgData']);
+const emits = defineEmits(['sendImageData', 'removeImageData']);
 
 function uploadImg() {
-  if (fileInput.value.files.length) {
+  if (fileInputRef.value.files.length) {
     // 從 filles 解構取出 name size 屬性
-    const { name, size, type } = fileInput.value.files[0];
+    const { name, size, type } = fileInputRef.value.files[0];
     // 將取出的值從新賦予至 imgData 中
-    imgData.value = {
+    imageDate.value = {
       isUploaded: true,
-      link: URL.createObjectURL(fileInput.value.files[0]),
-      name,
-      size,
-      type: type.split('/').pop(),
-      data: fileInput.value.files[0],
+      viewLink: URL.createObjectURL(fileInputRef.value.files[0]),
+      fileName: name,
+      fileSize: size,
+      fileType: type.split('/').pop(),
+      data: fileInputRef.value.files[0],
     };
 
     // 顯示上傳圖片畫面
-    imgView.value.style.backgroundImage = `url(${imgData.value.link})`;
+    imgViewRef.value.style.backgroundImage = `url(${imageDate.value.viewLink})`;
   }
 }
 
@@ -78,34 +78,32 @@ function dropImg(e) {
 
   // 如果是圖片類型則變更 fileInput 並更新 uploadIgm()
   if (isImageType) {
-    fileInput.value.files = e.dataTransfer.files;
+    fileInputRef.value.files = e.dataTransfer.files;
     uploadImg();
   }
 }
 
 function removeImg() {
   // 清空 fileInput 值
-  fileInput.value = {};
+  fileInputRef.value = {};
   // 將 imgData 值清除。
-  imgData.value = {
+  imageDate.value = {
     isUploaded: false,
-    link: '',
-    name: '',
-    size: 0,
-    type: '',
+    viewLink: '',
+    fileName: '',
+    fileSize: 0,
+    fileType: '',
     data: {},
   };
 
   // 移除顯示 backgroundImage 畫面
-  imgView.value.style.backgroundImage = '';
+  imgViewRef.value.style.backgroundImage = '';
+  emits('removeImageData');
 }
 
-// emit 將資料傳出
-function emitImgData() {
-  emits('sendImgData', imgData);
-}
-
-emitImgData();
+watch(imageDate, () => {
+  emits('sendImageData', imageDate.value);
+});
 </script>
 
 <style lang="scss" scoped>

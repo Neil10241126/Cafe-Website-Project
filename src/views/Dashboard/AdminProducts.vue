@@ -47,7 +47,7 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="productModal" ref="productModal">
+  <div class="modal fade" id="productModal" ref="refProductModal">
     <div class="modal-dialog">
       <div class="modal-content" data-bs-theme="dark">
         <!-- Modal Header -->
@@ -199,7 +199,6 @@
                   />
                   <label class="form-check-label fs-8" for="isEnable">是否啟用</label>
                 </div>
-                {{ values }}
               </form>
             </div>
 
@@ -210,27 +209,32 @@
                 <div class="col-3">
                   <div>
                     <label class="form-label fs-8">主要圖片</label>
-                    <UploaderUi @send-img-data="getEmitData"></UploaderUi>
+                    <UploaderUi
+                      @send-image-data="getEmitData"
+                      @remove-image-data="removeFiledImageUrl"
+                      v-model="imageUrl"
+                      v-bind="imageUrlAttrs"
+                    ></UploaderUi>
                   </div>
                 </div>
                 <div class="col-9">
                   <div class="d-flex flex-column h-100">
                     <div>
-                      <h5 class="fs-8 lh-base mb-2">檔名 : {{ dataImg.value?.name }}</h5>
+                      <h5 class="fs-8 lh-base mb-2">檔名 : {{ imageData.fileName }}</h5>
                       <div class="mb-1">
                         <span
                           class="badge text-bg-netural-900"
-                          :class="{ 'bg-success': dataImg.value?.type === 'jpeg' }"
+                          :class="{ 'bg-success': imageData.fileType === 'jpeg' }"
                           >JPG</span
                         >
                         <span
                           class="badge text-bg-netural-900 ms-1"
-                          :class="{ 'bg-success': dataImg.value?.type === 'png' }"
+                          :class="{ 'bg-success': imageData.fileType === 'png' }"
                           >PNG</span
                         >
                         <span
                           class="badge text-bg-netural-900 ms-1"
-                          :class="{ 'bg-success': dataImg.value?.type === 'webp' }"
+                          :class="{ 'bg-success': imageData.fileType === 'webp' }"
                           >WEBP</span
                         >
                       </div>
@@ -240,15 +244,13 @@
                     <div class="mt-auto d-flex justify-content-between">
                       <div
                         class="d-flex align-items-center text-success"
-                        :class="{ 'text-danger': formatSize(dataImg.value?.size).checkSize }"
+                        :class="{ 'text-danger': sizeCheck }"
                       >
-                        <span class="me-2">{{ formatSize(dataImg.value?.size).value }}</span>
+                        <span class="me-2">{{ formatSize }}</span>
                         <svg width="16" height="16">
                           <use
                             :xlink:href="`/public/icons/icons.svg#${
-                              formatSize(dataImg.value?.size).checkSize
-                                ? 'x-circle'
-                                : 'check-circle'
+                              sizeCheck ? 'x-circle' : 'check-circle'
                             }`"
                           />
                         </svg>
@@ -272,7 +274,7 @@
           <button type="button" class="btn btn-outline-netural-300" data-bs-dismiss="modal">
             關閉
           </button>
-          <button type="button" class="btn btn-success">儲存</button>
+          <button type="button" class="btn btn-success" @click="onSubmit()">儲存</button>
         </div>
       </div>
     </div>
@@ -280,7 +282,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 import Modal from 'bootstrap/js/dist/modal';
 // 引入 UI 組件
@@ -289,63 +291,91 @@ import UploaderUi from '@/components/dashboard/UploaderUi.vue';
 import useValidation from '@/composables/useValidation';
 import useApi from '@/composables/useApi';
 
-// 取出 schema 驗證規則
-const { addProductSchema } = useValidation();
-
 // 取得 useApi 方法
 const { fetchUpload } = useApi();
 
-const productModal = ref(null);
-const useProductModal = ref('');
-const dataImg = ref({
-  isUploaded: false,
-  link: '',
-  name: '',
-  size: 0,
-  type: '',
-  data: {},
-});
+// 取出 useUploadImage 資料、計算屬性、方法
+const { imageData, sizeCheck, formatSize, getEmitData, removeFiledImageUrl, upload } =
+  useUploadImage();
 
-function getEmitData(imgData) {
-  dataImg.value = imgData;
-}
+function useUploadImage() {
+  const imageData = ref({
+    isUploaded: false,
+    viewLink: '',
+    fileName: '',
+    fileSize: 0,
+    fileType: '',
+    data: {},
+  });
 
-function formatSize(size) {
-  let value = 0;
-  const checkSize = size > 3145728;
-  const sizeKB = size / 1024;
+  const sizeCheck = computed(() => imageData.value.fileSize > 3145728);
 
-  if (sizeKB > 1000) {
-    value = `${(sizeKB / 1024).toFixed(2)} MB`;
-  } else {
-    value = `${sizeKB.toFixed(2)} KB`;
+  const formatSize = computed(() => {
+    const sizeKB = imageData.value.fileSize / 1024;
+
+    if (sizeKB > 1024) {
+      return `${(sizeKB / 1024).toFixed(2)} MB`;
+    }
+
+    return `${sizeKB.toFixed(2)} KB`;
+  });
+
+  function getEmitData(data) {
+    imageData.value = data;
+  }
+
+  function removeFiledImageUrl() {
+    imageUrl.value = '';
+  }
+
+  function upload() {
+    const { data } = imageData.value;
+    const formData = new FormData();
+    formData.append('file-to-upload', data);
+
+    fetchUpload(formData)
+      .then((res) => {
+        imageUrl.value = res.data.imageUrl;
+      })
+      .catch((err) => console.log('fetch err: ', err));
   }
 
   return {
-    value,
-    checkSize,
+    imageData,
+    sizeCheck,
+    formatSize,
+    getEmitData,
+    removeFiledImageUrl,
+    upload,
   };
 }
 
-function upload() {
-  const { data } = dataImg.value.value;
-  const formData = new FormData();
-  formData.append('file-to-upload', data);
+// 取出 useProductModal 資料、方法
+const { refProductModal, openModal } = useProductModal();
+function useProductModal() {
+  const refProductModal = ref(null);
+  const productModal = ref('');
 
-  fetchUpload(formData)
-    .then((res) => console.log('fetch res: ', res))
-    .catch((err) => console.log('fetch err: ', err));
+  function openModal() {
+    productModal.value.show();
+  }
+
+  onMounted(() => {
+    productModal.value = new Modal(refProductModal.value);
+    productModal.value.show();
+  });
+
+  return {
+    refProductModal,
+    openModal,
+  };
 }
 
-const openModal = () => useProductModal.value.show();
-
-onMounted(() => {
-  useProductModal.value = new Modal(productModal.value);
-  useProductModal.value.show();
-});
+// 取出 schema 驗證規則
+const { addProductSchema } = useValidation();
 
 // 使用 useForm 來處理表單驗證
-const { defineField, errors, values } = useForm({
+const { defineField, handleSubmit, errors } = useForm({
   validationSchema: addProductSchema,
 });
 
@@ -358,6 +388,11 @@ const [unit, unitAttrs] = defineField('unit');
 const [content, contentAttrs] = defineField('content');
 const [desc, descAttrs] = defineField('desc');
 const [isEnabled, isEnabledAttrs] = defineField('isEnabled');
+const [imageUrl, imageUrlAttrs] = defineField('imageUrl');
+
+const onSubmit = handleSubmit((values) => {
+  console.log(values);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -49,5 +49,13 @@ module.exports = {
         peerDependencies: true,
       },
     ],
+    'no-use-before-define': [
+      'error',
+      {
+        functions: false,
+        variables: false,
+      }
+    ],
+    'no-shadow': 'off',
   },
 };

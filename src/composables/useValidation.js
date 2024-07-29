@@ -149,6 +149,7 @@ export default function useValidation() {
       content: yup.string().required('必填!'),
       desc: yup.string().required('必填!'),
       isEnabled: yup.boolean().default(true).required('必填!'),
+      imageUrl: yup.string().required('必填!'),
     })
   );
 

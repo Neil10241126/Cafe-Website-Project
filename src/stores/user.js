@@ -8,8 +8,6 @@ import useProductStore from '@/stores/product';
 // 引入 Composables 方法
 import useApi from '@/composables/useApi';
 
-// 定義 user 狀
-
 export default defineStore(
   'user',
   () => {
@@ -18,7 +16,7 @@ export default defineStore(
 
     // 取得 alert 方法
     const alertStore = useAlertStore();
-    const { apiResAlert, handleError } = alertStore;
+    const { apiResAlert, apiErrAlert, handleError } = alertStore;
 
     // 取得 loading 方法
     const loaderStore = useLoadingStore();
@@ -29,7 +27,14 @@ export default defineStore(
     const { products } = storeToRefs(productStore);
 
     // 取得 useApi 方法
-    const { renderGetFavorite, renderAddFavorite, renderNewFavorite } = useApi();
+    const {
+      renderGetFavorite,
+      renderAddFavorite,
+      renderNewFavorite,
+      logoutAdmin,
+      adminCheck,
+      setAdminToken,
+    } = useApi();
 
     // 定義 user 資料
     const user = ref({
@@ -43,7 +48,7 @@ export default defineStore(
       list: [],
     });
 
-    // 用戶登出
+    // 用戶登出 user
     const signout = () => {
       // 將 token 存入 cookie，並設定 expires 讓 token 過期
       const accessToken = document.cookie.replace(
@@ -57,6 +62,24 @@ export default defineStore(
 
       apiResAlert('登出成功');
       router.push('/');
+    };
+
+    // 管理者登出 admin
+    const adminSignout = async () => {
+      isLoadingOn('isFullLoading');
+      try {
+        const res = await logoutAdmin();
+
+        // 若用戶登出，清除使用者資料
+        user.value = { loginState: false, isAdmin: false, userInfo: {} };
+
+        apiResAlert(res.data.message);
+        router.push('/signin/admin');
+      } catch (err) {
+        apiErrAlert(err.response.data.message);
+      } finally {
+        isLoadingOff('isFullLoading');
+      }
     };
 
     // 取得用戶收藏 GET
@@ -132,17 +155,33 @@ export default defineStore(
       }
     };
 
-    // 確認 accessToken 是否失效
-    const checkToken = () => {
-      const accessToken = document.cookie.replace(
-        /(?:(?:^|.*;\s*)accessToken\s*=\s*([^;]*).*$)|^.*$/,
-        '$1'
-      );
+    // 確認 token 是否失效
+    const checkToken = (value) => {
+      // 判斷檢查對象是否為 user
+      if (value === 'user') {
+        const regExp = /(?:(?:^|.*;\s*)accessToken\s*=\s*([^;]*).*$)|^.*$/; // 取出 token 規則
+        const accessToken = document.cookie.replace(regExp, '$1'); // 將取出 token 存至 accessToken 變數
 
-      if (!accessToken) {
-        // 若用戶 accessToken 失效，清除使用者資料
-        user.value = { loginState: false, isAdmin: false, userInfo: {} };
-        favorites.value = { id: null, list: [] };
+        if (!accessToken) {
+          // 若用戶 accessToken 失效，清除使用者資料
+          user.value = { loginState: false, isAdmin: false, userInfo: {} };
+          favorites.value = { id: null, list: [] };
+        }
+      } else if (value === 'admin') {
+        // 將 token 從 Cookie 中取出
+        const regExp = /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/;
+        const token = document.cookie.replace(regExp, '$1');
+
+        // 將 token 設置於 headers 的 Authorization 當中
+        setAdminToken(token);
+
+        // 檢查 token 是否失效
+        adminCheck().catch((err) => {
+          apiErrAlert(err.response.data.message);
+          // 若用戶 toekn 失效或錯誤，清除使用者資料
+          user.value = { loginState: false, isAdmin: false, userInfo: {} };
+          router.push('/signin/admin');
+        });
       }
     };
 
@@ -150,6 +189,7 @@ export default defineStore(
       user,
       favorites,
       signout,
+      adminSignout,
       addAttrDate,
       getFavorite,
       toggleFavorite,
