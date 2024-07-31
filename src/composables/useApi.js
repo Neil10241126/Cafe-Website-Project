@@ -12,7 +12,7 @@ const renderUserApi = axios.create({
   baseURL: renderApi,
 });
 
-// User 相關 api
+// User Admin 相關 api
 const adminApi = axios.create({
   baseURL: VITE_API_URL,
 });
@@ -47,10 +47,16 @@ export default function useApi() {
   const renderGetFavorite = (userId) => renderUserApi.get(`/favorites?userId=${userId}`);
   const renderAddFavorite = (id, products) => renderUserApi.patch(`/favorites/${id}`, products);
 
-  // Admin 相關 api : [登入]、[登出]、[驗證]
+  // Admin login 相關 api : [登入]、[登出]、[驗證]
   const loginAdmin = (userData) => adminApi.post(`/v2/admin/signin`, userData);
   const logoutAdmin = () => adminApi.post(`/v2/logout`);
   const adminCheck = () => adminApi.post(`/v2/api/user/check`);
+
+  // Admin Products 相關 api : [取得]、[新增]、[刪除]、[修改]
+  const fetchAdminProducts = (page) => adminApi.get(`/v2/api/${VITE_API_NAME}/admin/products?page=${page}`);
+  const fetchAddAdminProduct = (data) => adminApi.post(`/v2/api/${VITE_API_NAME}/admin/product`, data);
+  const fetchDelAdminProduct = (id) => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/product/${id}`);
+  const fetchUpdateAdminProduct = (id, data) => adminApi.put(`/v2/api/${VITE_API_NAME}/admin/product/${id}`, data);
 
   // adminApi 添加 headers 方法
   const setAdminToken = (token) => { adminApi.defaults.headers.common.Authorization = `${token}` };
@@ -86,7 +92,11 @@ export default function useApi() {
     renderAddFavorite,
     loginAdmin,
     logoutAdmin,
-    adminCheck, // 未使用
+    adminCheck,
+    fetchAdminProducts,
+    fetchAddAdminProduct,
+    fetchDelAdminProduct,
+    fetchUpdateAdminProduct,
     fetchProdcuts,
     fetchProductItem,
     fetchCart,

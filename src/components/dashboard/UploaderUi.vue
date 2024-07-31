@@ -67,6 +67,7 @@ function uploadImg() {
 
     // 顯示上傳圖片畫面
     imgViewRef.value.style.backgroundImage = `url(${imageDate.value.viewLink})`;
+    // imgViewRef.value.style.backgroundImage = 'url(https://storage.googleapis.com/vue-course-api.appspot.com/vue3-api-use/1717826006289.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=CXorUOij6gJZ%2BrzadApwF6QsUGHhi8IBebcTDIjscn4PlA8dxSCIcaUS7slPm7TVkxlmmY91M57Uc2s8iMSZZI7Zs02h%2FrEnsTBkqtq5%2F2%2BRP%2Bssnl8YrWxb5mwDpl%2BCc5CpO%2BsEYkcilvXRXrWZ3jOb3Jmt6CxxnDAUJHNEAWM0ZfvhNtfoo7i7W%2FhcjgFYnqE3M832gkUhvL8wsh%2FhS7WaW4P6NjV9RzuDmo%2FCchOk1DZTJqD5ndpFOZfj8YRAs10wdMfeN0ljO28OyeC9IpK7eaL8F5Qk%2B%2FQ7yVCl5I%2FXullfJG3yhGVzi5fLCDXl%2Bd%2FIs%2B7R%2FLDP%2BP8VQ0P3LA%3D%3D)';
   }
 }
 

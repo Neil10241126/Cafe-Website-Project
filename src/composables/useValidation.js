@@ -143,11 +143,13 @@ export default function useValidation() {
     yup.object({
       title: yup.string().required('必填!'),
       category: yup.string().required('必填!'),
+      acidity: yup.number().required('必填!'),
+      origin: yup.string().required('必填!'),
       originPrice: yup.number().required('必填!'),
       price: yup.number().required('必填!'),
       unit: yup.string().required('必填!'),
       content: yup.string().required('必填!'),
-      desc: yup.string().required('必填!'),
+      description: yup.string().required('必填!'),
       isEnabled: yup.boolean().default(true).required('必填!'),
       imageUrl: yup.string().required('必填!'),
     })
