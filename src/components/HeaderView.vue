@@ -75,15 +75,12 @@
           <button
             type="button"
             id="userDropdownBtn"
+            data-bs-toggle="dropdown"
             class="nav-link link-warning text-light ps-3 d-flex align-items-center"
-            @click="useDropdownToggle()"
           >
             <i class="bi bi-person-circle d-flex fs-4 fs-lg-3"></i>
           </button>
-          <ul
-            class="dropdown-menu dropdown-menu-end position-absolute bg-secondary-tint px-1"
-            ref="dropdownEl"
-          >
+          <ul class="dropdown-menu dropdown-menu-end position-absolute bg-secondary-tint px-1">
             <li>
               <div class="dropdown-item d-flex">
                 <i class="bi bi-person-circle me-2"></i>
@@ -105,17 +102,17 @@
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <RouterLink to="#" class="dropdown-item" @click="useDropdownHide()"
+              <RouterLink to="#" class="dropdown-item"
                 ><i class="bi bi-gear me-2"></i>設定</RouterLink
               >
             </li>
             <li>
-              <RouterLink to="#" class="dropdown-item" @click="useDropdownHide()"
+              <RouterLink to="#" class="dropdown-item"
                 ><i class="bi bi-bag-plus me-2"></i>確認訂單</RouterLink
               >
             </li>
             <li>
-              <RouterLink to="#" class="dropdown-item" @click="useDropdownHide()"
+              <RouterLink to="#" class="dropdown-item"
                 ><i class="bi bi-suit-heart me-2"></i>收藏<span
                   class="badge text-bg-primary ms-2"
                   >{{ favorites.list.length }}</span
@@ -129,7 +126,7 @@
                 to="/signin/user"
                 v-if="!user.userInfo.name"
                 class="dropdown-item"
-                @click="(user.isAdmin = false), useDropdownHide()"
+                @click="user.isAdmin = false"
                 ><i class="bi bi-box-arrow-in-right me-2"></i>登入</RouterLink
               >
               <a v-else class="dropdown-item" href="#" @click.prevent="signout()"
@@ -242,7 +239,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { onClickOutside } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
@@ -252,7 +248,6 @@ import useUserStore from '@/stores/user';
 import CanvasCard from '@/components/CanvasCard.vue';
 // 引入 Bootstrap 方法
 import Popover from 'bootstrap/js/dist/popover';
-import Dropdown from 'bootstrap/js/dist/dropdown';
 
 // 初始化路由
 const router = useRouter();
@@ -270,27 +265,8 @@ const { signout } = userStore;
 // 初始化 popover 元件
 const popoverButton = ref(null);
 
-// 初始化 dropdown 元件
-const dropdownEl = ref(null); //
-const useDropdownEl = ref(''); //
-
-// 切換下拉選單、隱藏選單方法
-const useDropdownToggle = () => useDropdownEl.value.toggle();
-const useDropdownHide = () => useDropdownEl.value.hide();
-
-// 獲取 onClickOutside 方法執行外部觸發事件處理器
-onClickOutside(dropdownEl, (event) => {
-  // 檢查點擊的目標是否是下拉選單按鈕
-  const button = event.target.closest('#userDropdownBtn');
-  if (button) {
-    return; // 如果是按鈕，則不執行隱藏操作
-  }
-  useDropdownHide(); // 否則隱藏下拉選單
-});
-
 onMounted(() => {
   popoverButton.value = new Popover(popoverButton.value);
-  useDropdownEl.value = new Dropdown(dropdownEl.value);
 });
 </script>
 

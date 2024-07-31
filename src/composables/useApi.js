@@ -52,11 +52,16 @@ export default function useApi() {
   const logoutAdmin = () => adminApi.post(`/v2/logout`);
   const adminCheck = () => adminApi.post(`/v2/api/user/check`);
 
-  // Admin Products 相關 api : [取得]、[新增]、[刪除]、[修改]
+  // Admin Products 相關 api : [取得]、[新增]、[單一刪除]、[修改]
   const fetchAdminProducts = (page) => adminApi.get(`/v2/api/${VITE_API_NAME}/admin/products?page=${page}`);
   const fetchAddAdminProduct = (data) => adminApi.post(`/v2/api/${VITE_API_NAME}/admin/product`, data);
   const fetchDelAdminProduct = (id) => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/product/${id}`);
   const fetchUpdateAdminProduct = (id, data) => adminApi.put(`/v2/api/${VITE_API_NAME}/admin/product/${id}`, data);
+
+  // Admin Orders 相關 api : [取得]、[單一刪除]
+  const fetchAdminOrders = (page) => adminApi.get(`/v2/api/${VITE_API_NAME}/admin/orders?page=${page}`);
+  const fetchDelAdminOrder = (id) => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/order/${id}`);
+  const fetchDelAdminOrderAll = () => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/orders/all`);
 
   // adminApi 添加 headers 方法
   const setAdminToken = (token) => { adminApi.defaults.headers.common.Authorization = `${token}` };
@@ -97,6 +102,9 @@ export default function useApi() {
     fetchAddAdminProduct,
     fetchDelAdminProduct,
     fetchUpdateAdminProduct,
+    fetchAdminOrders,
+    fetchDelAdminOrder,
+    fetchDelAdminOrderAll,
     fetchProdcuts,
     fetchProductItem,
     fetchCart,
