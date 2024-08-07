@@ -1,6 +1,6 @@
 import { useRouter } from 'vue-router';
 // 引入 Pinia 狀態管理
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import useCartStore from '@/stores/cart';
 import useAlertStore from '@/stores/alert';
 // 引入 Composables 方法
@@ -12,6 +12,7 @@ export default defineStore('order', () => {
 
   // 取得 cart 方法
   const cartStore = useCartStore();
+  const { finalTotal,  total } = storeToRefs(cartStore);
   const { getCart } = cartStore;
 
   // 取得 alert 方法
@@ -36,6 +37,8 @@ export default defineStore('order', () => {
 
   // 生成訂單 POST
   function submitOrder(userData) {
+    finalTotal.value = total.value;
+
     fetchCreate({ data: userData })
       .then((res) => {
         apiResAlert(res.data.message);

@@ -74,6 +74,11 @@ const routes = [
         name: 'Checkout',
         component: () => import('../views/Front/CheckoutView.vue'),
       },
+      {
+        path: 'setting',
+        name: 'Setting',
+        component: () => import('../views/Front/SettingView.vue'),
+      },
     ],
   },
   {

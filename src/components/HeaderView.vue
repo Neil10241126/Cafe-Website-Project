@@ -102,17 +102,17 @@
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <RouterLink to="#" class="dropdown-item"
+              <RouterLink to="/setting" class="dropdown-item"
                 ><i class="bi bi-gear me-2"></i>設定</RouterLink
               >
             </li>
             <li>
-              <RouterLink to="#" class="dropdown-item"
+              <RouterLink to="#" class="dropdown-item d-none"
                 ><i class="bi bi-bag-plus me-2"></i>確認訂單</RouterLink
               >
             </li>
             <li>
-              <RouterLink to="#" class="dropdown-item"
+              <RouterLink to="#" class="dropdown-item d-none"
                 ><i class="bi bi-suit-heart me-2"></i>收藏<span
                   class="badge text-bg-primary ms-2"
                   >{{ favorites.list.length }}</span
@@ -212,7 +212,7 @@
       <div>
         <div class="fs-5 fw-semibold d-flex justify-content-between mb-3">
           <span>總金額 :</span>
-          <span class="text-danger">{{ `NT$ ${Round(cartList.final_total)}` }}</span>
+          <span class="text-danger">{{ `NT$ ${total}` }}</span>
         </div>
         <RouterLink
           to="/cart"
@@ -254,8 +254,7 @@ const router = useRouter();
 
 // 取得 cart 資料、Computed
 const cartStore = useCartStore();
-const { cartList } = storeToRefs(cartStore);
-const { Round } = cartStore;
+const { cartList, total } = storeToRefs(cartStore);
 
 // 取得 user 資料、方法
 const userStore = useUserStore();

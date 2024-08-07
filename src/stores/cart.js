@@ -18,16 +18,40 @@ export default defineStore('cart', () => {
   // 取得 useApi 方法
   const { fetchCart, fetchAdd, fetchDeleteItem, fetchChangeNum } = useApi();
 
-  // 定義購物車列表的狀態
-  const cartList = ref([]);
+  // 定義購物車列表的狀態:
+  const cartList = ref({});
+  const finalTotal = ref(0);
+
+  // 定義運費相關條件:
+  const shipping = ref(60); // 運費金額 60 元
+  const shippingFree = ref(999); // 免運費金額
+
+  // 是否符合免運費條件
+  const isShippingFree = computed(() => {
+    return Math.round(cartList.value.final_total) > shippingFree.value;
+  });
+
+  // 小計金額計算
+  const subtotal = computed(() => Math.round(cartList.value.final_total));
+
+  // 總金額計算
+  const total = computed(() => {
+    const result = Math.round(cartList.value.final_total);
+
+    if (isShippingFree.value) {
+      return result;
+    }
+    return result + shipping.value;
+  });
 
   // 取得購物車 GET
-  function getCart() {
-    fetchCart()
-      .then((res) => {
-        cartList.value = res.data.data;
-      })
-      .catch((err) => apiErrAlert(err.response.data.message));
+  async function getCart() {
+    try {
+      const res = await fetchCart();
+      cartList.value = res.data.data;
+    } catch (err) {
+      apiErrAlert(err.response.data.message);
+    }
   }
 
   // 加入購物車 POST
@@ -74,17 +98,17 @@ export default defineStore('cart', () => {
       .catch((err) => apiErrAlert(err.response.data.message));
   }
 
-  // 處理金額浮點數
-  const Round = computed(() => (total) => {
-    return Math.round(total);
-  });
-
   return {
     cartList,
+    finalTotal,
+    shipping,
+    shippingFree,
+    isShippingFree,
+    subtotal,
+    total,
     getCart,
     addToCart,
     delCartItem,
     changeNum,
-    Round,
   };
 });

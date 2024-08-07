@@ -268,7 +268,7 @@
               class="fs-5 fw-bold text-gray-800 border-top border-2 border-dark d-flex justify-content-between pt-3 pb-4"
             >
               <span>總金額</span>
-              <span class="text-danger">{{ `NT$ ${Round(order.total)}` }}</span>
+              <span class="text-danger">{{ `NT$ ${finalTotal}` }}</span>
             </li>
           </ul>
           <!-- 確認付款按鈕 -->
@@ -317,7 +317,7 @@ const { apiResAlert, apiErrAlert } = alertStore;
 
 // 取得 cart Computed
 const cartStore = useCartStore();
-const { Round } = storeToRefs(cartStore);
+const { finalTotal } = storeToRefs(cartStore);
 
 // 取得 useApi 方法
 const { fetchOrder, fetchCheckout } = useApi();
