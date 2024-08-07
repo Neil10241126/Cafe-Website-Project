@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@vee-validate/yup": "^4.13.1",
+    "@vuepic/vue-datepicker": "^9.0.1",
     "@vueuse/core": "^10.9.0",
     "aos": "^2.3.4",
     "axios": "^1.6.5",

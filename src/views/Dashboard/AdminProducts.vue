@@ -33,7 +33,7 @@
         </thead>
         <tbody class="align-middle">
           <tr v-for="product in productData" :key="product.id">
-            <th scope="row">{{ product.title }}</th>
+            <td scope="row">{{ product.title }}</td>
             <td class="text-end">
               <span class="badge rounded-pill text-bg-primary py-2 fw-normal">{{
                 product.category
@@ -630,8 +630,8 @@ function useProductModal() {
     } else if (type === 'edit') {
       isNew.value = false;
       tempProdcut.value = item;
-      productModal.value.show();
       updateFiledData(item);
+      productModal.value.show();
     } else if (type === 'delete') {
       deleteModal.value.show();
       tempProdcut.value = item;

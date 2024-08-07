@@ -58,10 +58,16 @@ export default function useApi() {
   const fetchDelAdminProduct = (id) => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/product/${id}`);
   const fetchUpdateAdminProduct = (id, data) => adminApi.put(`/v2/api/${VITE_API_NAME}/admin/product/${id}`, data);
 
-  // Admin Orders 相關 api : [取得]、[單一刪除]
+  // Admin Orders 相關 api : [取得]、[單一刪除]、[全部刪除]
   const fetchAdminOrders = (page) => adminApi.get(`/v2/api/${VITE_API_NAME}/admin/orders?page=${page}`);
   const fetchDelAdminOrder = (id) => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/order/${id}`);
   const fetchDelAdminOrderAll = () => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/orders/all`);
+
+   // Admin Coupons 相關 api : [取得]、[新增]
+   const fetchAdminCoupons = (page) => adminApi.get(`/v2/api/${VITE_API_NAME}/admin/coupons?page=${page}`);
+   const fetchAddAdminCoupons = (data) => adminApi.post(`/v2/api/${VITE_API_NAME}/admin/coupon`, data);
+   const fetchUpdateAdminCoupons = (id, data) => adminApi.put(`/v2/api/${VITE_API_NAME}/admin/coupon/${id}`, data);
+   const fetchDeleteAdminCoupons = (id) => adminApi.delete(`/v2/api/${VITE_API_NAME}/admin/coupon/${id}`);
 
   // adminApi 添加 headers 方法
   const setAdminToken = (token) => { adminApi.defaults.headers.common.Authorization = `${token}` };
@@ -105,6 +111,10 @@ export default function useApi() {
     fetchAdminOrders,
     fetchDelAdminOrder,
     fetchDelAdminOrderAll,
+    fetchAdminCoupons,
+    fetchAddAdminCoupons,
+    fetchUpdateAdminCoupons,
+    fetchDeleteAdminCoupons, //
     fetchProdcuts,
     fetchProductItem,
     fetchCart,

@@ -155,13 +155,28 @@ export default function useValidation() {
     })
   );
 
+  // 新增優惠券 schema
+  const addCouponSchema = toTypedSchema(
+    yup.object({
+      title: yup.string().required('必填!'),
+      percent: yup.number('必填!').max(99, '必須小於100').min(0, '必須大於0').required('必填!'),
+      dueDate: yup.number().required('必填!'),
+      startDate: yup.number().required('必填!'),
+      code: yup.string().required('必填!'),
+      isEnabled: yup.number().default(1).required('必填!'),
+    })
+  );
+
   return {
+    // 前台
     contactSchema,
     signinSchema,
     signupSchema,
     orderSchema,
     paymentSchema,
+    // 後台
     addProductSchema,
+    addCouponSchema,
   };
 }
 
