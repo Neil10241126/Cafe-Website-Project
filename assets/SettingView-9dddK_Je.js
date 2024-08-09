@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vueexport-helper-x3n3nnut.js";import{f as t,h as r}from"./index-AxNh8ZF2.js";const c={};function n(o,s){return t(),r("div",null,"這裡是設定頁面")}const f=e(c,[["render",n]]);export{f as default};
