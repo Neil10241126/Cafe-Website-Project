@@ -82,22 +82,11 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end position-absolute bg-secondary-tint px-1">
             <li>
-              <div class="dropdown-item d-flex">
+              <div class="py-1 px-3 d-flex">
                 <i class="bi bi-person-circle me-2"></i>
                 <span class="d-inline-block text-truncate" style="max-width: 80px">
                   {{ user.loginState ? user.userInfo.name : '尚未登入' }}
                 </span>
-                <a
-                  href="#"
-                  @click.prevent=""
-                  ref="popoverButton"
-                  data-bs-toggle="popover"
-                  data-bs-placement="top"
-                  data-bs-custom-class="custom-popover"
-                  data-bs-trigger="focus hover"
-                  data-bs-content="一般用戶"
-                  ><i class="bi bi-exclamation-circle text-gray-500 ms-2"></i
-                ></a>
               </div>
             </li>
             <li><hr class="dropdown-divider" /></li>
@@ -238,7 +227,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
@@ -246,8 +234,6 @@ import useCartStore from '@/stores/cart';
 import useUserStore from '@/stores/user';
 // 引入 UI 組件
 import CanvasCard from '@/components/CanvasCard.vue';
-// 引入 Bootstrap 方法
-import Popover from 'bootstrap/js/dist/popover';
 
 // 初始化路由
 const router = useRouter();
@@ -260,29 +246,9 @@ const { cartList, total } = storeToRefs(cartStore);
 const userStore = useUserStore();
 const { user, favorites } = storeToRefs(userStore);
 const { signout } = userStore;
-
-// 初始化 popover 元件
-const popoverButton = ref(null);
-
-onMounted(() => {
-  popoverButton.value = new Popover(popoverButton.value);
-});
 </script>
 
 <style lang="scss">
-@import '/src/assets/helper/colors';
-
-.custom-popover {
-  --bs-popover-max-width: 200px;
-  --bs-popover-border-color: #000;
-  --bs-popover-body-padding-x: 1rem;
-  --bs-popover-body-padding-y: 0.5rem;
-  & .popover-body {
-    color: $primary;
-    font-weight: bold;
-  }
-}
-
 .navbar-expand-lg .navbar-collapse {
   @media (min-width: 992px) {
     display: none !important;
