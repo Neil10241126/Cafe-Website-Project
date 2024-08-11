@@ -113,7 +113,7 @@
             <li>
               <RouterLink
                 to="/signin/user"
-                v-if="!user.userInfo.name"
+                v-if="!user.loginState"
                 class="dropdown-item"
                 @click="user.isAdmin = false"
                 ><i class="bi bi-box-arrow-in-right me-2"></i>登入</RouterLink

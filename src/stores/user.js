@@ -33,6 +33,7 @@ export default defineStore(
       renderNewFavorite,
       logoutAdmin,
       adminCheck,
+      setUserToken,
       setAdminToken,
     } = useApi();
 
@@ -56,6 +57,8 @@ export default defineStore(
         '$1'
       );
       document.cookie = `accessToken=${accessToken}; expires=${new Date().toUTCString()}; path=/`;
+      console.log('登出', document.cookie);
+
       // 若用戶登出，清除使用者資料
       user.value = { loginState: false, isAdmin: false, userInfo: {} };
       favorites.value = { id: null, list: [] };
@@ -161,6 +164,9 @@ export default defineStore(
       if (value === 'user') {
         const regExp = /(?:(?:^|.*;\s*)accessToken\s*=\s*([^;]*).*$)|^.*$/; // 取出 token 規則
         const accessToken = document.cookie.replace(regExp, '$1'); // 將取出 token 存至 accessToken 變數
+
+        // 將 token 設置於 headers 的 Authorization 當中
+        setUserToken(accessToken);
 
         if (!accessToken) {
           // 若用戶 accessToken 失效，清除使用者資料

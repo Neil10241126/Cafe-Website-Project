@@ -38,14 +38,18 @@ const couponApi = axios.create({
 });
 
 export default function useApi() {
-  // User Render 相關 api : [註冊、登入]
+  // User Render 相關 api : [註冊、登入]、[更新姓名]
   const renderSignup = (userData) => renderUserApi.post(`/signup`, userData);
   const renderSignin = (userData) => renderUserApi.post(`/signin`, userData);
+  const renderUpdateName = (id, data) => renderUserApi.patch(`/users/${id}`, data);
 
   // Favorite Render 相關 api : [新增、取得、更新]
   const renderNewFavorite = (data) => renderUserApi.post(`/favorites`, data);
   const renderGetFavorite = (userId) => renderUserApi.get(`/favorites?userId=${userId}`);
   const renderAddFavorite = (id, products) => renderUserApi.patch(`/favorites/${id}`, products);
+
+  // renderUserApi 添加 headers 方法
+  const setUserToken = (token) => { renderUserApi.defaults.headers.common.Authorization = `Bearer ${token}` };
 
   // Admin login 相關 api : [登入]、[登出]、[驗證]
   const loginAdmin = (userData) => adminApi.post(`/v2/admin/signin`, userData);
@@ -98,6 +102,7 @@ export default function useApi() {
     // Call API
     renderSignup,
     renderSignin,
+    renderUpdateName, //
     renderNewFavorite,
     renderGetFavorite,
     renderAddFavorite,
@@ -114,7 +119,7 @@ export default function useApi() {
     fetchAdminCoupons,
     fetchAddAdminCoupons,
     fetchUpdateAdminCoupons,
-    fetchDeleteAdminCoupons, //
+    fetchDeleteAdminCoupons,
     fetchProdcuts,
     fetchProductItem,
     fetchCart,
@@ -127,6 +132,7 @@ export default function useApi() {
     fetchCoupon,
     fetchUpload,
     // Methods
+    setUserToken,
     setAdminToken,
   }
 }

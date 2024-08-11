@@ -32,10 +32,11 @@
                 <p class="fs-7 fw-semibold text-gray-800 mb-1">您的名稱</p>
                 <span class="fs-8 text-gray-600">可使用姓名、偏好暱稱</span>
                 <div class="d-flex align-items-stretch mt-1">
-                  <input type="text" class="form-control form-control-sm me-3" />
+                  <input type="text" class="form-control form-control-sm me-3" v-model="rename" />
                   <button
                     type="button"
                     class="fs-8 btn btn-outline-gray-800 border-gray-600 rounded-1 text-nowrap"
+                    @click="updateUserName()"
                   >
                     更新
                   </button>
@@ -89,23 +90,27 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body px-4">
-          <div class="mb-3">
-            <p class="fs-7 fw-semibold text-gray-800 mb-1">新的密碼</p>
-            <span class="fs-8 text-gray-600">密碼長度至少 8 個字元</span>
-            <input
-              type="password"
-              class="form-control form-control-sm mt-2"
-              placeholder="請輸入密碼"
-            />
-          </div>
-          <div class="mb-3">
-            <p class="fs-7 fw-semibold text-gray-800 mb-1">確認密碼</p>
-            <input
-              type="password"
-              class="form-control form-control-sm mt-2"
-              placeholder="請輸入相同密碼"
-            />
-          </div>
+          <form action="#">
+            <div class="mb-3">
+              <p class="fs-7 fw-semibold text-gray-800 mb-1">新的密碼</p>
+              <span class="fs-8 text-gray-600">密碼長度至少 8 個字元</span>
+              <input
+                type="password"
+                class="form-control form-control-sm mt-2"
+                placeholder="請輸入密碼"
+                autocomplete="true"
+              />
+            </div>
+            <div class="mb-3">
+              <p class="fs-7 fw-semibold text-gray-800 mb-1">確認密碼</p>
+              <input
+                type="password"
+                class="form-control form-control-sm mt-2"
+                placeholder="請輸入相同密碼"
+                autocomplete="true"
+              />
+            </div>
+          </form>
         </div>
         <div class="modal-footer px-4">
           <button
@@ -122,6 +127,42 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+// 引入 Pinia 狀態管理
+import { storeToRefs } from 'pinia';
+import useUserStore from '@/stores/user';
+import useAlertStore from '@/stores/alert';
+// 引入 Composables 方法
+import useApi from '@/composables/useApi';
+
+// 取得 user 資料
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
+
+// 取得 useApi 方法
+const { renderUpdateName } = useApi();
+
+// 取得 alert 方法
+const alertStore = useAlertStore();
+const { apiResAlert, apiErrAlert } = alertStore;
+
+const rename = ref();
+
+// 更新姓名 PATCH
+function updateUserName() {
+  const { id } = user.value.userInfo;
+  const nameData = { name: rename.value };
+
+  renderUpdateName(id, nameData)
+    .then(() => {
+      user.value.userInfo.name = rename.value;
+      apiResAlert('更新成功');
+    })
+    .catch((err) => {
+      apiErrAlert(err);
+    });
+}
+</script>
 
 <style lang="scss" scoped></style>

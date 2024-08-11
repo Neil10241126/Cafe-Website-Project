@@ -188,7 +188,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMutationObserver } from '@vueuse/core';
-import axios from 'axios';
 import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
@@ -221,7 +220,7 @@ const loaderStore = useLoadingStore();
 const { isLoadingOn, isLoadingOff } = loaderStore;
 
 // 取得 useApi 方法
-const { loginAdmin, renderSignin, renderSignup } = useApi();
+const { loginAdmin, renderSignin, renderSignup, setUserToken } = useApi();
 
 // 定義 modal
 const refModal = ref(null);
@@ -287,9 +286,9 @@ const signinUser = async () => {
     const { user: userInfo, accessToken: token } = res.data;
     const expires = new Date(new Date().getTime() + 60 * 60 * 1000).toUTCString();
 
-    // 將 token 存入 cookie，並設定過期時間和路徑，並存入 Authorization 當中
+    // 將 token 存入 cookie，並設定過期時間和路徑，並將 token 寫入至 Authorization
     document.cookie = `accessToken=${token}; expires=${expires}; path=/`;
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    setUserToken(token);
 
     // 寫入 Pinia User 資料
     user.value.userInfo = userInfo;

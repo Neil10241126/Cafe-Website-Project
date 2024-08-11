@@ -12,7 +12,7 @@ export default defineStore('order', () => {
 
   // 取得 cart 方法
   const cartStore = useCartStore();
-  const { finalTotal,  total } = storeToRefs(cartStore);
+  const { finalTotal, total } = storeToRefs(cartStore);
   const { getCart } = cartStore;
 
   // 取得 alert 方法
