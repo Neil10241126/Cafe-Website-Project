@@ -57,7 +57,6 @@ export default defineStore(
         '$1'
       );
       document.cookie = `accessToken=${accessToken}; expires=${new Date().toUTCString()}; path=/`;
-      console.log('登出', document.cookie);
 
       // 若用戶登出，清除使用者資料
       user.value = { loginState: false, isAdmin: false, userInfo: {} };

@@ -38,10 +38,11 @@ const couponApi = axios.create({
 });
 
 export default function useApi() {
-  // User Render 相關 api : [註冊、登入]、[更新姓名]
+  // User Render 相關 api : [註冊、登入]、[更新姓名]、[更新密碼]
   const renderSignup = (userData) => renderUserApi.post(`/signup`, userData);
   const renderSignin = (userData) => renderUserApi.post(`/signin`, userData);
   const renderUpdateName = (id, data) => renderUserApi.patch(`/users/${id}`, data);
+  const renderUpdatePassword = (id, data) => renderUserApi.patch(`/users/${id}`, data);
 
   // Favorite Render 相關 api : [新增、取得、更新]
   const renderNewFavorite = (data) => renderUserApi.post(`/favorites`, data);
@@ -102,7 +103,8 @@ export default function useApi() {
     // Call API
     renderSignup,
     renderSignin,
-    renderUpdateName, //
+    renderUpdateName,
+    renderUpdatePassword, //
     renderNewFavorite,
     renderGetFavorite,
     renderAddFavorite,

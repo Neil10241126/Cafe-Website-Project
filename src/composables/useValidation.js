@@ -137,6 +137,18 @@ export default function useValidation() {
     })
   );
 
+  // 設定 schema
+  const settingSchema = toTypedSchema(
+    yup.object({
+      password: yup.string().required('必填').min(8, '密碼至少8個字元'),
+      passwordConfirm: yup
+        .string()
+        .required('必填')
+        .min(8, '密碼至少8個字元')
+        .oneOf([yup.ref('password')], '確認密碼有誤'),
+    })
+  );
+
   // ======== 後台 ========
   // 新增產品 schema
   const addProductSchema = toTypedSchema(
@@ -174,6 +186,7 @@ export default function useValidation() {
     signupSchema,
     orderSchema,
     paymentSchema,
+    settingSchema,
     // 後台
     addProductSchema,
     addCouponSchema,
