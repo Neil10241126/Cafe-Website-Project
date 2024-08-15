@@ -1,7 +1,10 @@
 <template>
+  <!-- 網格卡片 -->
   <div class="card border border-gray-400 rounded-3" style="max-width: 300px">
     <!-- 圖片 URL -->
-    <img :src="img_url" class="card-img-top rounded-top-3" alt="Honduran-coffee-bean-2" />
+    <div class="img-cover overflow-hidden rounded-top-3">
+      <img :src="img_url" class="card-img-top rounded-top-3" alt="Honduran-coffee-bean-2" />
+    </div>
     <!-- 收藏按鈕 -->
     <a
       href="#"
@@ -85,8 +88,8 @@ import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import useLoadingStore from '@/stores/loading';
 import useUserStore from '@/stores/user';
-// 引入 UI 組件
 import useCartStore from '@/stores/cart';
+// 引入 UI 組件
 import LoadingUi from '@/components/LoadingUi.vue';
 
 const props = defineProps({
@@ -99,7 +102,7 @@ const props = defineProps({
   img_url: String,
   product_id: String,
   // 功能啟用 :
-  card_details: Boolean, // 詳細 / 簡要 卡片樣式切換
+  card_details: Boolean, // 詳細 : 簡要 卡片樣式切換
 });
 
 // 取得 cart 方法
@@ -146,6 +149,16 @@ const IsDiscount = computed(() => {
   .favorite-btn {
     top: 8px;
     right: 8px;
+  }
+}
+
+.img-cover img {
+  transition: all 0.4s;
+}
+
+.card:hover {
+  img {
+    transform: scale(1.1);
   }
 }
 </style>

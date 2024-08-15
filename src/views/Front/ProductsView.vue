@@ -100,9 +100,9 @@
             data-bs-toggle="list"
             href="#allProducts"
             :class="{
-              active: listOption === 'allProducts',
+              active: listOption === '全部',
             }"
-            @click="listOption = 'allProducts'"
+            @click="listOption = '全部'"
           >
             全品項
           </a>
@@ -111,9 +111,9 @@
             data-bs-toggle="list"
             href="#lightRoast"
             :class="{
-              active: listOption === 'lightRoast',
+              active: listOption === '淺烘焙',
             }"
-            @click="listOption = 'lightRoast'"
+            @click="listOption = '淺烘焙'"
           >
             淺烘焙
           </a>
@@ -122,9 +122,9 @@
             data-bs-toggle="list"
             href="#mediumRoast"
             :class="{
-              active: listOption === 'mediumRoast',
+              active: listOption === '中烘焙',
             }"
-            @click="listOption = 'mediumRoast'"
+            @click="listOption = '中烘焙'"
           >
             中烘焙
           </a>
@@ -133,9 +133,9 @@
             data-bs-toggle="list"
             href="#darkRoast"
             :class="{
-              active: listOption === 'darkRoast',
+              active: listOption === '深烘焙',
             }"
-            @click="listOption = 'darkRoast'"
+            @click="listOption = '深烘焙'"
           >
             深烘焙
           </a>
@@ -147,10 +147,20 @@
         <!-- 篩選器 -->
         <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="d-flex align-items-center mb-4 mb-md-0">
-            <button type="button" class="btn btn-outline-primary p-2 rounded-1 active">
+            <button
+              type="button"
+              class="btn btn-outline-primary p-2 rounded-1"
+              @click="changeView()"
+              :class="!isViewHorizationChange ? btnDisabledStyle : ''"
+            >
               <i class="bi bi-grid-3x3-gap-fill fs-5 d-flex"></i>
             </button>
-            <button type="button" class="btn btn-outline-primary p-2 rounded-1 ms-3" disabled>
+            <button
+              type="button"
+              class="btn btn-outline-primary p-2 rounded-1 ms-3"
+              :class="isViewHorizationChange ? btnDisabledStyle : ''"
+              @click="changeView()"
+            >
               <i class="bi bi-list-ul fs-5 d-flex"></i>
             </button>
             <p class="text-gray-800 mb-0 ms-auto ms-md-3">總共 {{ products.length }} 各品項</p>
@@ -194,7 +204,8 @@
         <div class="tab-content">
           <!-- 全部 -->
           <div class="tab-pane fade show active" id="allProducts">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+            <!-- 網格卡片 -->
+            <div v-if="!isViewHorizationChange" class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
               <div class="col" v-for="product in productsList.全部" :key="product.id">
                 <ProductCard
                   :title="product.title"
@@ -208,6 +219,12 @@
                 ></ProductCard>
               </div>
             </div>
+            <!-- 水平卡片 -->
+            <div v-else class="row gy-1 gy-md-3 mb-6">
+              <div class="col-12" v-for="product in productsList.全部" :key="product.id">
+                <ProductCardHor v-bind="product"></ProductCardHor>
+              </div>
+            </div>
             <!-- 分頁元件 -->
             <div class="d-flex justify-content-center justify-content-lg-end">
               <PaginationUi
@@ -219,7 +236,8 @@
           </div>
           <!-- 淺烘焙 -->
           <div class="tab-pane fade" id="lightRoast">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+            <!-- 網格卡片 -->
+            <div v-if="!isViewHorizationChange" class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
               <div class="col" v-for="product in productsList.淺烘焙" :key="product.id">
                 <ProductCard
                   :title="product.title"
@@ -233,6 +251,12 @@
                 ></ProductCard>
               </div>
             </div>
+            <!-- 水平卡片 -->
+            <div v-else class="row gy-1 gy-md-3 mb-6">
+              <div class="col-12" v-for="product in productsList.淺烘焙" :key="product.id">
+                <ProductCardHor v-bind="product"></ProductCardHor>
+              </div>
+            </div>
             <!-- 分頁元件 -->
             <div class="d-flex justify-content-center justify-content-lg-end">
               <PaginationUi
@@ -244,7 +268,8 @@
           </div>
           <!-- 中烘焙 -->
           <div class="tab-pane fade" id="mediumRoast">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+            <!-- 網格卡片 -->
+            <div v-if="!isViewHorizationChange" class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
               <div class="col" v-for="product in productsList.中烘焙" :key="product.id">
                 <ProductCard
                   :title="product.title"
@@ -258,6 +283,12 @@
                 ></ProductCard>
               </div>
             </div>
+            <!-- 水平卡片 -->
+            <div v-else class="row gy-1 gy-md-3 mb-6">
+              <div class="col-12" v-for="product in productsList.中烘焙" :key="product.id">
+                <ProductCardHor v-bind="product"></ProductCardHor>
+              </div>
+            </div>
             <!-- 分頁元件 -->
             <div class="d-flex justify-content-center justify-content-lg-end">
               <PaginationUi
@@ -269,7 +300,8 @@
           </div>
           <!-- 深烘焙 -->
           <div class="tab-pane fade" id="darkRoast">
-            <div class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
+            <!-- 網格卡片 -->
+            <div v-if="!isViewHorizationChange" class="row row-cols-2 row-cols-md-3 gx-3 gy-4 mb-6">
               <div class="col" v-for="product in productsList.深烘焙" :key="product.id">
                 <ProductCard
                   :title="product.title"
@@ -281,6 +313,12 @@
                   :product_id="product.id"
                   :card_details="width <= 992 ? false : true"
                 ></ProductCard>
+              </div>
+            </div>
+            <!-- 水平卡片 -->
+            <div v-else class="row gy-1 gy-md-3 mb-6">
+              <div class="col-12" v-for="product in productsList.深烘焙" :key="product.id">
+                <ProductCardHor v-bind="product"></ProductCardHor>
               </div>
             </div>
             <!-- 分頁元件 -->
@@ -299,7 +337,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
@@ -308,6 +346,7 @@ import useProductStore from '@/stores/product';
 import AdView from '@/components/AdView.vue';
 import BadgeUi from '@/components/BadgeUi.vue';
 import ProductCard from '@/components/ProductCard.vue';
+import ProductCardHor from '@/components/ProductCardHor.vue';
 import PaginationUi from '@/components/PaginationUi.vue';
 import LoadingUi from '@/components/LoadingUi.vue';
 
@@ -321,6 +360,7 @@ const { sort, filter, updateProducts } = productStore;
 
 const select = ref('排序項目'); // 篩選器變數
 const listOption = ref('全部'); // 導覽切換變數
+const isViewHorizationChange = ref(false);
 
 // 監聽 productsList 當中資料，當產生變化時執行排序 sort 方法
 watch(
@@ -334,6 +374,16 @@ watch(
     }
   }
 );
+
+// 切換卡片瀏覽格式: 網格/水平
+function changeView() {
+  isViewHorizationChange.value = !isViewHorizationChange.value;
+}
+
+// 計算按鈕的禁用樣式
+const btnDisabledStyle = computed(() => {
+  return [{ 'pointer-events-none': true }, { active: true }, { 'opacity-75': true }];
+});
 </script>
 
 <style lang="scss" scoped>

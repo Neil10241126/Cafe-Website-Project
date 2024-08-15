@@ -1,0 +1,139 @@
+<template>
+  <RouterLink :to="`/products/${id}`">
+    <div class="card border-0 mb-3">
+      <div class="row gx-0">
+        <div class="col-4 col-xxs-3">
+          <div class="img-cover rounded-start-2">
+            <img :src="imageUrl" class="object-fit-cover w-100 h-100 rounded-start-2" />
+          </div>
+        </div>
+        <div class="col-8 col-xxs-9">
+          <div class="card-body bg-secondary-tint rounded-end-2 h-100 py-2">
+            <div class="row h-100">
+              <div class="col-12 col-xxs-8">
+                <h5 class="card-title fs-7 fs-md-5 fw-semibold mb-2 mb-xl-3">{{ title }}</h5>
+                <p class="card-text fs-9 fs-md-7 text-gray-800 text-truncate-2 mb-2 mb-md-3">
+                  {{ description }}
+                </p>
+                <div class="d-flex justify-content-between align-items-end">
+                  <div>
+                    <span class="fs-9 fs-md-8 text-primary d-block mb-1">產地: {{ origin }}</span>
+                    <span class="fs-9 fs-md-8 text-primary d-block mb-0"
+                      >酸度: {{ acidity }} 分</span
+                    >
+                  </div>
+                  <div class="d-xxs-none">
+                    <p class="fs-7 fw-semibold text-danger text-end mb-0">NT$ {{ price }}</p>
+                    <del v-if="IsDiscount" class="fs-9 text-gray-600 text-end d-block mb-0"
+                      >NT$ {{ origin_price }}</del
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="d-none d-xxs-flex flex-column col-xxs-4">
+                <div class="mb-auto">
+                  <div class="d-flex justify-content-end">
+                    <span
+                      v-show="IsDiscount"
+                      class="fs-9 fs-md-8 fw-semibold text-danger border border-danger px-2 rounded-1 opacity-75"
+                      >限時優惠</span
+                    >
+                  </div>
+                  <p
+                    class="fs-7 fs-md-5 fs-xxl-4 fw-semibold text-primary text-end mb-0"
+                    :class="{ 'text-danger': IsDiscount }"
+                  >
+                    NT$ {{ price }}
+                  </p>
+                  <del v-if="IsDiscount" class="fs-8 fs-md-7 text-gray-600 text-end d-block mb-0"
+                    >NT$ {{ origin_price }}
+                  </del>
+                </div>
+                <div class="text-end">
+                  <button
+                    class="btn btn-sm btn-primary fs-9 fs-md-7 text-nowrap mb-1 mb-xl-2"
+                    @click.prevent="addToCart(id, 1)"
+                    :disabled="loadingObj.isLoading"
+                  >
+                    <span :class="{ 'd-none': loadingObj.isLoading }">加入購物車</span>
+                    <LoadingUi :name="'inline'" v-show="loadingObj.isLoading"></LoadingUi>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </RouterLink>
+</template>
+
+<script setup>
+import { computed } from 'vue';
+// 引入 Pinia 狀態管理
+import { storeToRefs } from 'pinia';
+import useCartStore from '@/stores/cart';
+import useLoadingStore from '@/stores/loading';
+// 引入 UI 組件
+import LoadingUi from '@/components/LoadingUi.vue';
+
+// 取得 cart 方法
+const cartStore = useCartStore();
+const { addToCart } = cartStore;
+
+// 取得 loading 資料
+const loaderStore = useLoadingStore();
+const { loadingObj } = storeToRefs(loaderStore);
+
+const props = defineProps({
+  // 資料參數 value :
+  title: String,
+  description: String,
+  origin: String,
+  acidity: Number,
+  price: Number,
+  origin_price: Number,
+  imageUrl: String,
+  id: String,
+});
+
+// 計算是否特價
+const IsDiscount = computed(() => {
+  return props.price < props.origin_price;
+});
+</script>
+
+<style lang="scss" scoped>
+.fs-9 {
+  font-size: 12px;
+}
+
+.card {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  &:hover {
+    img {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.img-cover {
+  overflow: hidden;
+  img {
+    transition: all 0.4s;
+  }
+}
+
+@media (max-width: 576px) {
+  .img-cover {
+    height: 130px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .img-cover {
+    height: 230px;
+  }
+}
+</style>
