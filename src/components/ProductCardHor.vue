@@ -4,27 +4,43 @@
       <div class="row gx-0">
         <div class="col-4 col-xxs-3">
           <div class="img-cover rounded-start-2">
-            <img :src="imageUrl" class="object-fit-cover w-100 h-100 rounded-start-2" />
+            <img
+              :src="imageUrl"
+              class="object-fit-cover w-100 h-100 rounded-start-2"
+              data-test="imageUrl"
+            />
           </div>
         </div>
         <div class="col-8 col-xxs-9">
           <div class="card-body bg-secondary-tint rounded-end-2 h-100 py-2">
             <div class="row h-100">
               <div class="col-12 col-xxs-8">
-                <h5 class="card-title fs-7 fs-md-5 fw-semibold mb-2 mb-xl-3">{{ title }}</h5>
-                <p class="card-text fs-9 fs-md-7 text-gray-800 text-truncate-2 mb-2 mb-md-3">
+                <h5 class="card-title fs-7 fs-md-5 fw-semibold mb-2 mb-xl-3" data-test="title">
+                  {{ title }}
+                </h5>
+                <p
+                  class="card-text fs-9 fs-md-7 text-gray-800 text-truncate-2 mb-2 mb-md-3"
+                  data-test="description"
+                >
                   {{ description }}
                 </p>
                 <div class="d-flex justify-content-between align-items-end">
                   <div>
-                    <span class="fs-9 fs-md-8 text-primary d-block mb-1">產地: {{ origin }}</span>
-                    <span class="fs-9 fs-md-8 text-primary d-block mb-0"
+                    <span class="fs-9 fs-md-8 text-primary d-block mb-1" data-test="origin"
+                      >產地: {{ origin }}</span
+                    >
+                    <span class="fs-9 fs-md-8 text-primary d-block mb-0" data-test="acidity"
                       >酸度: {{ acidity }} 分</span
                     >
                   </div>
                   <div class="d-xxs-none">
-                    <p class="fs-7 fw-semibold text-danger text-end mb-0">NT$ {{ price }}</p>
-                    <del v-if="IsDiscount" class="fs-9 text-gray-600 text-end d-block mb-0"
+                    <p class="fs-7 fw-semibold text-danger text-end mb-0" data-test="price">
+                      NT$ {{ price }}
+                    </p>
+                    <del
+                      v-if="IsDiscount"
+                      class="fs-9 text-gray-600 text-end d-block mb-0"
+                      data-test="originPrice"
                       >NT$ {{ origin_price }}</del
                     >
                   </div>
@@ -36,6 +52,7 @@
                     <span
                       v-show="IsDiscount"
                       class="fs-9 fs-md-8 fw-semibold text-danger border border-danger px-2 rounded-1 opacity-75"
+                      data-test="target"
                       >限時優惠</span
                     >
                   </div>
@@ -52,10 +69,11 @@
                 <div class="text-end">
                   <button
                     class="btn btn-sm btn-primary fs-9 fs-md-7 text-nowrap mb-1 mb-xl-2"
-                    @click.prevent="addToCart(id, 1)"
+                    @click.prevent="addToCart(id, 1), loding()"
                     :disabled="loadingObj.isLoading"
+                    data-test="addButton"
                   >
-                    <span :class="{ 'd-none': loadingObj.isLoading }">加入購物車</span>
+                    <span v-if="!loadingObj.isLoading" data-test="span">加入購物車</span>
                     <LoadingUi :name="'inline'" v-show="loadingObj.isLoading"></LoadingUi>
                   </button>
                 </div>
@@ -69,7 +87,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useCartStore from '@/stores/cart';
@@ -101,6 +119,15 @@ const props = defineProps({
 const IsDiscount = computed(() => {
   return props.price < props.origin_price;
 });
+
+const isLoading = ref(false);
+
+function loding() {
+  isLoading.value = true;
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 3000);
+}
 </script>
 
 <style lang="scss" scoped>

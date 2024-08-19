@@ -1,10 +1,12 @@
 module.exports = {
   root: true,
   env: {
+    'vitest-globals/env': true,
     browser: true,
     es2021: true,
   },
   extends: [
+    'plugin:vitest-globals/recommended',
     'plugin:vue/vue3-essential',
     'eslint:recommended',
     'airbnb-base',

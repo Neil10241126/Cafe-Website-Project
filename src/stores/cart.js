@@ -55,22 +55,22 @@ export default defineStore('cart', () => {
   }
 
   // 加入購物車 POST
-  function addToCart(id, qty = 1) {
+  async function addToCart(id, qty = 1) {
     isLoadingOn('isLoading');
     const data = {
       product_id: id,
       qty,
     };
-    fetchAdd({ data })
-      .then((res) => {
-        getCart();
-        apiResAlert(res.data.message);
-        isLoadingOff('isLoading');
-      })
-      .catch((err) => {
-        apiErrAlert(err.response.data.message);
-        isLoadingOff('isLoading');
-      });
+
+    try {
+      const res = await fetchAdd({ data });
+      getCart();
+      apiResAlert(res.data.message);
+      isLoadingOff('isLoading');
+    } catch (err) {
+      apiErrAlert(err.response.data.message);
+      isLoadingOff('isLoading');
+    }
   }
 
   // 刪除單一品項 Delete
