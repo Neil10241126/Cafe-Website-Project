@@ -15,11 +15,19 @@
       <!-- Logo -->
       <RouterLink class="navbar-brand mx-auto mx-lg-0" to="/">
         <img
-          class="d-none d-lg-block"
+          class="d-none d-lg-block w-100"
           src="/public/images/Beans-cafe-logo-light.png"
-          alt="logo-light"
+          width="200"
+          height="50"
+          alt="Beans Cafe 標誌"
         />
-        <img class="d-lg-none" src="/public/images/Beans-cafe-logo-sm.png" alt="logo-sm" />
+        <img
+          class="d-lg-none w-100"
+          src="/public/images/Beans-cafe-logo-sm.png"
+          width="150"
+          height="35"
+          alt="Beans Cafe 標誌"
+        />
       </RouterLink>
 
       <!-- Mobile: 購物車、使用者功能 -->

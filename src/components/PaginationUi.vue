@@ -42,13 +42,13 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { useWindowScroll } from '@vueuse/core';
+// import { useWindowScroll } from '@vueuse/core';
 
 // 定義組件的屬性，包含頁數、渲染產品的方法和分類
 const props = defineProps(['pages', 'updateProducts', 'cate']);
 
 // 獲取 useWindowScroll 當中的 y 滾動位置
-const { y } = useWindowScroll();
+// const { y } = useWindowScroll();
 
 // 定義一個頁面對象，包含開始頁、結束頁和當前頁
 const pageObj = ref({
@@ -70,7 +70,7 @@ function goToPage(page) {
   // 調用傳入的 RenderProducts 方法來渲染指定頁面的產品
   props.updateProducts(props.cate, page);
 
-  y.value = 0; // 滾動至頂部
+  // y.value = 0; // 滾動至頂部
   pageObj.value.currentPage = page; // 更新當前頁面
 }
 </script>

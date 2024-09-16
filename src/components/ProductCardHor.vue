@@ -1,16 +1,20 @@
 <template>
-  <RouterLink :to="`/products/${id}`">
+  <!-- 水平卡片 -->
+  <RouterLink v-if="!isPlaceholderLoaded" :to="`/products/${id}`">
     <div class="card border-0 mb-3">
       <div class="row gx-0">
+        <!-- 圖片 -->
         <div class="col-4 col-xxs-3">
           <div class="img-cover rounded-start-2">
-            <img
-              :src="imageUrl"
-              class="object-fit-cover w-100 h-100 rounded-start-2"
-              data-test="imageUrl"
-            />
+            <LazyloadImage
+              class="h-100 rounded-start-2"
+              :image-url="imageUrl"
+              :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
+              @image-ready="updatePlaceholderStatus"
+            ></LazyloadImage>
           </div>
         </div>
+        <!-- 內容 -->
         <div class="col-8 col-xxs-9">
           <div class="card-body bg-secondary-tint rounded-end-2 h-100 py-2">
             <div class="row h-100">
@@ -69,7 +73,7 @@
                 <div class="text-end">
                   <button
                     class="btn btn-sm btn-primary fs-9 fs-md-7 text-nowrap mb-1 mb-xl-2"
-                    @click.prevent="addToCart(id, 1), loding()"
+                    @click.prevent="addToCart(id, 1)"
                     :disabled="loadingObj.isLoading"
                     data-test="addButton"
                   >
@@ -84,16 +88,59 @@
       </div>
     </div>
   </RouterLink>
+
+  <!-- 佔位符卡片 -->
+  <div v-else class="card mb-3">
+    <!-- 圖片 -->
+    <div class="row gx-0">
+      <div class="col-4 col-xxs-3">
+        <div class="img-cover rounded-start-2 placeholder bg-primary w-100 h-100">
+          <LazyloadImage
+            class="object-fit-cover w-100 h-100 opacity-0"
+            :image-url="imageUrl"
+            :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
+            @image-ready="updatePlaceholderStatus"
+          ></LazyloadImage>
+        </div>
+      </div>
+
+      <!-- 內容 -->
+      <div class="col-8 col-xxs-9">
+        <div class="card-body bg-secondary-tint rounded-end-2 h-100">
+          <div class="row gx-1 h-100">
+            <div class="col-9 col-md-10">
+              <div class="placeholder-glow">
+                <h5 class="placeholder bg-primary rounded-pill col-4"></h5>
+              </div>
+              <p class="fs-8 placeholder-glow mb-0">
+                <span class="placeholder bg-primary rounded-pill col-8 mb-1"></span>
+                <span class="placeholder bg-primary rounded-pill col-5"></span>
+              </p>
+              <p class="fs-8 placeholder-glow mb-0">
+                <span class="placeholder bg-primary rounded-pill col-2"></span>
+              </p>
+            </div>
+            <div class="col-3 col-md-2 d-flex flex-column">
+              <div class="placeholder-glow mt-auto">
+                <button class="btn bg-primary border-primary w-100 disabled placeholder"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref, computed } from 'vue';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useCartStore from '@/stores/cart';
 import useLoadingStore from '@/stores/loading';
 // 引入 UI 組件
 import LoadingUi from '@/components/LoadingUi.vue';
+import LazyloadImage from '@/components/LazyloadImage.vue';
 
 // 取得 cart 方法
 const cartStore = useCartStore();
@@ -116,18 +163,18 @@ const props = defineProps({
 });
 
 // 計算是否特價
-const IsDiscount = computed(() => {
-  return props.price < props.origin_price;
-});
+const IsDiscount = computed(() => props.price < props.origin_price);
 
-const isLoading = ref(false);
+// 格式化標題: 去除空白
+const formatTitle = computed(() => props.title.replace(/\s/g, ''));
 
-function loding() {
-  isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 3000);
-}
+// 佔位符載入狀態
+const isPlaceholderLoaded = ref(true);
+
+// 更新佔位符狀態
+const updatePlaceholderStatus = (status) => {
+  isPlaceholderLoaded.value = !status;
+};
 </script>
 
 <style lang="scss" scoped>

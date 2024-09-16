@@ -31,9 +31,10 @@
   <section class="container">
     <img
       src="/public/images/advertise-banner.webp"
-      class="img-fluid object-fit-cover"
-      alt=""
-      style="min-height: 220px"
+      class="ad-img img-fluid object-fit-cover"
+      width="2000"
+      height="400"
+      alt="彼恩斯咖啡限時優惠，單筆消費滿 NT$999 免運費，輸入優惠碼享 88 折"
     />
   </section>
 </template>
@@ -44,5 +45,9 @@
 // Swiper Element 修改 CSS 樣式 : https://swiperjs.com/element#parts
 swiper-container::part(wrapper) {
   transition-timing-function: linear; // 關閉減速效果，維持速率一致\
+}
+
+.ad-img {
+  min-height: 220px;
 }
 </style>

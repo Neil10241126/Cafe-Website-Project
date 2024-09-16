@@ -4,7 +4,7 @@
 
 ## 專案描述
 
-![alt text](./public/desc_img/image.png)
+![alt text](./public/desc_img/image.webp)
 
 自己本身喜歡品嘗手沖咖啡，因此想做一個咖啡網站專題，讓使用者可以透過網站來購買咖啡豆，並且可以將喜歡的咖啡加入收藏清單，參考相關網站資源來實踐電商購物。
 
@@ -26,11 +26,11 @@
 ---
 > 依序為首頁服務畫面、產品列表、登入
 > 
-![alt text](./public/desc_img/image2.png)
+![alt text](./public/desc_img/image2.webp)
 
-![alt text](./public/desc_img/image3.png)
+![alt text](./public/desc_img/image3.webp)
 
-![alt text](./public/desc_img/image4.png)
+![alt text](./public/desc_img/image4.webp)
 
 
 ## 下載專案
@@ -48,7 +48,7 @@ git clone https://github.com/Neil10241126/Cafe-Website-Project.git
 ### 移動至目錄
 
 ```bash
-cd Front-Cafe-Websit
+cd Cafe-Website-Project
 ```
 
 ### 初始化套件

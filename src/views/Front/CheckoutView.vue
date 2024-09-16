@@ -1,7 +1,7 @@
 <template>
   <div class="position-relative">
     <img
-      src="/public/images/Checkout-banner.webp"
+      src="/public/images/Header-banner-lg.webp"
       alt="Checkout-banner"
       class="object-fit-cover"
       style="min-height: 510px; background-color: rgba(0, 0, 0, 0.8)"

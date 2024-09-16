@@ -78,5 +78,5 @@ describe('ProductCardHor', () => {
 
   it('當 loading 時，隱藏 "加入購物車" 文字', async () => {});
 
-  it('當 loading 時，按鈕需要被 "disabled 禁用"', async () => {});
+  it.only('當 loading 時，按鈕需要被 "disabled 禁用"', async () => {});
 });

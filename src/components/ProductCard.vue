@@ -1,9 +1,17 @@
 <template>
   <!-- 網格卡片 -->
-  <div class="card border border-gray-400 rounded-3" style="max-width: 300px">
+  <div
+    v-if="!isPlaceholderLoaded"
+    class="card border border-gray-400 rounded-3"
+    style="max-width: 300px"
+  >
     <!-- 圖片 URL -->
     <div class="img-cover overflow-hidden rounded-top-3">
-      <img :src="img_url" class="card-img-top rounded-top-3" alt="Honduran-coffee-bean-2" />
+      <LazyloadImage
+        :image-url="img_url"
+        :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
+        @image-ready="updatePlaceholderStatus"
+      ></LazyloadImage>
     </div>
     <!-- 收藏按鈕 -->
     <a
@@ -80,10 +88,43 @@
       </button>
     </div>
   </div>
+
+  <!-- 佔位符卡片 -->
+  <div v-else class="card" style="max-width: 300px">
+    <!-- 圖片 -->
+    <div class="card-img-top placeholder bg-primary">
+      <LazyloadImage
+        class="opacity-0"
+        :image-url="img_url"
+        :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
+        @image-ready="updatePlaceholderStatus"
+      ></LazyloadImage>
+    </div>
+
+    <!-- 內容 -->
+    <div class="card-body bg-secondary-tint rounded-bottom-3">
+      <div class="placeholder-glow">
+        <h5 class="placeholder bg-primary rounded-pill col-4"></h5>
+      </div>
+      <p class="fs-8 placeholder-glow d-none d-lg-block">
+        <span class="placeholder bg-primary rounded-pill col-8"></span>
+        <span class="placeholder bg-primary rounded-pill col-5"></span>
+      </p>
+      <!-- 按鈕 -->
+      <div class="row gx-2 placeholder-glow">
+        <div class="col-12 col-lg-8">
+          <button class="btn bg-primary border-primary w-100 disabled placeholder"></button>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+          <button class="btn bg-primary border-primary w-100 disabled placeholder"></button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 // 引入 Pinia 狀態管理
 import { storeToRefs } from 'pinia';
 import useLoadingStore from '@/stores/loading';
@@ -91,6 +132,7 @@ import useUserStore from '@/stores/user';
 import useCartStore from '@/stores/cart';
 // 引入 UI 組件
 import LoadingUi from '@/components/LoadingUi.vue';
+import LazyloadImage from '@/components/LazyloadImage.vue';
 
 const props = defineProps({
   // 資料參數 value :
@@ -125,9 +167,18 @@ const IsFavorite = computed(() => {
 });
 
 // 計算是否特價
-const IsDiscount = computed(() => {
-  return props.price < props.origin_price;
-});
+const IsDiscount = computed(() => props.price < props.origin_price);
+
+// 格式化標題: 去除空白
+const formatTitle = computed(() => props.title.replace(/\s/g, ''));
+
+// 佔位符載入狀態
+const isPlaceholderLoaded = ref(true);
+
+// 更新佔位符狀態
+const updatePlaceholderStatus = (status) => {
+  isPlaceholderLoaded.value = !status;
+};
 </script>
 
 <style lang="scss" scoped>
