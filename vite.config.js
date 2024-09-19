@@ -37,6 +37,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      // assetsInlineLimit: 0,
       rollupOptions: {
         output: {
           // https://github.com/rollup/rollup/blob/master/src/utils/sanitizeFileName.ts

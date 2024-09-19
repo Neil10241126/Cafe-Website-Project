@@ -8,8 +8,8 @@
           <div class="img-cover rounded-start-2">
             <LazyloadImage
               class="h-100 rounded-start-2"
+              :title="title"
               :image-url="imageUrl"
-              :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
               @image-ready="updatePlaceholderStatus"
             ></LazyloadImage>
           </div>
@@ -97,8 +97,8 @@
         <div class="img-cover rounded-start-2 placeholder bg-primary w-100 h-100">
           <LazyloadImage
             class="object-fit-cover w-100 h-100 opacity-0"
+            :title="title"
             :image-url="imageUrl"
-            :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
             @image-ready="updatePlaceholderStatus"
           ></LazyloadImage>
         </div>
@@ -164,9 +164,6 @@ const props = defineProps({
 
 // 計算是否特價
 const IsDiscount = computed(() => props.price < props.origin_price);
-
-// 格式化標題: 去除空白
-const formatTitle = computed(() => props.title.replace(/\s/g, ''));
 
 // 佔位符載入狀態
 const isPlaceholderLoaded = ref(true);

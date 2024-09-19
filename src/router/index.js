@@ -107,7 +107,7 @@ const router = createRouter({
   routes,
   scrollBehavior() {
     // 始終滾動至頂部
-    // return { top: 0 };
+    return { top: 0 };
   },
 });
 

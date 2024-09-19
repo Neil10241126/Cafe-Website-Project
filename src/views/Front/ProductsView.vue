@@ -200,6 +200,7 @@
             </ul>
           </div>
         </div>
+
         <!-- 品項內容切換 -->
         <div class="tab-content">
           <!-- 全部 -->
@@ -234,6 +235,7 @@
               ></PaginationUi>
             </div>
           </div>
+
           <!-- 淺烘焙 -->
           <div class="tab-pane fade" id="lightRoast">
             <!-- 網格卡片 -->
@@ -266,6 +268,7 @@
               ></PaginationUi>
             </div>
           </div>
+
           <!-- 中烘焙 -->
           <div class="tab-pane fade" id="mediumRoast">
             <!-- 網格卡片 -->
@@ -298,6 +301,7 @@
               ></PaginationUi>
             </div>
           </div>
+
           <!-- 深烘焙 -->
           <div class="tab-pane fade" id="darkRoast">
             <!-- 網格卡片 -->
@@ -360,7 +364,7 @@ const { sort, filter, updateProducts } = productStore;
 
 const select = ref('排序項目'); // 篩選器變數
 const listOption = ref('全部'); // 導覽切換變數
-const isViewHorizationChange = ref(false);
+const isViewHorizationChange = ref(false); // 卡片樣式切換
 
 // 監聽 productsList 當中資料，當產生變化時執行排序 sort 方法
 watch(

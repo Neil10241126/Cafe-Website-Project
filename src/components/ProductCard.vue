@@ -9,7 +9,7 @@
     <div class="img-cover overflow-hidden rounded-top-3">
       <LazyloadImage
         :image-url="img_url"
-        :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
+        :title="title"
         @image-ready="updatePlaceholderStatus"
       ></LazyloadImage>
     </div>
@@ -95,8 +95,8 @@
     <div class="card-img-top placeholder bg-primary">
       <LazyloadImage
         class="opacity-0"
+        :title="title"
         :image-url="img_url"
-        :lazy-image-url="`/public/images/compression-img/small-${formatTitle}.jpg`"
         @image-ready="updatePlaceholderStatus"
       ></LazyloadImage>
     </div>
@@ -168,9 +168,6 @@ const IsFavorite = computed(() => {
 
 // 計算是否特價
 const IsDiscount = computed(() => props.price < props.origin_price);
-
-// 格式化標題: 去除空白
-const formatTitle = computed(() => props.title.replace(/\s/g, ''));
 
 // 佔位符載入狀態
 const isPlaceholderLoaded = ref(true);
