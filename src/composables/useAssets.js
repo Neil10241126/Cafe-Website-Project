@@ -1,48 +1,43 @@
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 
-export default function useAssets() {
+export default function useAssets(depth = 2) {
   // 儲存引入的圖片資源
   const imagesMap = ref({});
 
-  // 根據目錄層級搜索並導入圖片文件
-  const fetchImagesByDepth = (depth) => {
-    // depth 表示根目錄下搜索的深度
-    if (depth === 2) {
-      // 搜索並導入根目錄下的圖片
-      const images = computed(() =>
-        import.meta.glob('@/assets/images/*.{jpg,png,webp}', {
-          eager: true,
-          import: 'default',
-        })
-      );
-      imagesMap.value = images.value;
-    } else if (depth === 3) {
-      // 搜索並導入根目錄及其子目錄下的圖片
-      const images = computed(() =>
-        import.meta.glob('@/assets/images/*/*.{jpg,png,webp}', {
-          eager: true,
-          import: 'default',
-        })
-      );
-      imagesMap.value = images.value;
+  // 初始化時，根據 depth 層級搜索並引入圖片資源
+  if (depth === 2) {
+    const images = computed(() =>
+      import.meta.glob('@/assets/images/*.{jpg,png,webp,svg}', {
+        eager: true,
+        import: 'default',
+      })
+    );
+    imagesMap.value = images.value;
+  } else if (depth === 3) {
+    const images = computed(() =>
+      import.meta.glob('@/assets/images/*/*.{jpg,png,webp,svg}', {
+        eager: true,
+        import: 'default',
+      })
+    );
+    imagesMap.value = images.value;
+  }
+
+  // 根據文件名稱獲取圖片的 URL
+  function getAssetsImageSrc(fileName) {
+    // 抓出指定圖片所在的 key 值
+    const key = Object.keys(imagesMap.value).find((item) => item.includes(fileName));
+
+    // ⚠️若發生錯誤，則回傳預設影像
+    if (!imagesMap.value[key]) {
+      return '/src/assets/images/lazy-images/small-image-default.svg';
     }
-  };
 
-  // 根據文件名獲取圖片的 URL
-  const getImageUrl = (filename) => {
-    const key = Object.keys(imagesMap.value).find((item) => item.includes(filename));
+    // 若正確，回傳圖片路徑
     return imagesMap.value[key];
-  };
-
-  // 獲取圖片的異步方法
-  const getImage = async (depth, filename) => {
-    // 初始化載入圖片資源
-    await fetchImagesByDepth(depth);
-    // 回傳圖片路徑
-    return getImageUrl(filename);
-  };
+  }
 
   return {
-    getImage,
+    getAssetsImageSrc,
   };
 }

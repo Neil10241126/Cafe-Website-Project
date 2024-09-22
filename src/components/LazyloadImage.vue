@@ -1,22 +1,22 @@
 <template>
   <div
-    ref="refImageBlur"
     class="blur-loaded"
     :class="{ loaded: isImageLoaded }"
-    :style="`background-image: url(${assetsImgBackgroundUrl})`"
+    :style="`background-image: url(${getAssetsImageSrc(formatTitle)})`"
   >
-    <img ref="refImage" :src="props.imageUrl" :loading="setting" @load="loaded()" alt="none" />
+    <img :src="props.imageUrl" :loading="setting" @load="loaded()" alt="none" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed } from 'vue';
 // 引入 Composables 方法
 import useAssets from '../composables/useAssets';
 
 // 取得 useAssets 方法
-const { getImage } = useAssets();
+const { getAssetsImageSrc } = useAssets(3);
 
+// 定義佔位符接收參數 Props:
 const props = defineProps({
   title: String,
   imageUrl: String,
@@ -28,8 +28,7 @@ const props = defineProps({
 
 const emits = defineEmits(['imageReady']);
 
-const refImageBlur = ref(null);
-const refImage = ref(null);
+// 判斷圖片是否載入完畢
 const isImageLoaded = ref(false);
 
 // 格式化標題: 去除空白
@@ -40,14 +39,6 @@ function loaded() {
   isImageLoaded.value = true;
   emits('imageReady', isImageLoaded.value);
 }
-
-// 存儲圖片背景 URL
-const assetsImgBackgroundUrl = ref();
-
-// 組件掛載時，獲取並設置圖片背景 URL
-onMounted(async () => {
-  assetsImgBackgroundUrl.value = await getImage(3, formatTitle.value);
-});
 </script>
 
 <style lang="scss" scoped>
