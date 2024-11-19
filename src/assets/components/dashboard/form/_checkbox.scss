@@ -1,0 +1,25 @@
+// default Style
+$check-size: 18px;
+$check-border-width: 2px;
+
+$check-bg: transparent;
+$check-border: #a0a0a0;
+
+// :checked Style
+$check-border-checked: #2fe5a7;
+$check-bg-image-checked: url(/public/icons/test.svg);
+
+.dashboard {
+  .form-check-input[type='checkbox'] {
+    width: $check-size;
+    height: $check-size;
+    background-color: $check-bg;
+    border: $check-border-width solid $check-border;
+    box-shadow: none;
+
+    &:checked {
+      border-color: $check-border-checked;
+      background-image: $check-bg-image-checked;
+    }
+  }
+}

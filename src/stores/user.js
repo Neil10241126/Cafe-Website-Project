@@ -75,7 +75,7 @@ export default defineStore(
         // 若用戶登出，清除使用者資料
         user.value = { loginState: false, isAdmin: false, userInfo: {} };
 
-        router.push('/signin/admin');
+        router.push('/');
         apiResAlert(res.data.message);
       } catch (err) {
         apiErrAlert(err.response.data.message);

@@ -1,0 +1,62 @@
+// default Style
+$input-color: #f2f2f2;
+$input-placeholder-color: #a0a0a0;
+$input-bg: transparent;
+$input-border: #a0a0a0;
+
+// :focus Style
+$input-color-focus: #fcc55f;
+$input-bg-focus: transparent;
+$input-border-focus: #fcc55f;
+
+// 驗證 Style
+$input-border-invalid: #ff6e76;
+$input-border-valid: #2fe5a7;
+
+// Autofill 自動填入 Style
+$input-autofill-color: #f2f2f2;
+$input-autofill-color-focus: #fcc55f;
+
+.dashboard {
+  .form-control {
+    color: $input-color;
+    background-color: $input-bg;
+    border: 2px solid $input-border;
+
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+
+    &:focus {
+      color: $input-color-focus;
+      background-color: $input-bg-focus;
+      border-color: $input-border-focus;
+      box-shadow: none;
+    }
+
+    &.is-invalid {
+      border-color: $input-border-invalid;
+      background-image: url(/public/icons/valid-error.svg);
+    }
+
+    &.is-valid {
+      border-color: $input-border-valid;
+      background-image: url(/public/icons/valid-success.svg);
+    }
+  }
+
+  // 清除 autofill 樣式
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: $input-autofill-color;
+    transition:
+      background-color 0s 600000s,
+      color 0s 600000s !important;
+  }
+
+  // 調整 autofill focus 樣式，使其與預設一致
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: $input-autofill-color-focus;
+  }
+}

@@ -352,9 +352,17 @@ onMounted(() => {
 // 取出 schema 驗證規則
 const { paymentSchema } = useValidation();
 
+// 預設值: 處理完成後刪除
+const defaultPaymentData = {
+  payment: {
+    type: '貨到付款',
+  },
+};
+
 // 使用 useForm 來處理表單驗證
 const { handleSubmit, defineField, errors, meta } = useForm({
   validationSchema: paymentSchema,
+  initialValues: defaultPaymentData,
 });
 
 // 定義表單欄位

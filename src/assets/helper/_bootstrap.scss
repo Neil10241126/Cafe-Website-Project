@@ -8,52 +8,6 @@
 @import './utilities'; // 自訂通用類別
 @import './custom-utilities'; // 新增通用類別
 
-
-
-
-// .dark {
-    
-//     $enable-gradients: true;
-//     /* redefine theme colors for dark theme */
-    
-//     $theme-colors: (
-//       // dashboard-color-theme
-//     'netural-100': #F2F2F2,
-//     'netural-200': #DADADA,
-//     'netural-300': #C1C1C1,
-//     'netural-400': #A8A8A8,
-//     'netural-500': #8F8F8F,
-//     'netural-600': #767676,
-//     'netural-700': #5D5D5D,
-//     'netural-800': #444444,
-//     'netural-900': #2B2B2B,
-//   );
-//     /* redefine theme color variables */
-//       @each $color, $value in $theme-colors {
-//           --#{$prefix}#{$color}: #{$value};
-//       }
-
-//      /* button */ 
-//       @each $color, $value in $theme-colors {
-//         .btn-#{$color} {
-//             @include button-variant($value, $value);
-//             } 
-//         }
-  
-    
-//     $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
-
-//       @each $color, $value in $theme-colors-rgb {
-//           --#{$prefix}#{$color}-rgb: #{$value};
-//       }
-  
-//     $body-color: #eeeeee;
-//     $body-bg: #263C5C;
-    
-//     --#{$variable-prefix}body-color: #{$body-color};
-//     --#{$variable-prefix}body-bg: #{$body-bg};
-
-//   }
   
 @import 'bootstrap/scss/bootstrap';
   

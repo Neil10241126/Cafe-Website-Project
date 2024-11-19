@@ -1,0 +1,171 @@
+// Btn 變體
+$btnComponent: (
+  'primary': (
+    class: 'primary',
+    color: map-get($theme-colors, db-background-light),
+    color-active: map-get($theme-colors, db-background-light),
+    background: #FCC55F,
+    background-hover: #9D7C3E,
+    background-active: #9D7C3E,
+    border-color: #FCC55F,
+    border-color-hover: #9D7C3E,
+    border-color-active: #9D7C3E,
+  ),
+  'danger': (
+    class: 'danger',
+    color: map-get($theme-colors, db-background-light),
+    color-active: map-get($theme-colors, db-background-light),
+    background: #FF6E76,
+    background-hover: #BF5359,
+    background-active: #BF5359,
+    border-color: #FF6E76,
+    border-color-hover: #BF5359,
+    border-color-active: #BF5359,
+  ),
+);
+
+// Btn-Outline 變體
+$btnOutlineComponent: (
+  'outline-netural': (
+    class: 'outline-netural',
+    color: map-get($theme-colors, db-netural-dark),
+    color-hover: map-get($theme-colors, db-netural),
+    background: transparent,
+    background-hover: map-get($theme-colors, db-netural-dark),
+    background-active: map-get($theme-colors, db-netural-dark),
+    border-color: map-get($theme-colors, db-netural-dark),
+    border-color-hover: map-get($theme-colors, db-netural-dark),
+    border-color-active: map-get($theme-colors, db-netural-dark),
+  ),
+  'outline-primary': (
+    class: 'outline-primary',
+    color: #FCC55F,
+    color-hover: map-get($theme-colors, db-background-light),
+    background: transparent,
+    background-hover: #FCC55F,
+    background-active: #FCC55F,
+    border-color: #FCC55F,
+    border-color-hover: #FCC55F,
+    border-color-active: #FCC55F
+  ),
+  'outline-danger': (
+    class: 'outline-danger',
+    color: #FF6E76,
+    color-hover: map-get($theme-colors, db-background-light),
+    background: transparent,
+    background-hover: #FF6E76,
+    background-active: #FF6E76,
+    border-color: #FF6E76,
+    border-color-hover: #FF6E76,
+    border-color-active: #FF6E76,
+  ),
+);
+
+// 共用 variables 
+$btn-padding-x: 12px;
+$btn-padding-y: 6px;
+$btn-border-width: 1px;
+$btn-border-radius: 4px;
+
+
+.dashboard {
+
+  .btn {
+    padding: $btn-padding-y $btn-padding-x;
+    border: 0;
+    border-radius: $btn-border-radius;
+    display: flex;
+    align-items: center;
+  }
+
+
+  @each $name, $value in $btnComponent {
+    $class: map-get($value, class);
+    $color: map-get($value, color);
+    $color-active: map-get($value, color-active);
+    $background: map-get($value, background);
+    $background-hover: map-get($value, background-hover);
+    $background-active: map-get($value, background-active);
+    $border-color: map-get($value, border-color);
+    $border-color-hover: map-get($value, border-color-hover);
+    $border-color-active: map-get($value, border-color-active);
+    $border-active-offset: 4px;
+
+
+    .btn-#{$class} {
+      color: $color;
+      background-color: $background;
+      border: $btn-border-width solid $border-color;
+
+
+      &:hover {
+        background-color: $background-hover;
+        border-color: $border-color-hover;
+      }
+
+      &:active {
+        position: relative;
+        color: $color-active;
+        background-color: $background-active;
+        border-color: $border-color-active;
+        &::before {
+          content: '';
+          position: absolute;
+          inset: calc(-#{$btn-border-width} - #{$border-active-offset});
+          background-color: transparent;
+          border-radius: calc($btn-border-radius + #{$border-active-offset});
+          border: calc(#{$border-active-offset} / 2) solid $border-color-active;
+        }
+      }
+
+      &.disabled {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  @each $name, $value in $btnOutlineComponent {
+    $class: map-get($value, class);
+    $color: map-get($value, color);
+    $color-hover: map-get($value, color-hover);
+    $background: map-get($value, background);
+    $background-hover: map-get($value, background-hover);
+    $background-active: map-get($value, background-active);
+    $border-color: map-get($value, border-color);
+    $border-color-hover: map-get($value, border-color-hover);
+    $border-color-active: map-get($value, border-color-active);
+    $border-active-offset: 4px;
+
+    .btn-#{$name} {
+      color: $color;
+      border: $btn-border-width solid  $border-color;
+
+
+      &:hover {
+        color: $color-hover;
+        background-color: $background-hover;
+        border-color: $border-color-hover;
+      }
+
+      &:active {
+        position: relative;
+        color: $color-hover;
+        background-color: $background-active;
+        border-color: $border-color-active;
+        &::before {
+          content: '';
+          position: absolute;
+          inset: calc(-#{$btn-border-width} - #{$border-active-offset});
+          background-color: transparent;
+          border-radius: calc($btn-border-radius + $border-active-offset);
+          border: calc(#{$border-active-offset} / 2) solid $border-color-active;
+        }
+      }
+      
+      &.disabled {
+        opacity: 0.3;
+      }
+    }
+
+  }
+}

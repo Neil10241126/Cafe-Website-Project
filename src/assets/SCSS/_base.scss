@@ -1,0 +1,44 @@
+// 盒模型
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 圖片樣式調整 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  // vertical-align: middle;
+}
+
+a {
+  // display: block;
+  text-decoration: none;
+}
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.ff-black-ops {
+  font-family: 'Black Ops One', system-ui;
+}
+
+// 多行文字 utilities Start
+@mixin text-truncate-line-clamp($lines-to-clamp) {
+  @each $line in $lines-to-clamp {
+    .text-truncate-#{$line} {
+      display: -webkit-box;
+      line-clamp: $line;
+      -webkit-line-clamp: $line;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+@include text-truncate-line-clamp((1, 2, 3, 4, 5));
+// 多行文字 utilities End

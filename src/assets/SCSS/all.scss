@@ -1,0 +1,22 @@
+// Google Font : NotoSansTC & BlackOpsOne
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans+TC:wght@100..900&display=swap');
+
+// Bootstrap 設定檔
+@import "./Bootstrap/index";
+
+// 自訂設定檔
+@import "./base";
+
+// 元件檔
+@import "../components/btn";
+@import "../components/input";
+@import "../components/dashboard/card";
+@import "../components/dashboard/button";
+@import "../components/dashboard/sidebar";
+@import "../components/dashboard/tag";
+@import "../components/dashboard/pagination";
+@import "../components/dashboard/form/input";
+@import "../components/dashboard/form/checkbox";
+@import "../components/dashboard/form/select";
+@import "../components/dashboard/form/switch";
+@import "../components/dashboard/modal";

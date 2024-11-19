@@ -260,7 +260,7 @@ const signinAdmin = async () => {
     document.cookie = `token=${token}; expires=${new Date(expires)}; path=/`;
     user.value.loginState = true;
 
-    router.push('/admin/products');
+    router.push('/admin/home');
     apiResAlert(res.data.message);
   } catch (err) {
     apiErrAlert(err.response.data.message);

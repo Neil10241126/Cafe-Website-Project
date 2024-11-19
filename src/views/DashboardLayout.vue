@@ -1,92 +1,323 @@
 <template>
-  <!-- loading -->
   <LoadingUi></LoadingUi>
 
-  <div class="layout d-flex">
-    <!-- 側邊導覽 -->
-    <aside class="bg-netural-800 vh-100" style="width: 250px">
-      <!-- Logo -->
-      <header class="mt-3 mb-4">
-        <RouterLink to="/admin/products" class="d-flex align-items-center text-netural-100">
-          <svg width="36" height="36" style="min-width: 60px">
-            <use xlink:href="/public/icons/icons.svg#bootstrap" />
+  <div ref="dashboardBody" class="dashboard bg-db-background">
+    <!-- 側邊導覽列 -->
+    <aside class="sidebar d-flex flex-column position-fixed top-0 vh-100 px-3">
+      <!-- 1. 標題 -->
+      <div class="px-2 py-4 position-relative">
+        <h1 class="fs-5 text-db-netural d-flex align-items-center mb-0">
+          <svg width="36" height="36" class="text-db-primary me-2">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-logo"></use>
           </svg>
-          <span class="fs-5"><strong>後台系統</strong></span>
-        </RouterLink>
-      </header>
+          彼恩斯咖啡
+        </h1>
 
-      <!-- 導覽列 - 功能 -->
-      <ul class="nav nav-pills flex-column vh-100">
-        <li class="sider-nav-items">
-          <RouterLink to="/admin/products" class="sider-nav-link nav-link">
-            <svg width="24" height="24" style="min-width: 60px">
-              <use xlink:href="/public/icons/icons.svg#bag-plus" />
+        <a
+          ref="openSidebarBtn"
+          href="#"
+          class="rounded-circle bg-db-primary d-flex position-absolute d-xl-none"
+          style="left: 252px; top: 30px"
+          @click.prevent="closeSidebar()"
+        >
+          <svg width="24" height="24" class="text-db-background">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-left"></use>
+          </svg>
+        </a>
+      </div>
+
+      <!-- 2. 選單 -->
+      <ul class="sidebar__list py-3 overflow-auto scrollbar">
+        <li>
+          <RouterLink to="/admin/home" class="sidebar__link">
+            <svg width="24" height="24" class="sidebar__icon">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-chart-pie" />
             </svg>
-            <span>商品列表</span>
+            總攬分析
           </RouterLink>
         </li>
-        <li class="sider-nav-items">
-          <RouterLink to="/admin/Orders" class="sider-nav-link nav-link"
-            ><svg width="24" height="24" style="min-width: 60px">
-              <use xlink:href="/public/icons/icons.svg#cart" />
-            </svg>
-            <span>訂單列表</span></RouterLink
+        <li>
+          <a
+            href="#products-list"
+            class="sidebar__link"
+            data-bs-toggle="collapse"
+            :class="{ 'sidebar__link--down': productsController }"
+            @click="productsController = !productsController"
           >
-        </li>
-        <li class="sider-nav-items">
-          <RouterLink to="/admin/coupons" class="sider-nav-link nav-link"
-            ><svg width="24" height="24" style="min-width: 60px">
-              <use xlink:href="/public/icons/icons.svg#tickit" />
+            <svg width="24" height="24" class="sidebar__icon">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-shop" />
             </svg>
-            <span>優惠券列表</span>
+            商品操作
+            <svg width="24" height="24" class="animation-down ms-auto">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-right" />
+            </svg>
+          </a>
+        </li>
+        <li id="products-list" class="collapse">
+          <ul class="sidebar__list">
+            <li>
+              <RouterLink to="/admin/products" class="sidebar__link">
+                <svg width="24" height="24" class="sidebar__icon">
+                  <use xlink:href="/public/icons/dashboard-icons.svg#fig-dot" />
+                </svg>
+                商品列表
+              </RouterLink>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a
+            href="#orders-list"
+            class="sidebar__link"
+            data-bs-toggle="collapse"
+            :class="{ 'sidebar__link--down': ordersController }"
+            @click="ordersController = !ordersController"
+          >
+            <svg width="24" height="24" class="sidebar__icon">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-bag" />
+            </svg>
+            訂單操作
+            <svg width="24" height="24" class="animation-down ms-auto">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-right" />
+            </svg>
+          </a>
+        </li>
+        <li id="orders-list" class="collapse">
+          <ul class="sidebar__list">
+            <li>
+              <RouterLink to="/admin/orders" class="sidebar__link">
+                <svg width="24" height="24" class="sidebar__icon">
+                  <use xlink:href="/public/icons/dashboard-icons.svg#fig-dot" />
+                </svg>
+                訂單列表
+              </RouterLink>
+            </li>
+            <!-- <li>
+              <RouterLink to="/admin/orders/" class="sidebar__link">
+                <svg width="24" height="24" class="sidebar__icon">
+                  <use xlink:href="/public/icons/dashboard-icons.svg#fig-dot" />
+                </svg>
+                訂單細節
+              </RouterLink>
+            </li> -->
+          </ul>
+        </li>
+        <li>
+          <RouterLink to="/admin/coupons" class="sidebar__link">
+            <svg width="24" height="24" class="sidebar__icon">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-ticket" />
+            </svg>
+            優惠券列表
           </RouterLink>
         </li>
+        <!-- <li>
+          <RouterLink to="/admin/articles" class="sidebar__link">
+            <svg width="24" height="24" class="sidebar__icon">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-note" />
+            </svg>
+            文章列表
+          </RouterLink>
+        </li> -->
       </ul>
+
+      <!-- 3. 登出 -->
+      <div class="d-flex flex-column mt-auto mb-3">
+        <div
+          class="footer-box d-none d-lg-flex flex-column align-items-center border border-2 border-db-background-light rounded-4 p-3"
+          target="_blank"
+        >
+          <svg width="60" height="60" class="text-db-netural-dark mb-2">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-vue"></use>
+          </svg>
+          <p class="fs-8 text-db-netural-dark text-center">
+            專案使用 <span>Vue.js</span> 開發，了解更多細節，歡迎前往我的 GitHub 帳號。
+          </p>
+          <a
+            href="https://github.com/Neil10241126/Cafe-Website-Project"
+            class="btn btn-outline-netural"
+            >前往 GitHub Repo</a
+          >
+        </div>
+
+        <div class="d-flex align-items-center rounded-3 ps-3 pe-2 py-2 mt-3">
+          <div class="position-relative">
+            <img
+              src="/public/images/picture.png"
+              class="rounded-circle"
+              style="width: 45px; height: 45px"
+            />
+            <span
+              class="position-absolute bg-chart-green border border-2 border-db-background-light rounded-circle"
+              style="left: 33px; top: -3px; width: 16px; height: 16px"
+            >
+            </span>
+          </div>
+          <div class="mx-3 d-flex flex-column">
+            <p class="fs-8 text-light mb-0">王曉明</p>
+            <span class="fs-9 fw-medium text-db-netural-dark">管理者</span>
+          </div>
+          <button type="button" class="btn link-db-primary-dark ms-auto" @click="adminSignout()">
+            <svg width="24" height="24" class="">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-logout" />
+            </svg>
+          </button>
+        </div>
+      </div>
     </aside>
 
-    <!-- 視圖區塊 -->
-    <div class="flex-fill p-3">
-      <nav class="d-flex align-items-center justify-content-between mb-3">
-        <h3 class="fs-4 fw-semibold">產品列表</h3>
-        <button type="button" class="btn btn-netural-600 rounded-0 py-1" @click="adminSignout()">
-          登出
-        </button>
-      </nav>
+    <!-- Main -->
+    <main class="main px-3 px-xl-4 pb-4">
+      <!-- Main header -->
+      <div class="main__header d-flex align-items-center py-3 py-lg-4 mb-3 mb-lg-4">
+        <a href="#" ref="closeSidebarBtn" class="d-xl-none me-2" @click.prevent="openSiderbar()">
+          <svg width="32" height="32" class="text-db-netural">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-menu"></use>
+          </svg>
+        </a>
+        <div class="text-db-netural-dark d-flex align-items-center">
+          <span class="fs-6 mb-0">後台介面</span>
+          <svg width="24" height="24" class="mx-1">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-right"></use>
+          </svg>
+          <span class="fs-6 mb-0">{{ routeName }}</span>
+        </div>
+      </div>
+
       <RouterView></RouterView>
-    </div>
+    </main>
+
+    <!-- Footer 增加廣告內容: 包含一些連結項目 -->
+
+    <!-- 至頂按鈕 -->
+    <button id="scrollToTopBtn" class="btn btn-primary rounded-circle p-2">
+      <svg width="24" height="24">
+        <use xlink:href="/public/icons/dashboard-icons.svg#fig-arrow-up"></use>
+      </svg>
+    </button>
   </div>
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
 // 引入 Pinia 狀態管理
-import useUserStore from '@/stores/user';
-// 引入 UI 組件
-import LoadingUi from '@/components/LoadingUi.vue';
+import useUserStore from '../stores/user';
+
+// 引入自定義組件
+import LoadingUi from '../components/LoadingUi.vue';
+
+// 初始化路由參數
+const route = useRoute();
 
 //
 const userStore = useUserStore();
 const { adminSignout } = userStore;
+
+// 顯示 Main header 路由位置
+const routeName = computed(() => {
+  const routeList = {
+    home: '總攬分析',
+    products: '商品列表',
+    orders: '訂單列表',
+    order: '訂單細節',
+    coupons: '優惠券列表',
+    articles: '文章列表',
+  };
+
+  return routeList[route.name];
+});
+
+const dashboardBody = ref(null);
+const closeSidebarBtn = ref(null);
+const openSidebarBtn = ref(null);
+
+const productsController = ref(false);
+const ordersController = ref(false);
+
+// open Siderbar
+function openSiderbar() {
+  dashboardBody.value.classList.add('sider-toggle');
+}
+
+// close Sidebar
+function closeSidebar() {
+  dashboardBody.value.classList.remove('sider-toggle');
+}
+
+onMounted(() => {
+  // 滑動效果
+  const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+  scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  });
+
+  // 增加滑動一定距離再顯示元件
+
+  // window.addEventListener('scroll', () => {
+  //   if (window.pageYOffset > 300) {
+  //     scrollToTopBtn.style.display = 'block';
+  //   } else {
+  //     scrollToTopBtn.style.display = 'none';
+  //   }
+  // });
+});
 </script>
 
 <style lang="scss" scoped>
-// sider 樣式
-.sider-nav-items:not(:first-child) {
-  margin-top: 10px;
+.scrollbar {
+  height: 350px;
+  &::-webkit-scrollbar {
+    height: 2px;
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #a0a0a0;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #fcc55f;
+  }
 }
 
-.sider-nav-link {
-  --bs-nav-link-color: var(--bs-netural-300);
-  --bs-nav-link-hover-color: var(--bs-netural-100);
-  --bs-nav-pills-link-active-color: var(--bs-netural-900);
-  --bs-nav-pills-link-active-bg: var(--bs-warning);
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
+.footer-box {
+  cursor: auto;
   &:hover {
-    background-color: var(--bs-netural-700);
+    border-color: #2fe5a7 !important;
+    svg {
+      color: #2fe5a7 !important;
+    }
+    p {
+      color: #f2f2f2 !important;
+    }
+    span {
+      color: #2fe5a7 !important;
+    }
+    .btn {
+      border-color: #2fe5a7 !important;
+      color: #2fe5a7 !important;
+      &:hover {
+        background-color: #2fe5a7;
+        color: #282828 !important;
+      }
+      &:active::before {
+        border-color: #2fe5a7;
+      }
+    }
   }
-  &.active:hover {
-    background-color: var(--bs-warning);
+}
+
+#scrollToTopBtn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  &:focus::before {
+    content: none;
   }
 }
 </style>

@@ -1,732 +1,700 @@
 <template>
-  <!-- Loading -->
+  <!-- 讀取效果元件 -->
   <LoadingUi></LoadingUi>
 
-  <div class="card shadow">
-    <div class="card-header d-flex justify-content-between align-items-center py-3">
-      <h5 class="fs-6">商品清單</h5>
-      <button
-        type="button"
-        class="btn btn-sm btn-primary rounded-0 d-flex align-items-center"
-        @click="openModal('create')"
-      >
-        新增產品
-        <svg width="16" height="16" class="ms-1">
-          <use xlink:href="/public/icons/icons.svg#plus" />
-        </svg>
-      </button>
+  <!-- 圖表 -->
+  <div class="row gy-3 mb-3 mb-md-4">
+    <!-- 長條圖 Card -->
+    <div class="col-12 col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between px-md-4">
+          <div>
+            <h3 class="fs-6 text-db-netural lh-base mb-0">每日銷售</h3>
+            <span class="text-db-netural-dark">可以分析銷售數量或金額。</span>
+          </div>
+
+          <a href="#" class="h-100" data-bs-toggle="dropdown" @click.prevent="">
+            <svg width="24" height="24" class="text-db-netural-dark">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-dots-vertical"></use>
+            </svg>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </a>
+        </div>
+        <div class="card-body px-md-4">
+          <div ref="barElement" class="" style="height: 245px"></div>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <!-- 表格 -->
-      <table class="table table-hover table-striped">
-        <thead>
+
+    <!-- 圓餅圖 Card -->
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between px-md-4">
+          <div>
+            <h3 class="fs-6 text-db-netural lh-base mb-0">商品占比</h3>
+            <span class="text-db-netural-dark">淺烘焙 31.5% 最高</span>
+          </div>
+
+          <a href="#" class="h-100" data-bs-toggle="dropdown" @click.prevent="">
+            <svg width="24" height="24" class="text-db-netural-dark">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-dots-vertical"></use>
+            </svg>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </a>
+        </div>
+        <div class="card-body px-md-4">
+          <div ref="pieElement" style="height: 245px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 商品列表 Card -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between px-md-4">
+      <div>
+        <h3 class="fs-6 text-db-netural lh-base mb-0">全部商品</h3>
+        <span class="text-db-netural-dark">總計 {{ productCount }} 筆品項</span>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <button type="button" class="btn btn-outline-netural me-2">
+          <svg width="20" height="20">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-filter"></use>
+          </svg>
+          <span class="d-none d-md-block ms-2">篩選</span>
+        </button>
+        <button type="button" class="btn btn-primary" @click="openModal('new')">
+          <svg width="20" height="20">
+            <use xlink:href="/public/icons/dashboard-icons.svg#fig-plus"></use>
+          </svg>
+          <span class="d-none d-md-block ms-2">新增商品</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 商品清單 Table -->
+    <div class="card-body table-responsive px-md-4">
+      <table class="table table-db-background-light">
+        <thead class="align-middle text-nowrap">
           <tr>
-            <th scope="col">商品標題</th>
-            <th scope="col" class="text-end">類別</th>
-            <th scope="col" class="text-end">酸度</th>
-            <th scope="col" class="text-end">產地</th>
-            <th scope="col" class="text-end">原價(NTD)</th>
-            <th scope="col" class="text-end">售價(NTD)</th>
-            <th scope="col" class="text-end">是否啟用</th>
-            <th scope="col" class="text-end">功能</th>
+            <th scope="col" class="fw-normal py-3 pe-3">項次</th>
+            <th scope="col" class="fw-normal pe-3">商品名稱</th>
+            <th scope="col" class="fw-normal pe-3">類別</th>
+            <th scope="col" class="fw-normal pe-3">原價</th>
+            <th scope="col" class="fw-normal pe-3">售價</th>
+            <th scope="col" class="fw-normal text-end pe-3">是否啟用</th>
+            <th scope="col" class="fw-normal text-end pe-0">操作</th>
           </tr>
         </thead>
-        <tbody class="align-middle">
-          <tr v-for="product in productData" :key="product.id">
-            <td scope="row">{{ product.title }}</td>
-            <td class="text-end">
-              <span class="badge rounded-pill text-bg-primary py-2 fw-normal">{{
-                product.category
+        <tbody class="align-middle text-nowrap">
+          <tr v-for="(product, index) in productData" :key="product.id">
+            <td scope="row" class="pt-3 pe-3 border-0">{{ (index += 1) }}</td>
+            <td class="pt-3 pe-3 border-0">
+              <div class="d-flex align-items-center" style="width: 200px">
+                <img
+                  :src="product.imageUrl"
+                  class="border border-db-netural-dark rounded-2"
+                  width="40"
+                  height="40"
+                  style="height: 40px; width: 40px"
+                />
+                <p class="mb-0 ms-2 text-truncate">{{ product.title }}</p>
+              </div>
+            </td>
+            <td class="pt-3 pe-3 border-0">{{ product.category }}</td>
+            <td class="pt-3 pe-3 border-0">NT$ {{ product.origin_price }}</td>
+            <td class="pt-3 pe-3 border-0">NT$ {{ product.price }}</td>
+            <td class="pt-3 pe-3 border-0 text-end">
+              <span class="tag tag-success" :class="{ 'tag-danger': !product.is_enabled }">{{
+                product.is_enabled ? '已啟用' : '未啟用'
               }}</span>
             </td>
-            <td class="text-end">{{ product.acidity }}</td>
-            <td class="text-end">{{ product.origin }}</td>
-            <td class="text-end">{{ product.origin_price }}</td>
-            <td class="text-end">{{ product.price }}</td>
-            <td class="text-end">
-              <svg width="20" height="20">
-                <use
-                  v-if="product.is_enabled"
-                  xlink:href="/public/icons/icons.svg#check-circle"
-                  class="text-success"
-                />
-                <use v-else xlink:href="/public/icons/icons.svg#x-circle" class="text-danger" />
-              </svg>
-            </td>
-            <td class="text-end">
-              <button
-                type="button"
-                class="btn btn-netural-800 rounded-1 py-1 px-2"
-                @click="openModal('edit', product)"
-              >
-                <svg width="16" height="16" class="d-flex">
-                  <use xlink:href="/public/icons/icons.svg#box-arrow-up-right" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger rounded-1 py-1 px-2 ms-1"
-                @click="openModal('delete', product)"
-              >
-                <svg width="16" height="16" class="d-flex">
-                  <use xlink:href="/public/icons/icons.svg#trash3" />
-                </svg>
-              </button>
+            <td class="pt-3 pe-0 border-0">
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary me-1" @click="openModal('edit', product)">
+                  <svg width="14" height="14" class="me-1">
+                    <use xlink:href="/public/icons/dashboard-icons.svg#fig-pen"></use>
+                  </svg>
+                  <span class="fs-9">編輯</span>
+                </button>
+                <button class="btn btn-danger" @click="openModal('del', product)">
+                  <svg width="14" height="14" class="me-1">
+                    <use xlink:href="/public/icons/dashboard-icons.svg#fig-trash"></use>
+                  </svg>
+                  <span class="fs-9">刪除</span>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
 
-      <!-- 分頁元件 -->
+    <div class="card-footer bg-transparent border-top-0 px-md-4 d-flex justify-content-end">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
-          <li class="page-item" :class="{ 'd-none': pagination.has_pre === false }">
-            <button
-              type="button"
+          <li class="page-item">
+            <a
               class="page-link"
-              @click="getAdminProdcuts(pagination.current_page - 1)"
+              :class="{ disabled: !pagination.has_pre }"
+              href="#"
+              aria-label="Previous"
+              @click.prevent="getAdminProducts(pagination.current_page - 1)"
             >
-              <span aria-hidden="true">&laquo;</span>
-            </button>
+              <svg width="16" height="16">
+                <use xlink:href="/public/icons/dashboard-icons.svg#fig-left"></use>
+              </svg>
+            </a>
           </li>
-
-          <li
-            v-for="page in pagination.total_pages"
-            :key="page + 123"
-            class="page-item"
-            :class="{ active: pagination.current_page === page }"
-          >
-            <button
+          <li class="page-item" v-for="page in pagination.total_pages" :key="page + '123'">
+            <a
               class="page-link"
-              type="button"
-              @click="getAdminProdcuts(page)"
-              :disabled="pagination.current_page === page"
+              :class="[
+                { active: page === pagination.current_page },
+                { disabled: page === pagination.current_page },
+              ]"
+              href="#"
+              @click.prevent="getAdminProducts(page)"
+              >{{ page }}</a
             >
-              {{ page }}
-            </button>
           </li>
-
-          <li class="page-item" :class="{ 'd-none': pagination.has_next === false }">
-            <button
-              type="button"
+          <li class="page-item">
+            <a
               class="page-link"
-              @click="getAdminProdcuts(pagination.current_page + 1)"
+              :class="{ disabled: !pagination.has_next }"
+              href="#"
+              aria-label="Next"
+              @click.prevent="getAdminProducts(pagination.current_page + 1)"
             >
-              <span aria-hidden="true">&raquo;</span>
-            </button>
+              <svg width="16" height="16">
+                <use xlink:href="/public/icons/dashboard-icons.svg#fig-right"></use>
+              </svg>
+            </a>
           </li>
         </ul>
       </nav>
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="productModal" ref="refProductModal">
+  <!-- 商品 Modal -->
+  <div ref="productModalEl" class="modal fade">
     <div class="modal-dialog">
-      <div class="modal-content" data-bs-theme="dark">
-        <!-- Modal Header -->
-        <div class="modal-header bg-netural-800 text-netural-100 py-3">
-          <h1 class="modal-title fs-6">{{ isNew ? '新增商品' : '修改商品' }}</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-content">
+        <div class="modal-header bg-db-background-lighten">
+          <h5 class="modal-title fs-6 fw-normal">
+            {{ isNew ? '新增商品' : '編輯商品' }}
+          </h5>
+          <button
+            type="button"
+            class="btn link-db-netural-dark p-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <svg width="24" height="24">
+              <use xlink:href="/public/icons/dashboard-icons.svg#fig-x"></use>
+            </svg>
+          </button>
         </div>
 
-        <!-- Modal Body -->
-        <div class="modal-body" data-bs-theme="light">
-          <div class="list-group d-inline-flex flex-row">
-            <!-- 操控 -->
+        <div class="modal-body">
+          <!-- 導覽 -->
+          <div class="list-group mb-4" id="list-tab" role="tablist">
             <a
-              href="#list-content"
-              class="list-group-item list-group-item-action d-flex align-items-center active"
+              class="list-group-item active"
+              id="info-edit-list"
               data-bs-toggle="list"
-              ><svg width="18" height="18">
-                <use xlink:href="/public/icons/icons.svg#file-text" />
-              </svg>
-              <span class="text-nowrap ms-2">內容</span></a
+              href="#info-edit"
+              role="tab"
+              aria-controls="info-edit"
+              >商品資訊</a
             >
             <a
-              href="#list-images"
-              class="list-group-item list-group-item-action d-flex align-items-center"
+              class="list-group-item"
+              id="content-edit-list"
               data-bs-toggle="list"
+              href="#content-edit"
+              role="tab"
+              aria-controls="content-edit"
+              >商品內容</a
             >
-              <svg width="18" height="18">
-                <use xlink:href="/public/icons/icons.svg#image" />
-              </svg>
-              <span class="text-nowrap ms-2">圖片</span>
-            </a>
+            <a
+              class="list-group-item"
+              id="image-edit-list"
+              data-bs-toggle="list"
+              href="#image-edit"
+              role="tab"
+              aria-controls="image-edit"
+              >商品圖片</a
+            >
           </div>
 
-          <!-- 內容 -->
-          <div class="tab-content">
-            <!-- 基本 -->
-            <div class="tab-pane fade show active p-3 border" id="list-content">
-              <form action="#">
-                <div class="mb-2">
-                  <label for="title" class="form-label fs-8"
-                    >商品標題<span class="text-danger ms-1">{{ errors.title }}</span></label
-                  >
+          <!-- 內容切換 -->
+          <div class="tab-content" id="nav-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="info-edit"
+              role="tabpanel"
+              aria-labelledby="info-edit-list"
+            >
+              <div class="row gy-4 gx-3">
+                <div class="col-12 col-md-8">
+                  <label for="name" class="form-label text-db-netural-dark mb-2">標題</label>
                   <input
                     type="text"
-                    class="form-control form-control-sm"
-                    :class="{ 'is-invalid': errors.title }"
-                    id="title"
+                    class="form-control"
+                    id="name"
                     placeholder="請輸入商品標題"
-                    v-model="title"
-                    v-bind="titleAttrs"
+                    v-model="tempProduct.title"
                   />
                 </div>
-                <div class="row gx-3 mb-2">
-                  <div class="col-4">
-                    <label for="category" class="form-label fs-8"
-                      >類別<span class="text-danger ms-1">{{ errors.category }}</span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      :class="{ 'is-invalid': errors.category }"
-                      id="category"
-                      placeholder="請輸入類別"
-                      v-model="category"
-                      v-bind="categoryAttrs"
-                    />
-                  </div>
-                  <div class="col-4">
-                    <label for="acidity" class="form-label fs-8"
-                      >酸度<span class="text-danger ms-1">{{ errors.acidity }}</span></label
-                    >
-                    <input
-                      type="number"
-                      class="form-control form-control-sm"
-                      :class="{ 'is-invalid': errors.acidity }"
-                      id="acidity"
-                      placeholder="請輸入類別"
-                      v-model="acidity"
-                      v-bind="acidityAttrs"
-                    />
-                  </div>
-                  <div class="col-4">
-                    <label for="origin" class="form-label fs-8"
-                      >產地<span class="text-danger ms-1">{{ errors.origin }}</span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      :class="{ 'is-invalid': errors.origin }"
-                      id="origin"
-                      placeholder="請輸入類別"
-                      v-model="origin"
-                      v-bind="originAttrs"
-                    />
-                  </div>
-                </div>
-                <div class="row gx-3 mb-2">
-                  <div class="col-4">
-                    <label for="origin-price" class="form-label fs-8"
-                      >原價<span class="text-danger ms-1">{{ errors.originPrice }}</span></label
-                    >
-                    <input
-                      type="number"
-                      class="form-control form-control-sm"
-                      :class="{ 'is-invalid': errors.originPrice }"
-                      id="origin-price"
-                      placeholder="請輸入原價"
-                      v-model="originPrice"
-                      v-bind="originPriceAttrs"
-                    />
-                  </div>
-                  <div class="col-4">
-                    <label for="price" class="form-label fs-8"
-                      >售價<span class="text-danger ms-1">{{ errors.price }}</span></label
-                    >
-                    <input
-                      type="number"
-                      class="form-control form-control-sm"
-                      :class="{ 'is-invalid': errors.price }"
-                      id="price"
-                      placeholder="請輸入售價"
-                      v-model="price"
-                      v-bind="priceAttrs"
-                    />
-                  </div>
-                  <div class="col-4">
-                    <label for="unit" class="form-label fs-8"
-                      >單位<span class="text-danger ms-1">{{ errors.unit }}</span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      :class="{ 'is-invalid': errors.unit }"
-                      id="unit"
-                      placeholder="請輸入單位"
-                      v-model="unit"
-                      v-bind="unitAttrs"
-                    />
-                  </div>
-                </div>
-                <div class="mb-2">
-                  <label for="content" class="form-label fs-8"
-                    >內容<span class="text-danger ms-1">{{ errors.content }}</span></label
-                  >
+                <div class="col-6 col-md-4">
+                  <label for="category" class="form-label text-db-netural-dark mb-2">類別</label>
                   <input
                     type="text"
-                    class="form-control form-control-sm"
-                    :class="{ 'is-invalid': errors.content }"
+                    class="form-control"
+                    id="category"
+                    placeholder="請輸入類別"
+                    v-model="tempProduct.category"
+                  />
+                </div>
+                <div class="col-6 col-md-4">
+                  <label for="originPrice" class="form-label text-db-netural-dark mb-2">原價</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="originPrice"
+                    placeholder="請輸入原價"
+                    v-model.number="tempProduct.origin_price"
+                  />
+                </div>
+                <div class="col-6 col-md-4">
+                  <label for="price" class="form-label text-db-netural-dark mb-2">售價</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    placeholder="請輸入售價"
+                    v-model.number="tempProduct.price"
+                  />
+                </div>
+                <div class="col-6 col-md-4">
+                  <label for="unit" class="form-label text-db-netural-dark mb-2">單位</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="unit"
+                    placeholder="請輸入單位"
+                    v-model="tempProduct.unit"
+                  />
+                </div>
+                <div class="col-6 d-flex align-items-center">
+                  <label for="isEnable" class="form-label text-db-netural-dark mb-2"
+                    >是否啟用</label
+                  >
+                  <div class="d-inline ms-3">
+                    <input
+                      type="checkbox"
+                      class="input-toggle"
+                      id="isEnable"
+                      v-model="tempProduct.is_enabled"
+                    />
+                    <label for="isEnable" class="checkbox-switch"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="content-edit"
+              role="tabpanel"
+              aria-labelledby="content-edit-list"
+            >
+              <div class="row gy-4 gx-3">
+                <div class="col-12">
+                  <label for="content" class="form-label text-db-netural-dark mb-2">商品內容</label>
+                  <input
+                    type="text"
+                    class="form-control"
                     id="content"
                     placeholder="請輸入商品內容"
-                    v-model="content"
-                    v-bind="contentAttrs"
+                    v-model="tempProduct.content"
                   />
                 </div>
-                <div class="mb-2">
-                  <label for="description" class="form-label fs-8"
-                    >描述<span class="text-danger ms-1">{{ errors.description }}</span></label
+                <div class="col-12">
+                  <label for="description" class="form-label text-db-netural-dark mb-2"
+                    >商品描述</label
                   >
                   <textarea
-                    class="form-control form-control-sm"
-                    :class="{ 'is-invalid': errors.description }"
                     id="description"
-                    rows="3"
+                    class="form-control"
                     placeholder="請輸入商品描述"
-                    v-model="description"
-                    v-bind="descriptionAttrs"
+                    rows="4"
+                    v-model="tempProduct.description"
                   ></textarea>
                 </div>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="isEnable"
-                    :checked="isEnabled"
-                    v-model="isEnabled"
-                    v-bind="isEnabledAttrs"
-                  />
-                  <label class="form-check-label fs-8" for="isEnable">是否啟用</label>
-                </div>
-              </form>
+              </div>
             </div>
-
-            <!-- 圖片 -->
-            <div class="tab-pane fade p-3 border" id="list-images">
+            <div
+              class="tab-pane fade"
+              id="image-edit"
+              role="tabpanel"
+              aria-labelledby="image-edit-list"
+            >
               <!-- 主要圖片 -->
-              <div class="row">
-                <div class="col-3">
-                  <div>
-                    <label class="form-label fs-8">主要圖片</label>
-                    <UploaderUi
-                      @send-image-data="getEmitData"
-                      @remove-image-data="removeFiledImageUrl"
-                      v-model="imageUrl"
-                      v-bind="imageUrlAttrs"
-                    ></UploaderUi>
-                  </div>
-                </div>
-                <div class="col-9">
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="fs-8 lh-base mb-2" :class="{ 'text-danger': sizeCheck }">
-                        檔名 : {{ imageData.fileName }}
-                      </h5>
-                      <div class="mb-1">
-                        <span
-                          class="badge text-bg-netural-900"
-                          :class="{ 'bg-success': imageData.fileType === 'jpeg' }"
-                          >JPG</span
-                        >
-                        <span
-                          class="badge text-bg-netural-900 ms-1"
-                          :class="{ 'bg-success': imageData.fileType === 'png' }"
-                          >PNG</span
-                        >
-                        <span
-                          class="badge text-bg-netural-900 ms-1"
-                          :class="{ 'bg-success': imageData.fileType === 'webp' }"
-                          >WEBP</span
-                        >
-                      </div>
-                      <p class="fs-8 text-muted">限制 : 圖片檔案不可大於 3MB</p>
-                      <span></span>
-                    </div>
-                    <div class="mt-auto d-flex justify-content-between">
-                      <div
-                        class="d-flex align-items-center text-success"
-                        :class="{ 'text-danger': sizeCheck }"
-                      >
-                        <span class="me-2">{{ formatSize }}</span>
-                        <svg width="16" height="16">
-                          <use
-                            :xlink:href="`/public/icons/icons.svg#${
-                              sizeCheck ? 'x-circle' : 'check-circle'
-                            }`"
-                          />
-                        </svg>
-                      </div>
-                      <button
-                        type="button"
-                        class="btn btn-sm btn-success"
-                        @click="upload()"
-                        :disabled="!imageData.isUploaded || isLoading"
-                      >
-                        點擊上傳
-                        <div
-                          v-show="isLoading"
-                          class="spinner-border spinner-grow-sm ms-1"
-                          role="status"
-                        >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="text-db-netural-dark mb-2">主要圖片</p>
+                <button
+                  type="button"
+                  class="btn link-db-netural-dark p-0"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#mainImage"
+                >
+                  <svg width="24" height="24">
+                    <use xlink:href="/public/icons/dashboard-icons.svg#fig-down"></use>
+                  </svg>
+                </button>
+              </div>
+              <div class="collapse" id="mainImage">
+                <SingleImageUploader :imageUrl="tempProduct.imageUrl"></SingleImageUploader>
+              </div>
+              <!-- 次要圖片 -->
+              <div class="d-flex justify-content-between align-items-center mt-4">
+                <p class="text-db-netural-dark mb-2">次要圖片</p>
+                <button
+                  type="button"
+                  class="btn link-db-netural-dark p-0"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#subImages"
+                >
+                  <svg width="24" height="24">
+                    <use xlink:href="/public/icons/dashboard-icons.svg#fig-down"></use>
+                  </svg>
+                </button>
+              </div>
+              <div class="collapse" id="subImages">
+                <ImagesUploader
+                  :imagesUrl="tempProduct.imagesUrl"
+                  @send-data="getEmit"
+                  @remove-data="removeEmit"
+                ></ImagesUploader>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Modal Footer -->
-        <div class="modal-footer bg-netural-800">
-          <button type="button" class="btn btn-outline-netural-300" data-bs-dismiss="modal">
-            關閉
-          </button>
-          <button type="button" class="btn btn-success" @click="onSubmit()">儲存</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Delete Modal -->
-  <div class="modal fade" id="exampleModal" ref="refDeleteModal">
-    <div class="modal-dialog">
-      <div class="modal-content" data-bs-theme="dark">
-        <!-- Modal Header -->
-        <div class="modal-header bg-danger text-netural-100 py-3">
-          <h1 class="modal-title fs-6">刪除商品</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-
-        <!-- Modal Body -->
-        <div class="modal-body py-4 fs-6">
-          確認刪除<span class="text-bg-danger mx-1 px-1 rounded-1">{{ tempProdcut.title }}</span
-          >商品 ?
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="modal-footer bg-danger">
-          <button type="button" class="btn btn-outline-netural-100" data-bs-dismiss="modal">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-netural" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-netural-900" @click="deleteProdcut(tempProdcut.id)">
-            確認刪除
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="updateProdcut(tempProduct.id, tempProduct)"
+          >
+            儲存
           </button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- 刪除 Modal 元件 -->
+  <DeleteModal
+    ref="delModalEl"
+    title="刪除商品"
+    :content="tempProduct.title"
+    @delete-emit="deleteAdminProduct(tempProduct.id)"
+  ></DeleteModal>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useForm } from 'vee-validate'; // 引入 useForm 處理表單
+import { ref, onMounted } from 'vue';
 import Modal from 'bootstrap/js/dist/modal';
-// 引入 UI 組件
-import UploaderUi from '@/components/dashboard/UploaderUi.vue';
+
+// 引入自定義組件
+import SingleImageUploader from '@/components/Dashboard/SingleImageUploader.vue';
+import ImagesUploader from '@/components/Dashboard/ImagesUploader.vue';
 import LoadingUi from '@/components/LoadingUi.vue';
+import DeleteModal from '@/components/Dashboard/DeleteModal.vue';
+
+// 引入 Composables 方法
+import usePie from '@/composables/usePie';
+import useBar from '@/composables/useBar';
+import useApi from '@/composables/useApi';
+
 // 引入 Pinia 狀態管理
 import useAlertStore from '@/stores/alert';
 import useLoadingStore from '@/stores/loading';
-// 引入 Composables 方法
-import useValidation from '@/composables/useValidation';
-import useApi from '@/composables/useApi';
-
-// 取得 alert 方法
-const alert = useAlertStore();
-const { apiResAlert, apiErrAlert } = alert;
-
-// 取得 loading 方法
-const loaderStore = useLoadingStore();
-const { isLoadingOn, isLoadingOff } = loaderStore;
 
 // 取得 useApi 方法
 const {
-  fetchUpload,
+  fetchAdminAllProducts,
   fetchAdminProducts,
   fetchAddAdminProduct,
   fetchDelAdminProduct,
   fetchUpdateAdminProduct,
 } = useApi();
 
+// 取得 alert 方法
+const alertStore = useAlertStore();
+const { apiResAlert, apiErrAlert } = alertStore;
+
+// 取得 loading 方法
+const loaderStore = useLoadingStore();
+const { isLoadingOn, isLoadingOff } = loaderStore;
+
 // 取得 useAdminProducts 資料、方法
 const {
   productData,
+  productCount,
+  tempProduct,
   pagination,
   isNew,
-  tempProdcut,
-  getAdminProdcuts,
-  addAdminProduct,
-  deleteProdcut,
-  updateProduct,
+  getAdminProducts,
+  updateProdcut,
+  deleteAdminProduct,
 } = useAdminProducts();
 
 function useAdminProducts() {
   const productData = ref([]);
+  const productCount = ref(0);
+  const tempProduct = ref({});
   const pagination = ref({});
-  const isNew = ref(false);
-  const tempProdcut = ref({});
 
-  // 取得產品 GET
-  async function getAdminProdcuts(page = 1) {
+  const isNew = ref(false);
+
+  // 取得全部商品 GET
+  async function getAdminAllProducts() {
+    try {
+      const { data } = await fetchAdminAllProducts();
+      productCount.value = Object.keys(data.products).length;
+    } catch (err) {
+      const { data, status } = err.response;
+      apiErrAlert(`${status} ${data.message}`);
+    }
+  }
+
+  // 取得分頁商品 GET ( 每頁 10 筆 )
+  async function getAdminProducts(page = 1) {
     isLoadingOn('isFullLoading');
+
     try {
       const res = await fetchAdminProducts(page);
       productData.value = res.data.products;
       pagination.value = res.data.pagination;
     } catch (err) {
-      apiErrAlert(err.response.data.message);
+      const { data, status } = err.response;
+      apiErrAlert(`${status} ${data.message}`);
     } finally {
       isLoadingOff('isFullLoading');
     }
   }
 
-  // 新增產品 POST
-  async function addAdminProduct(data) {
+  // 更新或新增商品 POST、PUT
+  async function updateProdcut(id, data) {
     isLoadingOn('isFullLoading');
+
     try {
-      const res = await fetchAddAdminProduct(data);
-      await getAdminProdcuts();
+      const res = isNew.value
+        ? await fetchAddAdminProduct({ data })
+        : await fetchUpdateAdminProduct(id, { data });
+
       apiResAlert(res.data.message);
-      closeModal('product');
+      productModal.value.hide();
+      getAdminProducts();
     } catch (err) {
-      apiErrAlert(err.response.data.message);
+      const { data, status } = err.response;
+      apiErrAlert(`${status} ${data.message}`);
     } finally {
       isLoadingOff('isFullLoading');
     }
   }
 
-  // 刪除商品 Delete
-  async function deleteProdcut(id) {
+  // 刪除商品 DELETE
+  async function deleteAdminProduct(id) {
     isLoadingOn('isFullLoading');
+
     try {
       const res = await fetchDelAdminProduct(id);
-      await getAdminProdcuts();
       apiResAlert(res.data.message);
-      closeModal('delete');
+      delModal.value.hide();
+      getAdminProducts();
     } catch (err) {
-      apiErrAlert(err.response.data.message);
+      const { data, status } = err.response;
+      apiErrAlert(`${status} ${data.message}`);
     } finally {
       isLoadingOff('isFullLoading');
     }
-  }
-
-  // 修改商品 Put
-  async function updateProduct(id, data) {
-    isLoadingOn('isFullLoading');
-    try {
-      const res = await fetchUpdateAdminProduct(id, data);
-
-      await getAdminProdcuts();
-      closeModal('product');
-      apiResAlert(res.data.message);
-    } catch (err) {
-      apiErrAlert(err.response.data.message);
-    } finally {
-      isLoadingOff('isFullLoading');
-    }
-  }
-
-  onMounted(() => getAdminProdcuts());
-
-  return {
-    productData,
-    pagination,
-    isNew,
-    tempProdcut,
-    getAdminProdcuts,
-    addAdminProduct,
-    deleteProdcut,
-    updateProduct,
-  };
-}
-
-// 取出 useUploadImage 資料、計算屬性、方法
-const { isLoading, imageData, sizeCheck, formatSize, getEmitData, removeFiledImageUrl, upload } =
-  useUploadImage();
-
-function useUploadImage() {
-  const isLoading = ref(false);
-  const imageData = ref({
-    isUploaded: false,
-    viewLink: '',
-    fileName: '',
-    fileSize: 0,
-    fileType: '',
-    data: {},
-  });
-
-  const sizeCheck = computed(() => imageData.value.fileSize > 3145728);
-
-  const formatSize = computed(() => {
-    const sizeKB = imageData.value.fileSize / 1024;
-
-    if (sizeKB > 1024) {
-      return `${(sizeKB / 1024).toFixed(2)} MB`;
-    }
-
-    return `${sizeKB.toFixed(2)} KB`;
-  });
-
-  function getEmitData(data) {
-    imageData.value = data;
-  }
-
-  function removeFiledImageUrl() {
-    imageUrl.value = '';
-  }
-
-  // 上傳圖片 POST
-  function upload() {
-    const { data } = imageData.value;
-    const formData = new FormData();
-    formData.append('file-to-upload', data);
-
-    isLoading.value = true;
-
-    fetchUpload(formData)
-      .then((res) => {
-        imageUrl.value = res.data.imageUrl;
-        apiResAlert('圖片上傳成功!');
-        isLoading.value = false;
-      })
-      .catch((err) => {
-        apiErrAlert(err.response.data.message);
-        isLoading.value = false;
-      });
-  }
-
-  return {
-    isLoading,
-    imageData,
-    sizeCheck,
-    formatSize,
-    getEmitData,
-    removeFiledImageUrl,
-    upload,
-  };
-}
-
-// 取出 useProductModal 資料、方法
-const { refProductModal, refDeleteModal, openModal, closeModal } = useProductModal();
-
-function useProductModal() {
-  const refProductModal = ref(null);
-  const refDeleteModal = ref(null);
-  const productModal = ref('');
-  const deleteModal = ref('');
-
-  // 開啟 Modal
-  function openModal(type, item) {
-    if (type === 'create') {
-      handleSubmit((values, { resetForm }) => resetForm())();
-      isNew.value = true;
-      productModal.value.show();
-    } else if (type === 'edit') {
-      isNew.value = false;
-      tempProdcut.value = item;
-      updateFiledData(item);
-      productModal.value.show();
-    } else if (type === 'delete') {
-      deleteModal.value.show();
-      tempProdcut.value = item;
-    }
-  }
-
-  // 關閉 Modal
-  function closeModal(type) {
-    if (type === 'product') {
-      productModal.value.hide();
-      return;
-    }
-    deleteModal.value.hide();
-  }
-
-  // 更新表單值
-  function updateFiledData(item) {
-    title.value = item.title;
-    category.value = item.category;
-    acidity.value = item.acidity;
-    origin.value = item.origin;
-    originPrice.value = item.origin_price;
-    price.value = item.price;
-    unit.value = item.unit;
-    content.value = item.content;
-    description.value = item.description;
-    isEnabled.value = item.is_enabled;
-    imageUrl.value = item.imageUrl;
   }
 
   onMounted(() => {
-    productModal.value = new Modal(refProductModal.value);
-    deleteModal.value = new Modal(refDeleteModal.value);
+    getAdminProducts();
+    getAdminAllProducts();
   });
 
   return {
-    refProductModal,
-    refDeleteModal,
-    openModal,
-    closeModal,
+    productData,
+    productCount,
+    tempProduct,
+    pagination,
+    isNew,
+    getAdminProducts,
+    deleteAdminProduct,
+    updateProdcut,
   };
 }
 
-// 取出 schema 驗證規則
-const { addProductSchema } = useValidation();
-
-// 使用 useForm 來處理表單驗證
-const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: addProductSchema,
-});
-
-// 定義表單欄位
-const [title, titleAttrs] = defineField('title');
-const [category, categoryAttrs] = defineField('category');
-const [acidity, acidityAttrs] = defineField('acidity');
-const [origin, originAttrs] = defineField('origin');
-const [originPrice, originPriceAttrs] = defineField('originPrice');
-const [price, priceAttrs] = defineField('price');
-const [unit, unitAttrs] = defineField('unit');
-const [content, contentAttrs] = defineField('content');
-const [description, descriptionAttrs] = defineField('description');
-const [isEnabled, isEnabledAttrs] = defineField('isEnabled');
-const [imageUrl, imageUrlAttrs] = defineField('imageUrl');
-
-const onSubmit = handleSubmit((values) => {
-  const data = {
-    title: values.title,
-    category: values.category,
-    acidity: values.acidity,
-    origin: values.origin,
-    origin_price: values.originPrice,
-    price: values.price,
-    unit: values.unit,
-    content: values.content,
-    description: values.description,
-    is_enabled: values.isEnabled,
-    imageUrl: values.imageUrl,
-  };
-
-  if (isNew.value) {
-    addAdminProduct({ data });
-  } else {
-    updateProduct(tempProdcut.value.id, { data });
+// 處理圖片上傳
+function getEmit(imagesData) {
+  if (!tempProduct.value.imagesUrl) {
+    tempProduct.value.imagesUrl = [];
   }
+  imagesData.forEach((imageUrl) => {
+    tempProduct.value.imagesUrl.push(imageUrl);
+  });
+}
+
+// 處理圖片刪除
+function removeEmit(index) {
+  tempProduct.value.imagesUrl.splice(index, 1);
+}
+
+// ============ 圖表 Start ===============
+
+// 圓餅圖
+const pieElement = ref(null);
+onMounted(() => {
+  // 初始化圓餅圖
+  const { setOption: setPieOption } = usePie(pieElement.value);
+  setPieOption([
+    { value: 1048, name: '淺烘焙' },
+    { value: 735, name: '中烘焙' },
+    { value: 580, name: '深烘焙' },
+    { value: 484, name: '咖啡用具' },
+  ]);
 });
+
+// 初始化長條圖
+const barElement = ref(null);
+onMounted(() => {
+  const { setOption: setBarOption } = useBar(barElement.value);
+  setBarOption([
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: 'bar',
+      stack: 'total',
+      name: '咖啡豆',
+      label: {
+        show: true,
+      },
+    },
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: 'bar',
+      stack: 'total',
+      name: '咖啡器具',
+      label: {
+        show: true,
+      },
+    },
+  ]);
+});
+
+// ============ 圖表 End ===============
+
+// 取出 useProductModal 資料、方法
+const { productModalEl, delModalEl, productModal, delModal, openModal } = useProductModal();
+
+function useProductModal() {
+  const productModalEl = ref(null);
+  const delModalEl = ref(null);
+  const productModal = ref('');
+  const delModal = ref('');
+
+  function openModal(status, data) {
+    if (status === 'edit') {
+      isNew.value = false;
+      tempProduct.value = { ...data };
+      productModal.value.show();
+    } else if (status === 'new') {
+      isNew.value = true;
+      tempProduct.value = {};
+      productModal.value.show();
+    } else if (status === 'del') {
+      tempProduct.value = { ...data };
+      delModal.value.show();
+    }
+  }
+
+  onMounted(() => {
+    productModal.value = new Modal(productModalEl.value);
+    delModal.value = new Modal(delModalEl.value.$el);
+  });
+
+  return {
+    productModalEl,
+    delModalEl,
+    productModal,
+    delModal,
+    openModal,
+  };
+}
 </script>
 
 <style lang="scss" scoped>
-.list-group {
-  --bs-list-group-color: var(--bs-netural-500);
-  --bs-list-group-active-bg: var(--bs-netural-800);
-  --bs-list-group-border-radius: 0;
-  --bs-list-group-action-hover-color: var(--bs-netural-700);
-  .list-group-item {
-    border: 1px solid var(--bs-netural-300);
+// list-group Style
+.dashboard {
+  // default Style
+  $list-group-padding: 8px;
+  $list-group-bg: #1b1b1b;
+  $list-group-border-radius: 8px;
+
+  $list-item-spacing: 8px;
+  $list-item-padding-y: 4px;
+  $list-item-padding-x: 8px;
+  $list-item-color: #a0a0a0;
+  $list-item-bg: transparent;
+  $list-item-border-radius: 4px;
+
+  // :active Style
+
+  $list-item-active-color: #282828;
+  $list-item-active-bg: #fcc55f;
+
+  .list-group {
+    flex-direction: row;
+    align-items: center;
+    padding: $list-group-padding;
+    background-color: $list-group-bg;
+    border-radius: $list-group-border-radius;
+
+    & :not(:first-child) {
+      margin-left: $list-item-spacing;
+      margin-top: 0;
+    }
+
+    .list-group-item {
+      padding: $list-item-padding-y $list-item-padding-x;
+      text-align: center;
+      color: $list-item-color;
+      background-color: $list-item-bg;
+      border: none;
+      border-radius: $list-item-border-radius;
+
+      &.active {
+        color: $list-item-active-color;
+        background-color: $list-item-active-bg;
+      }
+    }
   }
 }
 </style>

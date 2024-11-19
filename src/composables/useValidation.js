@@ -171,11 +171,16 @@ export default function useValidation() {
   const addCouponSchema = toTypedSchema(
     yup.object({
       title: yup.string().required('必填!'),
-      percent: yup.number('必填!').max(99, '必須小於100').min(0, '必須大於0').required('必填!'),
-      dueDate: yup.number().required('必填!'),
-      startDate: yup.number().required('必填!'),
+      percent: yup
+        .number('必填!')
+        .typeError('僅接受數字')
+        .max(99, '必須小於100')
+        .min(0, '必須大於0')
+        .required('必填!'),
+      due_date: yup.number().required('必填!'),
+      start_date: yup.number().required('必填!'),
       code: yup.string().required('必填!'),
-      isEnabled: yup.number().default(1).required('必填!'),
+      is_enabled: yup.number().default(0).required('必填!'),
     })
   );
 

@@ -8,8 +8,8 @@ import useApi from '@/composables/useApi';
 
 export default defineStore('cart', () => {
   // 取得 alert 方法
-  const alert = useAlertStore();
-  const { apiResAlert, apiErrAlert } = alert;
+  const alertStore = useAlertStore();
+  const { apiResAlert, apiErrAlert } = alertStore;
 
   // 取得 loading 方法
   const loaderStore = useLoadingStore();

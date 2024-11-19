@@ -1,0 +1,70 @@
+// Tag 變體
+$tagComponent: (
+  'success': (
+    class: 'success',
+    color: #2fe5a7,
+    border-color: #2fe5a7,
+  ),
+  'danger': (
+    class: 'danger',
+    color: #ff6e76,
+    border-color: #ff6e76,
+  ),
+  'not-processed': (
+    class: 'not-processed',
+    color: #a0a0a0,
+    border-color: #a0a0a0,
+  ),
+  'padding': (
+    class: 'padding',
+    color: #fddd60,
+    border-color: #fddd60,
+  ),
+);
+
+// 共用 variables
+$tag-padding-top: 4px;
+$tag-padding-bottom: 4px;
+$tag-padding-left: 20px;
+$tag-padding-right: 8px;
+$tag-spacing: 4px;
+$tag-font-szie: 12px;
+$tag-border-width: 1px;
+$tag-border-radius: 100px;
+$tag-dot-size: 8px;
+$tag-dot-radius: 50%;
+
+.dashboard {
+  .tag {
+    padding: $tag-padding-top $tag-padding-right $tag-padding-bottom $tag-padding-left;
+    border: $tag-border-width solid #fff;
+    position: relative;
+    border-radius: $tag-border-radius;
+    font-size: $tag-font-szie;
+    &::before {
+      content: '';
+      position: absolute;
+      width: $tag-dot-size;
+      height: $tag-dot-size;
+      top: 50%;
+      left: 8px;
+      transform: translate(0%, -50%);
+      background-color: #fff;
+      border-radius: $tag-dot-radius;
+    }
+  }
+
+  @each $name, $value in $tagComponent {
+    $class: map-get($value, class);
+    $color: map-get($value, color);
+    $border-color: map-get($value, border-color);
+
+    .tag-#{$class} {
+      color: $color;
+      border-color: $border-color;
+      &::before {
+        background-color: $color;
+      }
+    }
+  }
+}

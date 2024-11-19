@@ -1,0 +1,98 @@
+$sidebar-width: 280px;
+$background: map-get($theme-colors, db-background-light);
+
+// 手機板(預設)
+.sidebar__list {
+  padding-left: 0;
+  list-style: none;
+}
+
+
+.sidebar__link {
+  $text-color: map-get($theme-colors, db-netural-dark);
+  $text-color-hover: map-get($theme-colors, db-netural);
+  $link-border-radius: 8px;
+  $background-color-hover: map-get($theme-colors, db-background-lighten);
+  $icon-color: map-get($theme-colors, db-primary-darken);
+  $icon-color-hover: map-get($theme-colors, db-primary);
+
+  padding: 16px 8px 16px 16px;
+  color: $text-color;
+  border-radius: $link-border-radius;
+  display: flex;
+  align-items: center;
+
+  .sidebar__icon {
+    margin-right: 12px;
+    color: $icon-color;
+  }
+
+  .animation-down {
+    transition: all 0.25s;
+  }
+
+  &:hover {
+    color: $text-color-hover;
+    .sidebar__icon {
+      color: $icon-color-hover;
+    }
+  }
+
+  &.active {
+    background-color: $background-color-hover;
+    color: $text-color-hover;
+
+    .sidebar__icon {
+      color: $icon-color-hover;
+    }
+
+    .animation-down {
+      transform: rotate(90deg);
+    }
+  }
+
+  &.sidebar__link--down {
+    .animation-down {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+// ================================================
+
+// 
+.sidebar {
+  width: $sidebar-width;
+  background-color: $background;
+  margin-left: calc(-#{$sidebar-width} - 12px);
+  transition: margin-left 0.25s;
+  z-index: 1200;
+}
+
+.main {
+  width: 100%;
+  margin-left: 0;
+}
+
+// 
+.sider-toggle {
+  .sidebar {
+    margin-left: 0;
+  }
+}
+
+
+// 桌機板( >= 992px )
+@include media-breakpoint-up(xl) { 
+  .sidebar {
+    margin-left: 0;
+  }
+  
+  .main {
+    width: calc(100% - $sidebar-width);
+    margin-left: $sidebar-width;
+  }
+  
+ }
+
+

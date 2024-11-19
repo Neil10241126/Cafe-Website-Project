@@ -1,0 +1,52 @@
+// transition time
+$switch-transition: 0.25s;
+
+// default Style
+$switch-bg: #282828;
+$switch-border: #a0a0a0;
+$switch-btn-color: #a0a0a0;
+
+// :checked Style
+$switch-checked-border: #2fe5a7;
+$switch-checked-btn-color: #2fe5a7;
+
+.dashboard {
+  .checkbox-switch {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background-color: $switch-bg;
+    border: 1px solid $switch-border;
+    border-radius: 100px;
+    transition: border-color $switch-transition;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background-color: $switch-btn-color;
+      border-radius: 100px;
+      margin: 2px;
+      transition: all $switch-transition;
+    }
+  }
+
+  .input-toggle:checked + .checkbox-switch {
+    border-color: $switch-checked-border;
+    &::before {
+      background-color: $switch-checked-btn-color;
+      transform: translateX(20px);
+    }
+  }
+
+  .input-toggle {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+
+// HTML 結構範例
+// <input type="checkbox" class="input-toggle" id="isEnable" />
+// <label for="isEnable" class="checkbox-switch"></label>

@@ -17,7 +17,8 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import App from './App.vue';
 import router from './router';
 // 引入 bootstrap
-import './assets/all.scss';
+// import './assets/all.scss';
+import './assets/SCSS/all.scss';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
 AOS.init({ delay: 0 });

@@ -1,0 +1,89 @@
+.dashboard {
+  .pagination {
+    $font-size: 12px;
+    $page-size: 24px;
+    $page-arrow-size: 30px;
+
+    $color: #a0a0a0;
+    $color-active: #282828;
+    $color-focus: #fcc55f;
+
+    $background: #282828;
+    $background-hover: #484643;
+    $background-active: #fcc55f;
+    $background-focus: #282828;
+
+    $border: #a0a0a0;
+    $border-focus: #fcc55f;
+    $border-width: 1px;
+    $border-radius: 4px;
+
+    // 按鈕保持固定間距
+    & :not(:first-child) {
+      margin-left: 4px;
+    }
+
+    // 讓左右 page 按鈕寬度加大
+    & :first-child .page-link,
+    :last-child .page-link {
+      width: $page-arrow-size;
+    }
+
+    // 按鈕樣式 Style
+    .page-link {
+      padding: 0;
+      font-size: $font-size;
+      width: $page-size;
+      height: $page-size;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $color;
+      background-color: $background;
+      border: $border-width solid $border;
+      border-radius: $border-radius;
+
+      &:hover {
+        background-color: $background-hover;
+      }
+
+      &.active {
+        color: $color-active;
+        background-color: $background-active;
+      }
+
+      &:focus {
+        color: $color-focus;
+        background: $background-focus;
+        border-color: $border-focus;
+      }
+
+      &.disabled {
+      }
+    }
+  }
+}
+
+// 調用結構範例 :
+
+// <ul class="pagination">
+// <li class="page-item">
+//   <a class="page-link" href="#" aria-label="Previous">
+//     <svg width="16" height="16">
+//       <use xlink:href="/public/icons/dashboard-icons.svg#fig-left"></use>
+//     </svg>
+//   </a>
+// </li>
+// <li class="page-item"><a class="page-link active" href="#">1</a></li>
+// <li class="page-item"><a class="page-link" href="#">2</a></li>
+// <li class="page-item"><a class="page-link" href="#">3</a></li>
+// <li class="page-item"><a class="page-link" href="#">4</a></li>
+// <li class="page-item"><a class="page-link" href="#">5</a></li>
+// <li class="page-item">
+//   <a class="page-link" href="#" aria-label="Next">
+//     <svg width="16" height="16">
+//       <use xlink:href="/public/icons/dashboard-icons.svg#fig-right"></use>
+//     </svg>
+//   </a>
+// </li>
+// </ul>

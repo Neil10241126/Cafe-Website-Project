@@ -86,16 +86,34 @@ const routes = [
     component: () => import('../views/DashboardLayout.vue'),
     children: [
       {
+        path: 'home',
+        name: 'home',
+        component: () => import('../views/Dashboard/AdminHome.vue'),
+      },
+      {
         path: 'products',
+        name: 'products',
         component: () => import('../views/Dashboard/AdminProducts.vue'),
       },
       {
         path: 'orders',
+        name: 'orders',
         component: () => import('../views/Dashboard/AdminOrders.vue'),
       },
       {
+        path: 'orders/:id',
+        name: 'order',
+        component: () => import('../views/Dashboard/AdminOrder.vue'),
+      },
+      {
         path: 'coupons',
+        name: 'coupons',
         component: () => import('../views/Dashboard/AdminCoupons.vue'),
+      },
+      {
+        path: 'articles',
+        name: 'articles',
+        component: () => import('../views/Dashboard/AdminArticles.vue'),
       },
     ],
   },
@@ -104,6 +122,7 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: 'active',
+  // inkExactActwiveClass: 'active',
   routes,
   scrollBehavior() {
     // 始終滾動至頂部
@@ -125,7 +144,7 @@ router.beforeEach(async () => {
   }
 });
 
-router.afterEach(async () => {
+router.afterEach(async (to) => {
   // 取得 product 資料、方法
   const productStore = useProductStore();
   const { products } = storeToRefs(productStore);
@@ -140,13 +159,16 @@ router.afterEach(async () => {
   const loaderStore = useLoadingStore();
   const { isLoadingOn, isLoadingOff } = loaderStore;
 
+  // 判斷當前路由是否在 admin 路徑下
+  const isAdminRoute = to.path.includes('/admin');
+
   // 設置讀取效果時間
   const delay = new Promise((resolve) => {
     setTimeout(resolve, 1500);
   });
 
-  // 轉跳後，若未取得非同步數據，則先取得數據並執行 loading 載入
-  if (products.value.length === 0 || cartList.value.length === 0) {
+  // 轉址後，若不在 admin 路徑下且未取得資料，則執行非同步請求
+  if (!isAdminRoute && (products.value.length === 0 || cartList.value.length === 0)) {
     isLoadingOn('isFullLoading');
     // 執行所有非同步，若載入時間低於 1.5秒，則運行 1.5秒 loading 效果
     await Promise.all([getProducts(), getCart(), delay]);

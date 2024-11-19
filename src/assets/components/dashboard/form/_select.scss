@@ -1,0 +1,33 @@
+// default Select Style
+$select-border-width: 2px;
+$select-border-radius: 4px;
+
+$select-color: #a0a0a0;
+$select-bg: transparent;
+$select-border: #a0a0a0;
+
+// :focus Style
+$select-border-focus: #fcc55f;
+
+// default Option Style
+$option-color: #f2f2f2;
+$option-bg: #282828;
+
+.dashboard {
+  .form-select {
+    color: $select-color;
+    background-color: $select-bg;
+    border: $select-border-width solid $select-border;
+    border-radius: $select-border-radius;
+    box-shadow: none;
+
+    &:focus {
+      border-color: $select-border-focus;
+    }
+
+    option {
+      color: $option-color;
+      background: $option-bg;
+    }
+  }
+}

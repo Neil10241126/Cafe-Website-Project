@@ -1,0 +1,28 @@
+.dashboard {
+  $card-bg: map-get($theme-colors, db-background-light);
+  $card-border-radius: 8px;
+  $card-padding-x: 16px;
+  $card-padding-y: 16px;
+
+
+  .card {
+    background-color: $card-bg;
+    border: 1px solid $card-bg;
+    border-radius: $card-border-radius;
+  }
+
+  .card-header {
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
+    border-bottom: 0;
+    padding: $card-padding-x $card-padding-y;
+  }
+
+  .card-body {
+    padding: $card-padding-x $card-padding-y;
+  }
+
+  .card-footer {
+    padding: $card-padding-x $card-padding-y;
+  }
+}

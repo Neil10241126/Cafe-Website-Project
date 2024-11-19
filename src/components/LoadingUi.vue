@@ -3,7 +3,7 @@
   <VueLoading
     v-if="props.name === 'full'"
     v-model:active="loadingObj.isFullLoading"
-    :can-cancel="true"
+    :can-cancel="false"
     :is-full-page="true"
     :lock-scroll="false"
   />
